@@ -22,96 +22,31 @@ GitHub Actions should be enabled by default, but verify:
 ## Step 2: Enable Security Features
 
 1. Go to **Settings** → **Code security and analysis** (Sidebar under "Security").
-2. Under the **Advanced Security** section, you will see several options.
-3. **Enable** the following features:
-   - **Private vulnerability reporting** (Optional)
+2. Under the **Advanced Security** section, **Enable** the following:
    - **Dependency graph** (Should be enabled by default)
    - **Dependabot alerts**
    - **Dependabot security updates**
      - *Optional:* Enable **Grouped security updates** to reduce noise.
    - **Secret Protection** -> **Push protection** (Block commits that contain supported secrets).
+   - **Private vulnerability reporting** (Optional).
 
-*(Note: Code scanning / CodeQL analysis requires further setup and is covered in Step 4)*
-
-## Step 3: Verify Workflows Are Detected (done)
-
-After pushing workflow files to `.github/workflows/`, GitHub should automatically detect them:
-
-1. Go to **Actions** tab
-2. You should see:
-   - **CI** (`ci.yml`) - Runs on push/PR to `main`
-   - **Shellcheck** (inside `ci.yml`) - Lints shell scripts
-   - **Test CLI Init** (inside `ci.yml`) - Verifies the Forge CLI works
-
-**If workflows don't appear:**
-- Ensure files are committed and pushed to the repository
-- Check that files are in `.github/workflows/` directory
-- Verify YAML syntax is valid (use `npx js-yaml <file>` locally)
-
-## Step 4: Enable GitHub Advanced Security Features (Optional)
-
-### 4.1 Dependabot
-
-Dependabot should be automatically enabled once `.github/dependabot.yml` is pushed.
-
-**Verify:**
-1. Go to **Settings** → **Code security and analysis**
-2. Under "Dependabot", you should see:
-   - ✅ **Dependabot alerts** - Enabled
-   - ✅ **Dependabot security updates** - Enabled
-   - ✅ **Dependabot version updates** - Enabled (configured via `dependabot.yml`)
-
-**Expected behavior:**
-- Scans GitHub Actions dependencies weekly
-- Opens PRs for vulnerable or outdated actions
-- Groups updates to reduce PR noise
-
-### 4.2 CodeQL Analysis
+## Step 3: Configure CodeQL Analysis
 
 **Eligibility:**
 - **Public repositories:** Free for everyone.
 - **Private repositories:** Requires GitHub Advanced Security (GHAS) license.
 
 **Setup Instructions:**
-1. Go to **Settings** → **Code security and analysis**.
-2. Scroll down to **Code scanning** / **CodeQL analysis`.
-3. Click **Set up** (or "Configure").
-4. Choose **Default** setup (Recommended).
+1. Still in **Code security and analysis**, scroll down to **Code scanning** / **CodeQL analysis**.
+2. Click **Set up** (or "Configure").
+3. Choose **Default** setup (Recommended).
    - GitHub will automatically detect languages (JavaScript/TypeScript, Python, etc.).
    - It will create a dynamic workflow without you needing to commit a YAML file.
    - Click **Enable CodeQL**.
 
 *(If "Default" is not available, choose "Advanced" and it will generate a `codeql.yml` file for you to commit).*
 
-### 4.3 Secret Scanning
-
-**⚠️ REQUIRES GITHUB ADVANCED SECURITY LICENSE FOR PRIVATE REPOS**
-
-Secret Scanning is only available for:
-- **Public repositories** (free, enabled by default)
-- **Private repositories with GitHub Advanced Security (GHAS)** license
-
-**If you have a public repo or GHAS license:**
-1. Go to **Settings** → **Code security and analysis**
-2. Under "Secret scanning":
-   - Click **Enable** for "Secret scanning"
-   - Click **Enable** for "Push protection" (recommended)
-
-**Alternative for private repos without GHAS:**
-- **Local pre-commit hooks** (already configured) - Primary defense
-- Hooks scan for secrets before commits reach GitHub
-- See `.git/hooks/pre-commit` for implementation
-
-**Test it:**
-```bash
-# Try to commit a test secret (should be blocked by local pre-commit hook)
-echo "OPENAI_API_KEY=<REDACTED>" > test.txt
-git add test.txt
-git commit -m "test: secret detection"
-# Should be blocked locally before even reaching GitHub
-```
-
-## Step 5: Configure Branch Protection Rules
+## Step 4: Configure Branch Protection Rules
 
 1. Go to **Settings** → **Branches**
 2. Click **Add branch protection rule**
