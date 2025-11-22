@@ -1,0 +1,26 @@
+{
+  "palette": {
+    "primary": "#000000",
+    "secondary": "#ffffff",
+    "accent": "#007bff",
+    "background": "#f8f9fa",
+    "text": "#212529"
+  },
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "scale": {
+      "h1": "2.5rem",
+      "h2": "2rem",
+      "h3": "1.75rem",
+      "body": "1rem",
+      "small": "0.875rem"
+    }
+  },
+  "components": [
+    {
+      "name": "Button",
+      "props": ["variant", "size", "onClick", "children"],
+      "states": ["default", "hover", "active", "disabled"]
+    }
+  ]
+}

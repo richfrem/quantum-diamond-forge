@@ -1,0 +1,40 @@
+sequenceDiagram
+    autonumber
+    actor User
+    participant CLI as Forge CLI
+    participant WebAI as Web AI (ChatGPT/Gemini)
+    participant Repo as Local Repo (Artifacts)
+    participant Agent as Local IDE Agent
+
+    Note over User, Repo: Phase 0: Initialization
+    User->>CLI: ./forge.sh init
+    CLI-->>Repo: Creates Project Structure
+
+    Note over User, WebAI: Phase 1: Genesis (Vision)
+    User->>CLI: ./forge.sh prompt 1
+    User->>WebAI: Paste Prompt 1 + Idea
+    WebAI-->>User: Generates BLUEPRINT.lock.md
+    User->>Repo: Save BLUEPRINT.lock.md
+
+    Note over User, WebAI: Phase 2: Design (Visuals)
+    User->>CLI: ./forge.sh prompt 2
+    User->>WebAI: Paste Prompt 2 + BLUEPRINT
+    WebAI-->>User: Generates context.design.json
+    User->>Repo: Save context.design.json
+
+    Note over User, WebAI: Phase 3: Scaffolding (Engineering)
+    User->>CLI: ./forge.sh prompt 3
+    User->>WebAI: Paste Prompt 3 + Artifacts
+    WebAI-->>User: Generates setup.sh
+    User->>Repo: Run setup.sh (Generates Security/Drift)
+
+    Note over User, Agent: Phase 4: Execution (Antigravity)
+    User->>CLI: ./forge.sh prompt 4
+    User->>Agent: Paste System Prompt
+    loop Antigravity Loop
+        User->>Agent: Assign Task (from Backlog)
+        Agent->>Repo: Read Artifacts (Blueprint/Design)
+        Agent->>Repo: Write Code
+        Agent->>Repo: Run validate:drift
+        Repo-->>Agent: Pass/Fail
+    end

@@ -1,0 +1,32 @@
+#!/bin/sh
+# .git/hooks/post-commit
+
+# 1. Security Nudge (npm audit)
+# 2. Positive Reinforcement
+
+echo "\n--------------------------------------------------------"
+echo "✅ Commit Successful!"
+echo "--------------------------------------------------------"
+
+# Run a quick security health check (if package.json exists)
+if [ -f "package.json" ]; then
+    echo "🔍 Generating Security Health Report..."
+    
+    # Run npm audit for production dependencies, high severity only
+    # The `|| true` ensures the hook never aborts the commit – it’s purely informational.
+    OUTPUT=$(npm audit --audit-level=high --production --brief 2>&1)
+    EXIT_CODE=$?
+
+    if [ $EXIT_CODE -ne 0 ]; then
+        echo "\n⚠️  SECURITY WARNING (Post‑Commit Nudge)"
+        echo "   Your dependencies have high‑severity vulnerabilities."
+        echo "   Please run 'npm audit fix' before pushing."
+        echo "   Details (first few lines):"
+        echo "$OUTPUT" | head -n 5
+        echo "   ..."
+    else
+        echo "✨ Dependencies look clean (No high severity issues)."
+    fi
+fi
+
+echo "--------------------------------------------------------\n"

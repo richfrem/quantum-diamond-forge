@@ -1,0 +1,33 @@
+---
+config:
+  layout: dagre
+---
+flowchart LR
+    User([👤 You]) -->|1. Clone & Open| IDE[🎯 Antigravity IDE]
+    
+    IDE -->|2. Kickoff Prompt| Kickoff[🚀 Phase 0: Kickoff<br/>Gemini 1.5 Pro]
+    
+    Kickoff -->|Guides User| WebAI[🌐 Web AI<br/>ChatGPT/Claude/Grok/Gemini]
+    
+    WebAI -->|Generates| Artifacts[📦 Artifacts<br/>Specs, Blueprints,<br/>Design, Scripts]
+    
+    WebAI -.->|Deep Dive Prompts| Experts[👥 Expert Council<br/>Architect, DevOps,<br/>QA, Security]
+    
+    Artifacts -.->|Optional Deep Dive| Experts
+    
+    Artifacts --> IDE
+    Experts -.-> IDE
+    
+    IDE -->|3. Build & Validate| Code[💻 Production Code]
+    
+    Code -->|Drift Check| Validate{✓ Quality Gates}
+    
+    Validate -->|Pass| Done([✅ Production Ready])
+    Validate -->|Fail| IDE
+    
+    Done --> User
+    
+    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
+    style IDE fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Kickoff fill:#e0e7ff,stroke:#3730a3,stroke-width:2px

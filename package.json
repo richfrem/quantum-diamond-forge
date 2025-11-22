@@ -1,0 +1,20 @@
+{
+    "name": "quantum-diamond-forge",
+    "version": "1.0.0",
+    "description": "A toolkit for generating high-quality software projects using AI agents.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "ai",
+        "scaffolding",
+        "protocol"
+    ],
+    "author": "Richard Fremmerlid",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5.0.0",
+        "@types/node": "^20.0.0"
+    }
+}

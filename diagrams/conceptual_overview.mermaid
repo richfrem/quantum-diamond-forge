@@ -1,0 +1,56 @@
+flowchart TB
+    Start([Developer with Idea]) --> Clone[Clone Quantum Diamond Forge]
+    Clone --> IDE[Open in Antigravity IDE]
+    
+    subgraph Orchestration ["🎯 Antigravity IDE (The Orchestrator)"]
+        IDE --> Guide[Read GUIDE.md]
+        Guide --> Loop{Walk Through Steps}
+    end
+    
+    subgraph WebTools ["🌐 External AI Tools (Precision Strikes)"]
+        WebAI[ChatGPT/Claude<br/>Product & Architecture]
+        Gemini[Google AI Studio<br/>Design & Scaffolding]
+        Specialized[App Builder Tools<br/>Specialized Outputs]
+    end
+    
+    subgraph LocalExecution ["💻 Local Project (Growing Rigor)"]
+        Artifacts[Artifacts Folder<br/>PRODUCT_SPEC.md<br/>TECHNICAL_BLUEPRINT.md<br/>context.design.json]
+        Scripts[Scripts & Validation<br/>validate_drift.ts<br/>Security Baseline]
+        Code[Production Code<br/>With Tests & Docs]
+    end
+    
+    subgraph ExpertCouncil ["👥 Expert Council (Role-Based Context)"]
+        Architect[System Architect<br/>ADRs & Structure]
+        Backend[Backend Developer<br/>APIs & Services]
+        DevOps[DevOps Engineer<br/>CI/CD & Infra]
+        QA[QA Engineer<br/>Test Strategy]
+        Security[Security Auditor<br/>Threat Modeling]
+    end
+    
+    %% Main Flow
+    Loop -->|Step 1-2| WebAI
+    Loop -->|Step 3-4| Gemini
+    Loop -->|Optional| Specialized
+    
+    WebAI --> Artifacts
+    Gemini --> Artifacts
+    Specialized --> Artifacts
+    
+    Artifacts --> Scripts
+    Scripts --> Code
+    
+    %% Expert Invocations (Dotted = Optional)
+    Loop -.->|Deep Dive| ExpertCouncil
+    ExpertCouncil -.-> Code
+    
+    %% IDE Orchestration
+    IDE -->|Infinite Context| Code
+    IDE -->|Quality Gates| Scripts
+    IDE -->|Drift Prevention| Artifacts
+    
+    %% Final Output
+    Code --> Done([Production-Ready Application])
+    
+    style IDE fill:#dcfce7,stroke:#166534,stroke-width:3px
+    style Done fill:#fef3c7,stroke:#d97706,stroke-width:3px
+    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
