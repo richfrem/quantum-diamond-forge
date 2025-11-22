@@ -66,7 +66,24 @@ Dependabot should be automatically enabled once `.github/dependabot.yml` is push
 - Opens PRs for vulnerable or outdated actions
 - Groups updates to reduce PR noise
 
-### 4.2 Secret Scanning
+### 4.2 CodeQL Analysis
+
+**Eligibility:**
+- **Public repositories:** Free for everyone.
+- **Private repositories:** Requires GitHub Advanced Security (GHAS) license.
+
+**Setup Instructions:**
+1. Go to **Settings** → **Code security and analysis**.
+2. Scroll down to **Code scanning** / **CodeQL analysis`.
+3. Click **Set up** (or "Configure").
+4. Choose **Default** setup (Recommended).
+   - GitHub will automatically detect languages (JavaScript/TypeScript, Python, etc.).
+   - It will create a dynamic workflow without you needing to commit a YAML file.
+   - Click **Enable CodeQL**.
+
+*(If "Default" is not available, choose "Advanced" and it will generate a `codeql.yml` file for you to commit).*
+
+### 4.3 Secret Scanning
 
 **⚠️ REQUIRES GITHUB ADVANCED SECURITY LICENSE FOR PRIVATE REPOS**
 
