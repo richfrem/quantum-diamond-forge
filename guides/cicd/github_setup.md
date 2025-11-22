@@ -71,17 +71,15 @@ GitHub Actions should be enabled by default, but verify:
 
 Set up notifications for security alerts:
 
-1. Click on your **profile icon** (top right) → **Settings** (your personal settings, not repo settings)
+1. Click on your **profile icon** (top right) → **Settings**
 2. In the left sidebar, click **Notifications**
-3. Scroll down to **Watching** section
-4. Under **Dependabot alerts**:
-   - ✅ Check **Email** to receive email notifications for new vulnerabilities
-5. Under **Vulnerable dependencies**:
-   - ✅ Check **Email** to receive notifications
-6. Under **Security alerts**:
-   - ✅ Check **Email** to receive notifications for secret scanning
+3. Scroll down to the **System** section
+4. Enable the following:
+   - ✅ **Dependabot alerts: New vulnerabilities** - "When you're given access to Dependabot alerts automatically receive notifications when a new vulnerability is found in one of your dependencies."
+   - ✅ **Dependabot alerts: Email digest** - "Email a regular summary of Dependabot alerts for up to 10 of your repositories."
+   - ✅ **Security campaign emails** - "Receive email notifications about security campaigns in repositories where you have access to security alerts."
 
-**Note:** These are your *personal* notification preferences. They apply to all repositories you have access to. You can also configure per-repository notification settings by going to the repository and clicking "Watch" → "Custom" → selecting specific events.
+**Result:** You'll now receive email notifications whenever security issues are detected in your repositories.
 
 ## Step 7: Verify Everything Works
 
