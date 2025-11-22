@@ -46,13 +46,32 @@ GitHub Actions should be enabled by default, but verify:
 
 *(If "Default" is not available, choose "Advanced" and it will generate a `codeql.yml` file for you to commit).*
 
-## Step 4: Configure Branch Protection Rules
+## Step 4: Create Development Branch
+
+Before setting up branch protection, create a `dev` branch for integration testing:
+
+```bash
+# Make sure you're on main and up to date
+git checkout main
+git pull origin main
+
+# Create dev branch from main
+git checkout -b dev
+git push -u origin dev
+
+# Return to your working branch
+git checkout -
+```
+
+## Step 5: Configure Branch Protection Rules
+
+### 5.1 Protect the `main` Branch
 
 1. Go to **Settings** → **Branches**
 2. Click **Add branch protection rule**
 3. **Branch name pattern:** `main`
 4. Enable:
-   - ✅ **Require a pull request before merging** (forces you to review changes before production)
+   - ✅ **Require a pull request before merging**
    - ❌ **Require approvals** - UNCHECK (not needed for solo dev, check for teams)
    - ✅ **Require status checks to pass before merging**
      - ✅ **Require branches to be up to date before merging**
@@ -64,8 +83,27 @@ GitHub Actions should be enabled by default, but verify:
 5. Click **Create**
 
 **Result:** All changes to `main` must:
-- Go through a PR (gives you a chance to review)
+- Come from `dev` via PR
 - Pass CI pipeline (linting, tests)
+
+### 5.2 Protect the `dev` Branch
+
+1. Click **Add branch protection rule** again
+2. **Branch name pattern:** `dev`
+3. Enable:
+   - ✅ **Require a pull request before merging** (forces PR from feature branches)
+   - ❌ **Require approvals** - UNCHECK (allows you to merge your own PRs)
+   - ✅ **Require status checks to pass before merging**
+     - ✅ **Require branches to be up to date before merging**
+     - **Add required status checks:**
+       - `Test CLI Init`
+       - `Shellcheck`
+   - ❌ **Do not allow bypassing** - UNCHECK (gives you flexibility on dev)
+4. Click **Create**
+
+**Result:** Feature branches must:
+- Create PR to `dev` (not directly to `main`)
+- Pass CI checks before merging
 
 ## Step 6: Configure Notifications
 
