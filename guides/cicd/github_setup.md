@@ -7,6 +7,33 @@ This guide documents how to configure the **Quantum Diamond Forge** GitHub repos
 - Admin access to the GitHub repository
 - Repository: `https://github.com/richfrem/quantum-diamond-forge`
 
+## Best Practices for AI-Assisted Development
+
+**⚠️ Important for Antigravity IDE Agents:**
+
+When working with CI/CD pipelines that include security scans (CodeQL, Dependabot), follow these practices to minimize overhead:
+
+1. **Batch commits locally** - Make multiple commits on your feature branch before pushing
+2. **Push once when ready** - Only push when the feature is complete and tested locally
+3. **Use draft PRs** - Mark PRs as "Draft" while still working, convert to "Ready for review" when done
+4. **Avoid rapid push cycles** - CI scans (especially CodeQL) can take 1-2 minutes per run
+
+**Why:** Security scans are resource-intensive. Pushing every small change creates unnecessary CI runs and slows down the development workflow.
+
+**Recommended workflow:**
+```bash
+# Make multiple commits locally
+git commit -m "feat: add feature part 1"
+git commit -m "feat: add feature part 2"
+git commit -m "fix: address edge case"
+
+# Push once when ready
+git push origin feature/my-feature
+
+# Create PR (mark as draft if still WIP)
+gh pr create --draft --title "WIP: My Feature"
+```
+
 ## Step 1: Enable GitHub Actions (done)
 
 GitHub Actions should be enabled by default, but verify:

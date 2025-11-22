@@ -2,51 +2,31 @@ flowchart TB
     Start([Developer with Idea]) --> Clone[Clone Quantum Diamond Forge]
     Clone --> IDE[Open in Antigravity IDE]
     
-    subgraph Orchestration ["🎯 Antigravity IDE (The Orchestrator)"]
-        IDE --> Guide[Read GUIDE.md]
-        Guide --> Loop{Walk Through Steps}
+    subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
+        IDE --> Master[Read 00_MASTER_PROTOCOL.md]
+        Master --> Loop{Specification Loop}
     end
     
-    subgraph WebTools ["🌐 External AI Tools (Precision Strikes)"]
-        WebAI[ChatGPT/Claude<br/>Product & Architecture]
-        Gemini[Google AI Studio<br/>Design & Scaffolding]
-        Specialized[App Builder Tools<br/>Specialized Outputs]
+    subgraph WebTools ["🧠 Web LLM (The Heavy Lifter)"]
+        Gemini[Gemini 1.5 Pro / Claude 3.5<br/>Generates Enterprise Specs]
     end
     
-    subgraph LocalExecution ["💻 Local Project (Growing Rigor)"]
-        Artifacts[Artifacts Folder<br/>PRODUCT_SPEC.md<br/>TECHNICAL_BLUEPRINT.md<br/>context.design.json]
-        Scripts[Scripts & Validation<br/>validate_drift.ts<br/>Security Baseline]
-        Code[Production Code<br/>With Tests & Docs]
-    end
-    
-    subgraph ExpertCouncil ["👥 Expert Council (Role-Based Context)"]
-        Architect[System Architect<br/>ADRs & Structure]
-        Backend[Backend Developer<br/>APIs & Services]
-        DevOps[DevOps Engineer<br/>CI/CD & Infra]
-        QA[QA Engineer<br/>Test Strategy]
-        Security[Security Auditor<br/>Threat Modeling]
+    subgraph LocalExecution ["💻 Local Project (The Build)"]
+        Artifacts[docs/ Folder<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Implementation]
+        Agent[Antigravity Agent<br/>(The Builder)]
+        Code[Production Code]
     end
     
     %% Main Flow
-    Loop -->|Step 1-2| WebAI
-    Loop -->|Step 3-4| Gemini
-    Loop -->|Optional| Specialized
+    Loop -->|1. Copy Prompts| Gemini
+    Gemini -->|2. Generate Docs| Artifacts
     
-    WebAI --> Artifacts
-    Gemini --> Artifacts
-    Specialized --> Artifacts
+    Artifacts -->|3. Guide| Agent
+    Agent -->|4. Write| Code
     
-    Artifacts --> Scripts
-    Scripts --> Code
-    
-    %% Expert Invocations (Dotted = Optional)
-    Loop -.->|Deep Dive| ExpertCouncil
-    ExpertCouncil -.-> Code
-    
-    %% IDE Orchestration
-    IDE -->|Infinite Context| Code
-    IDE -->|Quality Gates| Scripts
-    IDE -->|Drift Prevention| Artifacts
+    %% Feedback Loops
+    Code -.->|Verify| Agent
+    Agent -.->|Refine| Artifacts
     
     %% Final Output
     Code --> Done([Production-Ready Application])
