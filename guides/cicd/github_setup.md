@@ -21,15 +21,17 @@ GitHub Actions should be enabled by default, but verify:
 
 ## Step 2: Enable Security Features
 
-1. Go to the **Security** tab (top navigation bar).
-2. You will see a "Security overview" page listing various features.
-3. Click the **Enable** button next to each of the following:
+1. Go to **Settings** → **Code security and analysis** (Sidebar under "Security").
+2. Under the **Advanced Security** section, you will see several options.
+3. **Enable** the following features:
+   - **Private vulnerability reporting** (Optional)
+   - **Dependency graph** (Should be enabled by default)
    - **Dependabot alerts**
-   - **Dependabot security updates** (This may appear after enabling alerts)
-   - **Secret scanning alerts** (if available)
-   - **Private vulnerability reporting** (Optional, allows users to report bugs privately)
+   - **Dependabot security updates**
+     - *Optional:* Enable **Grouped security updates** to reduce noise.
+   - **Secret Protection** -> **Push protection** (Block commits that contain supported secrets).
 
-*(Alternatively, you can access these settings via **Settings** → **Code security and analysis** → **Enable** buttons under "Advanced Security" / "Dependabot")*
+*(Note: Code scanning / CodeQL analysis requires further setup and is covered in Step 4)*
 
 ## Step 3: Verify Workflows Are Detected (done)
 
