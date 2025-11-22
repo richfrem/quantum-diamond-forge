@@ -3,31 +3,22 @@ config:
   layout: dagre
 ---
 flowchart LR
-    User([👤 You]) -->|1. Clone & Open| IDE[🎯 Antigravity IDE]
+    User([👤 You (Orchestrator)]) -->|1. Open| Master[📜 Master Protocol]
     
-    IDE -->|2. Kickoff Prompt| Kickoff[🚀 Phase 0: Kickoff<br/>Gemini 1.5 Pro]
+    Master -->|2. Copy Prompts| WebAI[🧠 Web LLM<br/>Gemini 1.5 Pro / Claude 3.5]
     
-    Kickoff -->|Guides User| WebAI[🌐 Web AI<br/>ChatGPT/Claude/Grok/Gemini]
+    WebAI -->|3. Generates| Docs[📂 docs/<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Plan]
     
-    WebAI -->|Generates| Artifacts[📦 Artifacts<br/>Specs, Blueprints,<br/>Design, Scripts]
+    Docs -->|4. Guides| Agent[🤖 Antigravity Agent<br/>(IDE)]
     
-    WebAI -.->|Deep Dive Prompts| Experts[👥 Expert Council<br/>Architect, DevOps,<br/>QA, Security]
+    Agent -->|5. Builds| Code[💻 Production Code]
     
-    Artifacts -.->|Optional Deep Dive| Experts
-    
-    Artifacts --> IDE
-    Experts -.-> IDE
-    
-    IDE -->|3. Build & Validate| Code[💻 Production Code]
-    
-    Code -->|Drift Check| Validate{✓ Quality Gates}
+    Code -->|Verify| Validate{✓ Quality Gates}
     
     Validate -->|Pass| Done([✅ Production Ready])
-    Validate -->|Fail| IDE
+    Validate -->|Fail| Agent
     
-    Done --> User
-    
-    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
     style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
-    style IDE fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style Kickoff fill:#e0e7ff,stroke:#3730a3,stroke-width:2px
+    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Master fill:#e0e7ff,stroke:#3730a3,stroke-width:2px
