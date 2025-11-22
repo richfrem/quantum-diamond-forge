@@ -30,3 +30,6 @@ INBOX/*
 !INBOX/README.md
 snapshot.txt
 output.txt
+
+# Benchmarks
+prompts/BLITZY/

@@ -25,7 +25,30 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 *   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
 *   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
 
-## ⚡ Quick Start
+## ⚡ Quick Start: Protocol v2.0
+
+The Forge uses a **"Human-in-the-Loop"** workflow. You orchestrate the process using high-end Web LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet) to generate rigorous specs, which then guide the Antigravity Agent.
+
+### The Workflow
+```mermaid
+graph TD
+    User[👤 You (Orchestrator)] -->|1. Idea| WebLLM[🧠 Web LLM (Gemini/Claude)]
+    WebLLM -->|2. Generates| Specs[📄 Rigorous Specs (docs/)]
+    Specs -->|3. Guides| Agent[🤖 Antigravity Agent (IDE)]
+    Agent -->|4. Builds| Code[💻 Production Code]
+    
+    subgraph "Phase 1: Specification Loop"
+    WebLLM
+    Specs
+    end
+    
+    subgraph "Phase 2: Build Loop"
+    Agent
+    Code
+    end
+```
+
+### Step-by-Step
 
 1.  **Clone the Forge:**
     ```bash
@@ -33,17 +56,19 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
     cd quantum-diamond-forge
     ```
 
-2.  **Initialize a New Project:**
-    ```bash
-    ./forge.sh init my-new-app
-    cd my-new-app
-    ```
+2.  **Start the Master Protocol:**
+    Open `prompts/00_MASTER_PROTOCOL.md`. This is your command center.
 
-3.  **Start the Protocol:**
-    ```bash
-    ./forge.sh start
-    ```
-    *This copies the "Interactive Kickoff" prompt to your clipboard. Paste it into Gemini 1.5 Pro to begin.*
+3.  **Phase 1: The Specification Loop**
+    Follow the guide to generate your "Gold Standard" documentation suite:
+    *   `01_REQUIREMENTS.md` (Feature Catalog)
+    *   `02_ARCHITECTURE.md` (C4 Diagrams)
+    *   `03_SECURITY.md` (Threat Models)
+    *   `04_TESTING.md` (Test Strategy)
+    *   `05_IMPLEMENTATION.md` (Task Plan)
+
+4.  **Phase 2: The Build Loop**
+    Point your IDE Agent to the generated `task.md` and watch it build!
 
 ## 📚 Documentation
 
