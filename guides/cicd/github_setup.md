@@ -46,13 +46,32 @@ GitHub Actions should be enabled by default, but verify:
 
 *(If "Default" is not available, choose "Advanced" and it will generate a `codeql.yml` file for you to commit).*
 
-## Step 4: Configure Branch Protection Rules
+## Step 4: Create Development Branch
+
+Before setting up branch protection, create a `dev` branch for integration testing:
+
+```bash
+# Make sure you're on main and up to date
+git checkout main
+git pull origin main
+
+# Create dev branch from main
+git checkout -b dev
+git push -u origin dev
+
+# Return to your working branch
+git checkout -
+```
+
+## Step 5: Configure Branch Protection Rules
+
+### 5.1 Protect the `main` Branch
 
 1. Go to **Settings** → **Branches**
 2. Click **Add branch protection rule**
 3. **Branch name pattern:** `main`
 4. Enable:
-   - ✅ **Require a pull request before merging** (forces you to review changes before production)
+   - ✅ **Require a pull request before merging**
    - ❌ **Require approvals** - UNCHECK (not needed for solo dev, check for teams)
    - ✅ **Require status checks to pass before merging**
      - ✅ **Require branches to be up to date before merging**
@@ -64,24 +83,41 @@ GitHub Actions should be enabled by default, but verify:
 5. Click **Create**
 
 **Result:** All changes to `main` must:
-- Go through a PR (gives you a chance to review)
+- Come from `dev` via PR
 - Pass CI pipeline (linting, tests)
+
+### 5.2 Protect the `dev` Branch
+
+1. Click **Add branch protection rule** again
+2. **Branch name pattern:** `dev`
+3. Enable:
+   - ✅ **Require a pull request before merging** (forces PR from feature branches)
+   - ❌ **Require approvals** - UNCHECK (allows you to merge your own PRs)
+   - ✅ **Require status checks to pass before merging**
+     - ✅ **Require branches to be up to date before merging**
+     - **Add required status checks:**
+       - `Test CLI Init`
+       - `Shellcheck`
+   - ❌ **Do not allow bypassing** - UNCHECK (gives you flexibility on dev)
+4. Click **Create**
+
+**Result:** Feature branches must:
+- Create PR to `dev` (not directly to `main`)
+- Pass CI checks before merging
 
 ## Step 6: Configure Notifications
 
 Set up notifications for security alerts:
 
-1. Click on your **profile icon** (top right) → **Settings** (your personal settings, not repo settings)
+1. Click on your **profile icon** (top right) → **Settings**
 2. In the left sidebar, click **Notifications**
-3. Scroll down to **Watching** section
-4. Under **Dependabot alerts**:
-   - ✅ Check **Email** to receive email notifications for new vulnerabilities
-5. Under **Vulnerable dependencies**:
-   - ✅ Check **Email** to receive notifications
-6. Under **Security alerts**:
-   - ✅ Check **Email** to receive notifications for secret scanning
+3. Scroll down to the **System** section
+4. Enable the following:
+   - ✅ **Dependabot alerts: New vulnerabilities** - "When you're given access to Dependabot alerts automatically receive notifications when a new vulnerability is found in one of your dependencies."
+   - ✅ **Dependabot alerts: Email digest** - "Email a regular summary of Dependabot alerts for up to 10 of your repositories."
+   - ✅ **Security campaign emails** - "Receive email notifications about security campaigns in repositories where you have access to security alerts."
 
-**Note:** These are your *personal* notification preferences. They apply to all repositories you have access to. You can also configure per-repository notification settings by going to the repository and clicking "Watch" → "Custom" → selecting specific events.
+**Result:** You'll now receive email notifications whenever security issues are detected in your repositories.
 
 ## Step 7: Verify Everything Works
 
