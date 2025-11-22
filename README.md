@@ -32,10 +32,10 @@ The Forge uses a **"Human-in-the-Loop"** workflow. You orchestrate the process u
 ### The Workflow
 ```mermaid
 graph TD
-    User[👤 You (Orchestrator)] -->|1. Idea| WebLLM[🧠 Web LLM (Gemini/Claude)]
-    WebLLM -->|2. Generates| Specs[📄 Rigorous Specs (docs/)]
-    Specs -->|3. Guides| Agent[🤖 Antigravity Agent (IDE)]
-    Agent -->|4. Builds| Code[💻 Production Code]
+    User["👤 You (Orchestrator)"] -->|1. Idea| WebLLM["🧠 Web LLM (Gemini/Claude)"]
+    WebLLM -->|2. Generates| Specs["📄 Rigorous Specs (docs/)"]
+    Specs -->|3. Guides| Agent["🤖 Antigravity Agent (IDE)"]
+    Agent -->|4. Builds| Code["💻 Production Code"]
     
     subgraph "Phase 1: Specification Loop"
     WebLLM
