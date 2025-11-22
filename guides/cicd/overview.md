@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the Continuous Integration (CI) pipeline and the standard development workflow for the PlumbingPOC project. It details the lifecycle of a code change from a developer's workstation to the main branch on GitHub.
+This document outlines the Continuous Integration (CI) pipeline and the standard development workflow for projects built with the **Quantum Diamond Forge** protocol. It details the lifecycle of a code change from a developer's workstation to the main branch on GitHub.
 
 ## Table of Contents
 
@@ -24,10 +24,10 @@ This document outlines the Continuous Integration (CI) pipeline and the standard
 
 ## Branching Strategy
 
-This project uses a **three-tier branching strategy** for controlled releases:
+This protocol uses a **feature branch workflow** for controlled releases:
 
 ```
-feature/* → dev → test → main
+feature/* → main (via Pull Request)
 ```
 
 ### Branch Purposes
@@ -35,8 +35,6 @@ feature/* → dev → test → main
 | Branch | Purpose | CI Runs | Deployment |
 |--------|---------|---------|------------|
 | `feature/*` | Active development | ✅ On PR | None |
-| `dev` | Integration testing | ✅ On push/PR | Dev environment (optional) |
-| `test` | QA/staging | ✅ On push/PR | Test environment (optional) |
 | `main` | Production-ready | ✅ On push/PR | Production |
 
 ### Workflow
@@ -46,36 +44,24 @@ feature/* → dev → test → main
    git checkout -b feature/add-new-feature
    # Make changes, commit, push
    git push origin feature/add-new-feature
-   # Create PR: feature/add-new-feature → dev
+   # Create PR: feature/add-new-feature → main
    ```
 
-2. **Integration Testing (dev):**
-   - Merge feature PRs into `dev`
+2. **Code Review & Merge:**
+   - Create Pull Request to `main`
    - CI pipeline runs automatically
-   - Test integration with other features
-
-3. **QA Testing (test):**
-   ```bash
-   # Create PR: dev → test
-   # After approval and CI passes, merge
-   ```
-
-4. **Production Release (main):**
-   ```bash
-   # Create PR: test → main
-   # After approval and CI passes, merge
-   # Tag release: git tag v1.0.0 && git push --tags
-   ```
+   - After approval and CI passes, merge
+   - Tag release (optional): `git tag v1.0.0 && git push --tags`
 
 ### Branch Protection
 
-All three branches (`dev`, `test`, `main`) have:
+The `main` branch has:
 - ✅ CI pipeline checks (linting, tests, build)
-- ✅ CodeQL security analysis
-- ✅ PR review required (for `test` and `main`)
+- ✅ CodeQL security analysis (if enabled)
+- ✅ PR review required
 - ✅ Status checks must pass before merge
 
-See [GitHub Repository Setup Guide](./GITHUB_REPO_SETUP.md) for configuration details.
+See [GitHub Repository Setup Guide](./github_setup.md) for configuration details.
 
 ## Workflow Diagram
 
