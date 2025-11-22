@@ -7,11 +7,11 @@ if [ -z "$TITLE" ]; then
 fi
 
 # Slugify the title
-SLUG=$(echo "$TITLE" | iconv -t ascii//TRANSLIT | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
+SLUG=$(echo "$TITLE" | iconv -t ascii//TRANSLIT | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr '[:upper:]' '[:lower:]')
 DATE=$(date +%Y-%m-%d)
 
 # Find the next number
-COUNT=$(ls TASKS/backlog/*.md 2>/dev/null | wc -l)
+COUNT=$(find TASKS/backlog -maxdepth 1 -name '*.md' 2>/dev/null | wc -l)
 NEXT=$(printf "%03d" $((COUNT + 1)))
 
 FILENAME="TASKS/backlog/${NEXT}_${SLUG}.md"
