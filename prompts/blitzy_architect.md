@@ -1,7 +1,7 @@
 # Blitzy "Enterprise Benchmark" Prompt
 
 **Objective:**
-Generate a "Gold Standard" implementation plan for a complex, mission-critical application to serve as a benchmark for the Quantum Diamond Forge protocol.
+use blitzy to generate a "Gold Standard" implementation plan for a complex, mission-critical application to serve as a benchmark for the Quantum Diamond Forge protocol. It will be used to audit the Quantum Diamond Forge protocol and generate ideas to harden our own protocol.
 
 **The Application Concept:**
 **"Helix: Global Pharmaceutical Supply Chain & Verification Platform"**
@@ -23,13 +23,4 @@ Generate a "Gold Standard" implementation plan for a complex, mission-critical a
 *   **Backend:** Node.js/TypeScript (NestJS) microservices.
 *   **Frontend:** Next.js (React) with Module Federation for micro-frontends.
 
-**Your Task:**
-Produce the complete **Implementation Blueprint** for Helix. Don't hold back on complexity. I need to see the full weight of enterprise engineering:
-*   Detailed Architecture (C4, Event Flows).
-*   Comprehensive Security Strategy (Zero Trust, mTLS, Vault).
-*   Operational Maturity (Observability, Chaos Engineering, DR).
-*   Testing & QA Strategy (Contract Testing, Load Testing).
-*   Compliance & Governance (SOC2, HIPAA controls).
 
-**Why:**
-I will use your output to audit my own "Quantum Diamond Forge" templates. I want to see what a $50M system looks like so I can extract the best patterns for my $50k projects.
