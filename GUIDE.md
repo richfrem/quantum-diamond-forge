@@ -117,9 +117,9 @@ This diagram shows the artifact generation pipeline and how the Expert Council i
 ```mermaid
 flowchart TB
     User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
-    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
-    Mode -- Lean --> Lean["🏃 10 Artifacts"]
-    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Docs"]
+    Mode -- Lean --> Lean["🏃 4 Docs"]
+    Mode -- Enterprise --> Ent["🏢 5 Detailed Docs"]
     Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
     Lean --> WebAI
     Ent --> WebAI
@@ -164,7 +164,7 @@ sequenceDiagram
     User->>CLI: ./forge.sh prompt 1 (Requirements)
     User->>WebAI: Paste Prompt + Idea
     WebAI-->>User: Generates Feature Catalog
-    User->>Repo: Save docs/01_requirements_analysis.md
+    User->>Repo: Save docs/01_REQUIREMENTS.md
     User->>CLI: ./forge.sh lock requirements
     CLI-->>Repo: Generates requirements.lock.json
     
@@ -172,7 +172,7 @@ sequenceDiagram
     User->>CLI: ./forge.sh prompt 2 (Architecture)
     User->>WebAI: Paste Prompt + Requirements Lock
     WebAI-->>User: Generates C4 Diagrams
-    User->>Repo: Save docs/02_architecture_design.md
+    User->>Repo: Save docs/02_ARCHITECTURE.md
     User->>CLI: ./forge.sh lock architecture
     CLI-->>Repo: Generates architecture.lock.json
     
@@ -180,7 +180,7 @@ sequenceDiagram
     User->>CLI: ./forge.sh prompt 3 (Security)
     User->>WebAI: Paste Prompt + Architecture Lock
     WebAI-->>User: Generates Threat Model
-    User->>Repo: Save docs/03_security_compliance.md
+    User->>Repo: Save docs/03_SECURITY.md
     User->>CLI: ./forge.sh lock security
     CLI-->>Repo: Generates security.lock.json
     
@@ -188,7 +188,7 @@ sequenceDiagram
     User->>CLI: ./forge.sh prompt 4 (Testing)
     User->>WebAI: Paste Prompt + Context
     WebAI-->>User: Generates Test Strategy
-    User->>Repo: Save docs/04_testing_strategy.md
+    User->>Repo: Save docs/04_TESTING.md
     User->>CLI: ./forge.sh lock testing
     CLI-->>Repo: Generates testing.lock.json
     
@@ -196,7 +196,7 @@ sequenceDiagram
     User->>CLI: ./forge.sh prompt 5 (Plan)
     User->>WebAI: Paste Prompt + Context
     WebAI-->>User: Generates Implementation Plan
-    User->>Repo: Save docs/05_implementation_plan.md
+    User->>Repo: Save docs/05_IMPLEMENTATION.md
     User->>CLI: ./forge.sh lock implementation
     CLI-->>Repo: Generates implementation.lock.json
     
