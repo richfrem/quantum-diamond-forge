@@ -6,7 +6,7 @@
 **Priority**: Medium
 
 ## Objective
-Create an automated execution layer that uses LLM APIs (OpenAI, Anthropic, Google) to run the protocol workflow programmatically, eliminating manual copy-paste for users who prioritize speed over cost.
+Create an automated execution layer that uses LLM APIs (OpenAI, Anthropic, Google) to run the protocol workflow programmatically, eliminating manual copy-paste for users who prioritize speed over cost.  Maybe a self-hosted agent running in a docker container could work as well at lower cost but it would consume api keys and require more setup and higher cost tradeoff. 
 
 ## Context
 Currently, the protocol requires manual copy-paste between:
