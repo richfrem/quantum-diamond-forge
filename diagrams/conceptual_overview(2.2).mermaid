@@ -4,13 +4,14 @@ flowchart TB
     
     %% --- Orchestration ---
     subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
-        IDE --> Master[Read 00_MASTER_PROTOCOL.md]
-        Master --> Loop{Specification Loop}
+        IDE --> Kickoff[Run ./forge.sh start]
+        Kickoff --> Mode{Choose Mode<br/>(Ultra/Lean/Ent)}
+        Mode --> Loop{Specification Loop}
     end
     
     %% --- Web LLM ---
     subgraph WebTools ["🧠 Web LLM (The Heavy Lifter)"]
-        Gemini["Web LLM e.g. Gemini 3 pro<br/>Generates Enterprise Specs"]
+        Gemini["Web LLM e.g. Gemini 3 pro<br/>Generates Specs (per Mode)"]
     end
     
     %% --- Local Execution ---
@@ -22,7 +23,7 @@ flowchart TB
     
     %% Main Flow
     Loop -->|1. Copy Prompts| Gemini
-    Gemini -->|2. Generate Docs| Artifacts
+    Gemini -->|2. Generate Docs<br/>(Detail Level = Mode)| Artifacts
     
     Artifacts -->|3. Guide| Agent
     Agent -->|4. Write| Code

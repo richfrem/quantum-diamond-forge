@@ -1,6 +1,6 @@
 # How to Commit Changes - Step-by-Step Guide
 
-This guide walks you through committing changes to the PlumbingPOC project, including pre-commit hook validation and conventional commit format.
+This guide walks you through committing changes to the quantum-diamond-forge project, including pre-commit hook validation and conventional commit format.
 
 ## Prerequisites
 
@@ -152,7 +152,7 @@ git add adrs/040_security_scanning_strategy.md
 git add adrs/041_git_workflow_automation.md
 git add TASKS/in-progress/008_configure_github_security.md
 git add TASKS/backlog/009_enhance_precommit_hooks.md
-git add capture_code_snapshot.js
+git add scripts/capture_snapshot.js
 
 # Note: Deleted file (.githooks/pre-commit.sh) will be automatically staged
 # when you run 'git add .' or will show in 'git status' as deleted

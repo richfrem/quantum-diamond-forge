@@ -37,7 +37,8 @@ const EXCLUDE_PATTERNS = [
     '.git',
     'node_modules',
     'scripts',
-    '.github'
+    '.github',
+    'archive/prompt iteration'
 ];
 
 // --- Logic ---

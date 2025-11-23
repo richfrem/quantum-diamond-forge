@@ -20,7 +20,7 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 
 ## 🛠️ Features
 
-*   **Protocol-Driven Workflow:** A 5-step granular process (Spec → Blueprint → Design → Scaffold → Code).
+*   **Protocol-Driven Workflow:** A 5-step granular process (Requirements → Architecture → Security → Testing → Implementation).
 *   **Expert Council:** Specialized AI personas (Architect, DevOps, Security) for deep-dive tasks.
 *   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
 *   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
@@ -57,25 +57,27 @@ The Forge offers **three tracks** to match your project needs:
 
 ### The Workflow (All Modes)
 ```mermaid
-graph TD
-    User["👤 You (Orchestrator)"] -->|1. Kickoff| Mode{Choose Mode}
-    Mode -->|Ultra/Lean/Ent| WebLLM["🧠 Web LLM (Gemini/Claude)"]
-    WebLLM -->|2. Generates| Specs["📄 Specs + 🔐 Lockfiles"]
-    Specs -->|3. Validate| Gate{✅ Validator}
-    Gate -->|Pass| Agent["🤖 Antigravity Agent (IDE)"]
-    Gate -->|Fail| Specs
-    Agent -->|4. Builds| Code["💻 Production Code"]
-    
-    subgraph "Phase 1: Specification Loop"
-    WebLLM
-    Specs
-    Gate
-    end
-    
-    subgraph "Phase 2: Build Loop"
-    Agent
-    Code
-    end
+flowchart TB
+    User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
+    Mode -- Lean --> Lean["🏃 10 Artifacts"]
+    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
+    Lean --> WebAI
+    Ent --> WebAI
+    WebAI -- "3. Generates" --> Docs["📂 docs/ + 🔐 locks/<br>1. Requirements<br>2. Architecture<br>3. Security<br>4. Testing<br>5. Plan"]
+    Docs -- "4. Validate" --> Gate{"✅ Validator"}
+    Gate -- Pass --> Agent["🤖 Antigravity Agent<br>(IDE)"]
+    Gate -- Fail --> Docs
+    Agent -- "5. Builds" --> Code["💻 Production Code"]
+    Code -- Verify --> Tests{"✓ Tests"}
+    Tests -- Pass --> Done["✅ Production Ready"]
+    Tests -- Fail --> Agent
+
+    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Gate fill:#fcd34d,stroke:#d97706,stroke-width:2px
+    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
 ```
 
 ### Step-by-Step
@@ -98,7 +100,8 @@ graph TD
     *   **Validate**: Run `./forge.sh validate` to check consistency.
 
 4.  **Phase 2: The Build Loop**
-    Point your IDE Agent to the generated `implementation.lock.json` and watch it build!
+    *   **Build**: Run `./forge.sh build` to instruct the Agent.
+    *   **Test**: Run `./forge.sh test` to verify the build.
 
 ## 📚 Documentation
 
