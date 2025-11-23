@@ -25,11 +25,29 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 *   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
 *   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
 
-## ⚡ Quick Start: Protocol v2.0
+## ⚡ Quick Start: Protocol v2.1
 
-The Forge uses a **"Human-in-the-Loop"** workflow. You orchestrate the process using high-end Web LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet) to generate rigorous specs, which then guide the Antigravity Agent.
+The Forge offers **two tracks** to match your project needs:
 
-### The Workflow
+### 🏃 Lean Mode (Solo Devs & MVPs)
+**Best for**: Prototypes, MVPs, solo developers, small teams
+
+- **Time to Spec**: ~1 hour
+- **Artifacts**: ~10 docs
+- **Focus**: Essential features only
+- **Start here**: `prompts/00_MASTER_PROTOCOL_LEAN.md`
+
+### 🏢 Enterprise Mode (Production Apps)
+**Best for**: Production apps, teams, compliance-heavy projects
+
+- **Time to Spec**: ~4-6 hours
+- **Artifacts**: 25+ docs
+- **Focus**: Full rigor (C4 Level 1-3, STRIDE, compliance)
+- **Start here**: `prompts/00_MASTER_PROTOCOL.md`
+
+---
+
+### The Workflow (Both Modes)
 ```mermaid
 graph TD
     User["👤 You (Orchestrator)"] -->|1. Idea| WebLLM["🧠 Web LLM (Gemini/Claude)"]
