@@ -72,55 +72,40 @@ flowchart TB
     Start([Developer with Idea]) --> Clone[Clone Quantum Diamond Forge]
     Clone --> IDE[Open in Antigravity IDE]
     
-    subgraph Orchestration ["🎯 Antigravity IDE (The Orchestrator)"]
-        IDE --> Guide[Read GUIDE.md]
-        Guide --> Loop{Walk Through Steps}
+    %% --- Orchestration ---
+    subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
+        IDE --> Kickoff[Run ./forge.sh start]
+        Kickoff --> Mode{Choose Mode<br/>(Ultra/Lean/Ent)}
+        Mode --> Loop{Specification Loop}
     end
     
-    subgraph WebTools ["🌐 External AI Tools (Precision Strikes)"]
-        WebAI[ChatGPT/Claude<br/>Product & Architecture]
-        Gemini[Google AI Studio<br/>Design & Scaffolding]
-        Specialized[App Builder Tools<br/>Specialized Outputs]
+    %% --- Web LLM ---
+    subgraph WebTools ["🧠 Web LLM (The Heavy Lifter)"]
+        Gemini["Web LLM e.g. Gemini 3 pro<br/>Generates Specs (per Mode)"]
     end
     
-    subgraph LocalExecution ["💻 Local Project (Growing Rigor)"]
-        Artifacts[Artifacts Folder<br/>PRODUCT_SPEC.md<br/>TECHNICAL_BLUEPRINT.md<br/>context.design.json]
-        Scripts[Scripts & Validation<br/>validate_drift.ts<br/>Security Baseline]
-        Code[Production Code<br/>With Tests & Docs]
-    end
-    
-    subgraph ExpertCouncil ["👥 Expert Council (Role-Based Context)"]
-        Architect[System Architect<br/>ADRs & Structure]
-        Backend[Backend Developer<br/>APIs & Services]
-        DevOps[DevOps Engineer<br/>CI/CD & Infra]
-        QA[QA Engineer<br/>Test Strategy]
-        Security[Security Auditor<br/>Threat Modeling]
+    %% --- Local Execution ---
+    subgraph LocalExecution ["💻 Local Project (The Build)"]
+        Artifacts["docs/ Folder<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Implementation"]
+        Agent["Antigravity Agent<br/>(The Builder)"]
+        Code[Production Code]
     end
     
     %% Main Flow
-    Loop -->|Step 1-2| WebAI
-    Loop -->|Step 3-4| Gemini
-    Loop -->|Optional| Specialized
+    Loop -->|1. Copy Prompts| Gemini
+    Gemini -->|2. Generate Docs<br/>(Detail Level = Mode)| Artifacts
     
-    WebAI --> Artifacts
-    Gemini --> Artifacts
-    Specialized --> Artifacts
+    Artifacts -->|3. Guide| Agent
+    Agent -->|4. Write| Code
     
-    Artifacts --> Scripts
-    Scripts --> Code
-    
-    %% Expert Invocations (Dotted = Optional)
-    Loop -.->|Deep Dive| ExpertCouncil
-    ExpertCouncil -.-> Code
-    
-    %% IDE Orchestration
-    IDE -->|Infinite Context| Code
-    IDE -->|Quality Gates| Scripts
-    IDE -->|Drift Prevention| Artifacts
+    %% Feedback Loops
+    Code -.->|Verify| Agent
+    Agent -.->|Refine| Artifacts
     
     %% Final Output
     Code --> Done([Production-Ready Application])
     
+    %% Styles
     style IDE fill:#dcfce7,stroke:#166534,stroke-width:3px
     style Done fill:#fef3c7,stroke:#d97706,stroke-width:3px
     style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
@@ -130,39 +115,27 @@ flowchart TB
 This diagram shows the artifact generation pipeline and how the Expert Council integrates.
 
 ```mermaid
----
-config:
-  layout: dagre
----
-flowchart LR
-    User([👤 You]) -->|1. Clone & Open| IDE[🎯 Antigravity IDE]
-    
-    IDE -->|2. Kickoff Prompt| Kickoff[🚀 Phase 0: Kickoff<br/>Gemini 1.5 Pro]
-    
-    Kickoff -->|Guides User| WebAI[🌐 Web AI<br/>ChatGPT/Claude/Grok/Gemini]
-    
-    WebAI -->|Generates| Artifacts[📦 Artifacts<br/>Specs, Blueprints,<br/>Design, Scripts]
-    
-    WebAI -.->|Deep Dive Prompts| Experts[👥 Expert Council<br/>Architect, DevOps,<br/>QA, Security]
-    
-    Artifacts -.->|Optional Deep Dive| Experts
-    
-    Artifacts --> IDE
-    Experts -.-> IDE
-    
-    IDE -->|3. Build & Validate| Code[💻 Production Code]
-    
-    Code -->|Drift Check| Validate{✓ Quality Gates}
-    
-    Validate -->|Pass| Done([✅ Production Ready])
-    Validate -->|Fail| IDE
-    
-    Done --> User
-    
-    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+flowchart TB
+    User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
+    Mode -- Lean --> Lean["🏃 10 Artifacts"]
+    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
+    Lean --> WebAI
+    Ent --> WebAI
+    WebAI -- "3. Generates" --> Docs["📂 docs/ + 🔐 locks/<br>1. Requirements<br>2. Architecture<br>3. Security<br>4. Testing<br>5. Plan"]
+    Docs -- "4. Validate" --> Gate{"✅ Validator"}
+    Gate -- Pass --> Agent["🤖 Antigravity Agent<br>(IDE)"]
+    Gate -- Fail --> Docs
+    Agent -- "5. Builds" --> Code["💻 Production Code"]
+    Code -- Verify --> Tests{"✓ Tests"}
+    Tests -- Pass --> Done["✅ Production Ready"]
+    Tests -- Fail --> Agent
+
+    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Gate fill:#fcd34d,stroke:#d97706,stroke-width:2px
+    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
     style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
-    style IDE fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style Kickoff fill:#e0e7ff,stroke:#3730a3,stroke-width:2px
 ```
 
 ### Detailed Sequence
@@ -171,51 +144,72 @@ This diagram shows the exact step-by-step interaction between you, the CLI, and 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User
-    participant CLI as Forge CLI
-    participant WebAI as Web AI (ChatGPT/Gemini)
-    participant Repo as Local Repo (Artifacts)
-    participant Agent as Local IDE Agent
+    actor User as 👤 You (Orchestrator)
+    participant Agent as 🤖 Antigravity IDE<BR> Agent
+    participant CLI as 🛠️ Forge CLI
+    participant WebAI as 🧠 Web LLM<BR>(Gemini/Grok/<BR>ChatGPT/Claude)
+    participant Repo as 📂 Local Repo<BR>(docs/)
 
-    Note over User, Repo: Phase 0: Initialization
-    User->>CLI: ./forge.sh init
-    CLI-->>Repo: Creates Project Structure
-    User->>CLI: ./forge.sh prompt 0
-    User->>WebAI: Paste Kickoff Prompt
-    WebAI-->>User: Strategic Roadmap
-
-    Note over User, WebAI: Phase 1: Product Spec
-    User->>CLI: ./forge.sh prompt 1
-    User->>WebAI: Paste Prompt 1 + Idea
-    WebAI-->>User: Generates PRODUCT_SPEC.md
-    User->>Repo: Save PRODUCT_SPEC.md
-
-    Note over User, WebAI: Phase 2: Tech Blueprint
-    User->>CLI: ./forge.sh prompt 2
-    User->>WebAI: Paste Prompt 2 + PRODUCT_SPEC
-    WebAI-->>User: Generates TECHNICAL_BLUEPRINT.md
-    User->>Repo: Save TECHNICAL_BLUEPRINT.md
-
-    Note over User, WebAI: Phase 3: Design System
-    User->>CLI: ./forge.sh prompt 3
-    User->>WebAI: Paste Prompt 3 + Artifacts
-    WebAI-->>User: Generates context.design.json
-    User->>Repo: Save context.design.json
-
-    Note over User, WebAI: Phase 4: Scaffolding
-    User->>CLI: ./forge.sh prompt 4
-    User->>WebAI: Paste Prompt 4 + Artifacts
-    WebAI-->>User: Generates setup.sh
-    User->>Repo: Run setup.sh (Generates Security/Drift)
-
-    Note over User, Agent: Phase 5: Execution (Antigravity)
-    User->>CLI: ./forge.sh prompt 5
-    User->>Agent: Paste System Prompt
-    loop Antigravity Loop
-        User->>Agent: Assign Task (from Backlog)
-        Agent->>Repo: Read Artifacts (Blueprint/Design)
+    Note over User, Repo: Phase 1: The Specification Loop
+    
+    Note over User, Agent: Phase 0: Initialization
+    
+    User->>Agent: "I have an idea..."
+    Agent-->>User: "Let's start. Run ./forge.sh start"
+    
+    User->>CLI: ./forge.sh start (Kickoff)
+    CLI-->>User: Interactive Interview -> Mode Selection<br/>(Ultra-Lean / Lean / Enterprise)
+    
+    Note over User, Repo: Step 1: Requirements
+    User->>CLI: ./forge.sh prompt 1 (Requirements)
+    User->>WebAI: Paste Prompt + Idea
+    WebAI-->>User: Generates Feature Catalog
+    User->>Repo: Save docs/01_requirements_analysis.md
+    User->>CLI: ./forge.sh lock requirements
+    CLI-->>Repo: Generates requirements.lock.json
+    
+    Note over User, Repo: Step 2: Architecture
+    User->>CLI: ./forge.sh prompt 2 (Architecture)
+    User->>WebAI: Paste Prompt + Requirements Lock
+    WebAI-->>User: Generates C4 Diagrams
+    User->>Repo: Save docs/02_architecture_design.md
+    User->>CLI: ./forge.sh lock architecture
+    CLI-->>Repo: Generates architecture.lock.json
+    
+    Note over User, Repo: Step 3: Security
+    User->>CLI: ./forge.sh prompt 3 (Security)
+    User->>WebAI: Paste Prompt + Architecture Lock
+    WebAI-->>User: Generates Threat Model
+    User->>Repo: Save docs/03_security_compliance.md
+    User->>CLI: ./forge.sh lock security
+    CLI-->>Repo: Generates security.lock.json
+    
+    Note over User, Repo: Step 4: Testing
+    User->>CLI: ./forge.sh prompt 4 (Testing)
+    User->>WebAI: Paste Prompt + Context
+    WebAI-->>User: Generates Test Strategy
+    User->>Repo: Save docs/04_testing_strategy.md
+    User->>CLI: ./forge.sh lock testing
+    CLI-->>Repo: Generates testing.lock.json
+    
+    Note over User, Repo: Step 5: Plan
+    User->>CLI: ./forge.sh prompt 5 (Plan)
+    User->>WebAI: Paste Prompt + Context
+    WebAI-->>User: Generates Implementation Plan
+    User->>Repo: Save docs/05_implementation_plan.md
+    User->>CLI: ./forge.sh lock implementation
+    CLI-->>Repo: Generates implementation.lock.json
+    
+    Note over User, Agent: Phase 2: The Build Loop
+    
+    User->>CLI: ./forge.sh validate
+    CLI-->>User: ✅ All Checks Passed
+    
+    User->>Agent: Point to docs/locks/implementation.lock.json
+    loop Antigravity Build Cycle
+        Agent->>Repo: Read Lockfiles
         Agent->>Repo: Write Code
-        Agent->>Repo: Run validate:drift
+        Agent->>Repo: Run Tests
         Repo-->>Agent: Pass/Fail
     end
 ```
