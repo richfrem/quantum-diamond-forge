@@ -1,6 +1,26 @@
 # Quantum Diamond Forge - Master Protocol (Lean Mode)
 
-**Version**: 2.1 Lean  
+## Before You Start: Choose Your Mode
+
+**You are viewing: Lean Mode** (~10 artifacts, ~1 hour)
+
+**Other modes available:**
+- **Ultra-Lean Mode**: 5 artifacts, ~30 min → `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
+- **Enterprise Mode**: 25+ artifacts, 4-6 hours → `prompts/00_MASTER_PROTOCOL.md`
+
+**Use Lean Mode if:**
+- Building an MVP
+- Solo developer or small team
+- Need some rigor but not full enterprise
+- Time budget: ~1 hour for specs
+
+**Consider a different mode if:**
+- Need faster (30 min) → Ultra-Lean
+- Need full compliance → Enterprise
+
+---
+
+## Philosophyion**: 2.1 Lean  
 **Audience**: Solo developers, MVPs, prototypes, small teams  
 **Philosophy**: Speed + Essential Rigor
 

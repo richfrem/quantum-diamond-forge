@@ -38,7 +38,31 @@ It addresses the common critiques of AI code (like those found in an [Antigravit
 
 ---
 
-## 3. The Workflow
+## 3. Choose Your Mode
+
+The Forge offers three tracks to match your project needs. Choose the one that fits your timeline and rigor requirements.
+
+### ⚡ Ultra-Lean Mode (Rapid Prototypes)
+**Best for**: Weekend projects, hackathons, quick experiments
+- **Time to Spec**: ~30 minutes
+- **Artifacts**: 5 docs
+- **Start here**: `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
+
+### 🏃 Lean Mode (Solo Devs & MVPs)
+**Best for**: Prototypes, MVPs, solo developers, small teams
+- **Time to Spec**: ~1 hour
+- **Artifacts**: ~10 docs
+- **Start here**: `prompts/00_MASTER_PROTOCOL_LEAN.md`
+
+### 🏢 Enterprise Mode (Production Apps)
+**Best for**: Production apps, teams, compliance-heavy projects
+- **Time to Spec**: ~4-6 hours
+- **Artifacts**: 25+ docs
+- **Start here**: `prompts/00_MASTER_PROTOCOL.md`
+
+---
+
+## 4. The Workflow
 
 ### Conceptual Overview
 This is how the entire system works from a developer's perspective.

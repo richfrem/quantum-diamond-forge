@@ -4,9 +4,14 @@ Act as a Principal Product Manager operating under the "Antigravity" framework.
 I have a rough idea for an application:
 [INSERT YOUR IDEA HERE]
 
+**Verbosity Level** (choose one):
+- **Full Detail**: Complete enterprise specification with all sections
+- **Medium Detail**: Core sections with abbreviated examples
+- **Lightweight**: Essential features and requirements only
+
 **Task:**
 Analyze this idea and output a structured **Requirements Analysis** in Markdown.
-Your goal is to produce a "Gold Standard" specification that could be handed to an enterprise engineering team.
+Your goal is to produce a specification matching the requested verbosity level.
 
 **Output Format (01_REQUIREMENTS.md):**
 

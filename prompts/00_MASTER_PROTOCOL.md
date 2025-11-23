@@ -1,5 +1,28 @@
-# Quantum Diamond Forge: Master Protocol (v2.0)
+# Quantum Diamond Forge - Master Protocol (Enterprise Mode)
 
+## Before You Start: Choose Your Mode
+
+**You are viewing: Enterprise Mode** (Full rigor, 25+ artifacts, 4-6 hours)
+
+**Other modes available:**
+- **Ultra-Lean Mode**: 5 artifacts, ~30 min → `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
+- **Lean Mode**: ~10 artifacts, ~1 hour → `prompts/00_MASTER_PROTOCOL_LEAN.md`
+
+**Use Enterprise Mode if:**
+- Building production applications
+- Working with a team
+- Compliance/regulatory requirements
+- Need full documentation
+
+**Consider a lighter mode if:**
+- Solo developer or small team
+- Prototype or MVP
+- Time-constrained project
+- Already know the domain well
+
+---
+
+## Philosophy
 **Objective:**
 Generate "Enterprise Benchmark" quality software specifications and code by orchestrating a "Human-in-the-Loop" workflow with high-end LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet, or Grok).
 

@@ -31,6 +31,11 @@ function show_help {
     echo ""
     echo "  list                  List available prompts and roles."
     echo "  help                  Show this help message."
+    echo ""
+    echo "Lockfile System:"
+    echo "  lock [artifact]       Generate lockfile(s). Use 'all' for all artifacts."
+    echo "  validate              Validate lockfiles for consistency."
+    echo "                        Options: --fix (auto-fix issues), --report json"
 }
 
 function copy_prompt {
@@ -169,6 +174,15 @@ case $COMMAND in
         echo ""
         echo "--- Expert Roles ---"
         ls "$ROLES_DIR"
+        ;;
+    lock)
+        if [ -z "$ARG" ]; then
+            ARG="all"
+        fi
+        node "$SCRIPTS_DIR/generate_lockfile.js" "$ARG"
+        ;;
+    validate)
+        node "$SCRIPTS_DIR/validator.js" "$ARG" "$ARG3"
         ;;
     help|*)
         show_help
