@@ -1,10 +1,10 @@
 
 ================================================================================
 QUANTUM DIAMOND FORGE - PROTOCOL v2.0 RED TEAM SNAPSHOT
-Timestamp: 2025-11-22T21:41:49.315Z
+Timestamp: 2025-11-23T01:45:17.970Z
 Purpose: Independent analysis and review by external LLMs
 ================================================================================
-Total Files: 23
+Total Files: 37
 --------------------------------------------------------------------------------
 
 ## Project Structure
@@ -23,15 +23,29 @@ guides/cicd/how_to_commit.md
 guides/cicd/overview.md
 guides/cicd/security_scanning.md
 prompts/00_MASTER_PROTOCOL.md
+prompts/00_MASTER_PROTOCOL_LEAN.md
 prompts/01_requirements_analysis.md
 prompts/02_architecture_design.md
 prompts/03_security_compliance.md
 prompts/04_testing_strategy.md
 prompts/05_implementation_plan.md
-prompts/REDTEAM/REDTEAM_USAGE.md
 prompts/REDTEAM/gpt5-response.md
 prompts/REDTEAM/grok4-response.md
-prompts/REDTEAM/redteam_v2_analysis.md
+prompts/REDTEAM/redteam_analysis.md
+prompts/REDTEAM/synthesis.md
+prompts/lean/01_requirements_analysis.md
+prompts/lean/02_architecture_design.md
+prompts/lean/04_testing_strategy.md
+prompts/lean/05_implementation_plan.md
+prompts/lean/TEST_SCENARIO.md
+prompts/modules/README.md
+prompts/modules/architecture/c4_diagrams.md
+prompts/modules/architecture/data_models.md
+prompts/modules/requirements/feature_catalog.md
+prompts/modules/requirements/product_overview.md
+prompts/modules/requirements/user_stories.md
+prompts/modules/security/threat_modeling.md
+prompts/modules/testing/test_pyramid.md
 ```
 
 ## File: GUIDE.md
@@ -396,11 +410,29 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 *   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
 *   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
 
-## ⚡ Quick Start: Protocol v2.0
+## ⚡ Quick Start: Protocol v2.1
 
-The Forge uses a **"Human-in-the-Loop"** workflow. You orchestrate the process using high-end Web LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet) to generate rigorous specs, which then guide the Antigravity Agent.
+The Forge offers **two tracks** to match your project needs:
 
-### The Workflow
+### 🏃 Lean Mode (Solo Devs & MVPs)
+**Best for**: Prototypes, MVPs, solo developers, small teams
+
+- **Time to Spec**: ~1 hour
+- **Artifacts**: ~10 docs
+- **Focus**: Essential features only
+- **Start here**: `prompts/00_MASTER_PROTOCOL_LEAN.md`
+
+### 🏢 Enterprise Mode (Production Apps)
+**Best for**: Production apps, teams, compliance-heavy projects
+
+- **Time to Spec**: ~4-6 hours
+- **Artifacts**: 25+ docs
+- **Focus**: Full rigor (C4 Level 1-3, STRIDE, compliance)
+- **Start here**: `prompts/00_MASTER_PROTOCOL.md`
+
+---
+
+### The Workflow (Both Modes)
 ```mermaid
 graph TD
     User["👤 You (Orchestrator)"] -->|1. Idea| WebLLM["🧠 Web LLM (Gemini/Claude)"]
@@ -2566,6 +2598,192 @@ This "Human-in-the-Loop" workflow ensures enterprise-grade quality without losin
 
 ```
 
+## File: prompts/00_MASTER_PROTOCOL_LEAN.md
+```md
+# Quantum Diamond Forge - Master Protocol (Lean Mode)
+
+**Version**: 2.1 Lean  
+**Audience**: Solo developers, MVPs, prototypes, small teams  
+**Philosophy**: Speed + Essential Rigor
+
+---
+
+## What is Lean Mode?
+
+Lean Mode is a **streamlined variant** of Protocol v2.0 designed for:
+- Solo developers building MVPs
+- Prototypes and proof-of-concepts
+- Small teams moving fast
+- Projects that don't require full enterprise compliance
+
+**What You Skip:**
+- C4 Level 2-3 diagrams (keep Level 1 only)
+- Detailed threat modeling tables (basic security checklist instead)
+- Extensive non-functional requirements
+- Full test pyramid (focus on unit + integration)
+
+**What You Keep:**
+- Core requirements (feature catalog, user stories)
+- Basic architecture (C4 Level 1, API design, data models)
+- Essential security (AuthN/AuthZ, encryption)
+- Practical testing (unit + integration tests)
+- Implementation plan
+
+---
+
+## The Lean Workflow
+
+```mermaid
+graph TD
+    User["👤 You"] -->|1. Idea| WebLLM["🧠 Web LLM"]
+    WebLLM -->|2. Lean Specs| Specs["📄 Essential Docs"]
+    Specs -->|3. Guides| Agent["🤖 IDE Agent"]
+    Agent -->|4. Builds| Code["💻 MVP Code"]
+```
+
+### Phase 1: Specification Loop (Lean)
+
+#### Step 1: Requirements (Lean)
+**Prompt**: `prompts/lean/01_requirements_analysis.md`
+
+**Output**: `docs/01_REQUIREMENTS.md`
+- Feature catalog (Must-Have + Should-Have only)
+- 3-5 key user stories
+- Basic acceptance criteria
+
+**Time**: ~10 minutes
+
+---
+
+#### Step 2: Architecture (Lean)
+**Prompt**: `prompts/lean/02_architecture_design.md`
+
+**Output**: `docs/02_ARCHITECTURE.md`
+- C4 Level 1 (System Context only)
+- API endpoint list (no full OpenAPI spec)
+- Data models (tables + key relationships)
+
+**Time**: ~15 minutes
+
+---
+
+#### Step 3: Security (Lean)
+**Prompt**: Use standard `prompts/03_security_compliance.md` but focus on:
+- AuthN/AuthZ strategy
+- Encryption at rest/transit
+- Input validation
+- Skip: Full STRIDE, compliance mapping
+
+**Output**: `docs/03_SECURITY.md` (simplified)
+
+**Time**: ~10 minutes
+
+---
+
+#### Step 4: Testing (Lean)
+**Prompt**: `prompts/lean/04_testing_strategy.md`
+
+**Output**: `docs/04_TESTING.md`
+- Unit test strategy
+- Integration test strategy
+- Skip: E2E, performance, security testing
+
+**Time**: ~10 minutes
+
+---
+
+#### Step 5: Implementation Plan (Lean)
+**Prompt**: `prompts/lean/05_implementation_plan.md`
+
+**Output**: `docs/05_IMPLEMENTATION.md`
+- Task breakdown (focus on MVP features)
+- Dependency order
+- Skip: Detailed ADRs, rollback plans
+
+**Time**: ~10 minutes
+
+---
+
+### Phase 2: Build Loop
+
+Use the standard Antigravity agent workflow:
+1. Point agent to `docs/05_IMPLEMENTATION.md`
+2. Agent reads specs and builds features
+3. Agent runs tests
+4. Iterate
+
+---
+
+## When to Upgrade to Enterprise Mode
+
+Switch to full Protocol v2.0 when:
+- You're raising funding
+- You need SOC2/HIPAA compliance
+- Team grows beyond 5 people
+- You're handling sensitive data (PII, PHI, financial)
+- You need detailed audit trails
+
+---
+
+## Escape Hatches
+
+### "I just want to prototype"
+Skip Steps 3-4 entirely. Just do:
+1. Requirements (Step 1)
+2. Architecture (Step 2)
+3. Build
+
+### "I need to iterate mid-build"
+- Update the relevant `docs/*.md` file
+- Tell the agent: "Requirements changed, re-read docs/01_REQUIREMENTS.md"
+- Continue building
+
+### "This is taking too long"
+- Use verbosity controls in prompts (select "Lightweight" when asked)
+- Skip optional sections
+- Focus on Must-Have features only
+
+---
+
+## Lean Mode Checklist
+
+- [ ] Read this guide
+- [ ] Run Step 1 (Requirements)
+- [ ] Run Step 2 (Architecture)
+- [ ] Run Step 3 (Security) - optional but recommended
+- [ ] Run Step 4 (Testing) - optional but recommended
+- [ ] Run Step 5 (Implementation Plan)
+- [ ] Point IDE agent to `docs/05_IMPLEMENTATION.md`
+- [ ] Build!
+
+---
+
+## Comparison: Lean vs Enterprise
+
+| Aspect | Lean Mode | Enterprise Mode |
+|--------|-----------|-----------------|
+| **Artifacts** | ~10 docs | 25+ docs |
+| **Time to Spec** | ~1 hour | ~4-6 hours |
+| **C4 Diagrams** | Level 1 only | Levels 1-3 |
+| **Threat Modeling** | Checklist | Full STRIDE tables |
+| **Testing** | Unit + Integration | Full pyramid + perf + security |
+| **Compliance** | None | SOC2, HIPAA, GDPR |
+| **Best For** | MVPs, prototypes | Production, enterprises |
+
+---
+
+## Next Steps
+
+1. Copy `prompts/lean/01_requirements_analysis.md` to your Web LLM
+2. Paste your idea
+3. Save the output to `docs/01_REQUIREMENTS.md`
+4. Repeat for Steps 2-5
+5. Start building!
+
+**Need full rigor?** Switch to `prompts/00_MASTER_PROTOCOL.md` (Enterprise Mode)
+
+```
+
 ## File: prompts/01_requirements_analysis.md
 ```md
 Act as a Principal Product Manager operating under the "Antigravity" framework.
@@ -2795,88 +3013,377 @@ Generate the initial `task.md` file content that the AI Agent will use to track 
 
 ```
 
-## File: prompts/REDTEAM/REDTEAM_USAGE.md
-```md
-# Red Team Analysis Package - Usage Instructions
-
-## What You Have
-
-1. **`prompts/REDTEAM/redteam_snapshot_v2.txt`** - Complete Protocol v2.0 snapshot (20 files)
-2. **`prompts/REDTEAM/redteam_v2_analysis.md`** - Red team analysis prompt
-
-## How to Use
-
-### Step 1: Prepare the Package
-The snapshot and prompt are already generated. You can find them at:
-- Snapshot: `prompts/REDTEAM/redteam_snapshot_v2.txt`
-- Prompt: `prompts/REDTEAM/redteam_v2_analysis.md`
-
-### Step 2: Submit to External LLM
-
-**Option A: Copy-Paste Method**
-1. Open `prompts/redteam_v2_analysis.md`
-2. Copy the entire prompt
-3. Open your LLM of choice (Grok, GPT-4, Claude)
-4. Paste the prompt
-5. Attach or paste the contents of `redteam_snapshot_v2.txt`
-6. Submit
-
-**Option B: Combined File Method**
-Create a single file with both:
-```bash
-cat prompts/redteam_v2_analysis.md redteam_snapshot_v2.txt > redteam_package.txt
-```
-Then paste `redteam_package.txt` into the LLM.
-
-### Step 3: Recommended LLMs
-
-**Best for Protocol Analysis:**
-- **Claude 3.5 Sonnet** - Excellent at structured analysis
-- **GPT-4** - Strong at identifying edge cases
-- **Grok** - Good for unconventional perspectives
-
-**Tip:** Submit to multiple LLMs to get diverse perspectives.
-
-### Step 4: Process Feedback
-
-**Save LLM Responses:**
-1. Save each LLM's response to the `INBOX/` folder
-   - Example: `INBOX/grok_redteam_feedback.md`
-   - Example: `INBOX/claude_redteam_feedback.md`
-
-2. Tell Antigravity: "Check the INBOX for red team feedback"
-
-3. Antigravity will:
-   - Review the feedback
-   - Identify actionable improvements
-   - Create follow-up tasks if needed
-   - Request clarification if needed
-
-4. After addressing feedback, the INBOX file will be deleted or archived
-
-## Regenerating the Snapshot
-
-If you make changes to Protocol v2.0 and want a fresh snapshot:
-
-```bash
-node scripts/capture_redteam_snapshot.js redteam_snapshot_v2.txt
-```
-
-This will regenerate the snapshot with the latest files.
-
-```
-
 ## File: prompts/REDTEAM/gpt5-response.md
 ```md
+Below is the **full Red-Team Audit** of your **Quantum Diamond Forge Protocol v2.0**, based directly on the complete v2 snapshot you provided in `redteam_snapshot_v2.txt` .
+
+I’m treating this like an enterprise methodology review—no politeness, no euphemisms, just an honest audit of what works, what doesn’t, and what needs fixing before real teams adopt it.
+
+---
+
+# ⭐ **Executive Summary**
+
+The QDF v2.0 protocol is a **dramatic upgrade** in structure and maturity over v1.0—especially in its inclusion of professional-grade requirements engineering, C4 modeling, threat modeling, and testing discipline. However, the current prompts and workflow **over-index on rigor**, creating a process that is powerful but *fragile, heavy, and potentially unusable* for non-enterprise developers.
+
+The biggest risks are:
+
+* **Prompt bloat**
+* **Unclear ownership boundaries**
+* **High ceremony with low automation**
+* **Maintenance unsustainability**
+
+Overall: **Excellent foundation, but the cost-to-benefit ratio is not yet optimized.**
+
+---
+
+# ✅ **Strengths**
+
+### **1. Enterprise-Grade Scope & Artifacts**
+
+QDF v2.0 includes:
+
+* Formal requirements
+* C4 diagrams
+* API definition
+* Data modeling
+* Threat modeling
+* Test strategy
+  These are *exactly* the kinds of artifacts missing in most AI-driven workflows; the protocol brings much-needed discipline.
+
+### **2. Clear Role Separation**
+
+The 3-agent model is strong:
+
+* Human = decider
+* Web LLM = spec generator
+* IDE Agent = implementer
+  This maintains guardrails and mitigates hallucinations by preventing single-LLM authority.
+
+### **3. Strong Emphasis on Security & Testing**
+
+Unlike other frameworks, v2.0 actively pushes:
+
+* Threat modeling
+* AuthN/AuthZ strategy
+* Test pyramid
+* Performance considerations
+  This is rare and valuable.
+
+### **4. The Protocol Is Deterministic**
+
+The step-by-step decomposition is tight:
+1 → 2 → 3 → 4 → 5
+Each step produces discrete artifacts, reducing drift.
+
+---
+
+# ❌ **Weaknesses**
+
+Below are the critical failure points.
+
+---
+
+## **1. The Workflow Is Too Heavy for Real Developers**
+
+Even senior engineers will not maintain:
+
+* A full feature catalog
+* Multiple C4 diagrams
+* Complete threat model
+* Test pyramid
+* Detailed implementation plan
+
+**It’s a 5-phase waterfall with 25+ artifacts.**
+Solo developers and startups will bail.
+
+---
+
+## **2. Prompts Are Overly Dense and Brittle**
+
+The v2 prompts rely on:
+
+* Walls of text
+* Nested instructions
+* Multi-part artifacts
+
+Large prompts get misinterpreted by LLMs, especially when structure is strict.
+This causes:
+
+* Hallucinated sections
+* Missing subsections
+* Formatting drift
+* Overwriting of prior parts
+
+LLM robustness decreases as prompt length → increases.
+
+---
+
+## **3. No Mechanism to Keep Artifacts in Sync**
+
+QDF v2.0 still assumes:
+
+* Requirements won't change
+* Architectural designs won't change
+* API specs won't change
+
+But real projects evolve.
+
+There is **no sync mechanism** such as:
+
+* Blueprint lockfiles
+* Incremental diffs
+* Semantic versioning of specs
+* Cross-file validation
+
+This guarantees drift.
+
+---
+
+## **4. LLM Context & Cognitive Load Problems**
+
+You’re asking the Web LLM to:
+
+* Hold the Feature Catalog
+* Hold the architecture
+* Hold threat models
+* Hold test strategy
+* Hold implementation plan
+
+This is too much; it will compress context and begin dropping details after ~20 steps.
+
+Result:
+
+* Inconsistencies
+* Violated requirements
+* Mismatched names
+
+IDE Agents will drift further.
+
+---
+
+## **5. The Protocol Lacks “Escape Hatches”**
+
+There are no instructions for:
+
+* When a developer wants to skip a step
+* When they want to iterate quickly
+* When they only need a partial artifact
+* When specs need revisions mid-implementation
+
+Rigid systems break easily.
+
+---
+
+## **6. Security Is Suggested but Not Enforced**
+
+Threat modeling is included, but:
+
+* No tooling
+* No validation
+* No automated checks
+
+Developers won’t manually update STRIDE tables.
+
+Thus:
+**Security theater instead of security guarantees.**
+
+---
+
+## **7. Burden on the Human-in-the-Loop**
+
+The human is expected to:
+
+* Provide vision
+* Approve decisions
+* Validate artifacts
+* Navigate huge text dumps
+* Detect inconsistencies manually
+
+This is *too much cognitive overhead*.
+
+---
+
+# 🛠️ **Recommendations**
+
+Here are the specific, actionable upgrades.
+
+---
+
+## ⭐ **1. Introduce a Two-Track Workflow**
+
+**Enterprise Track**
+Full 5-phase process for large products.
+
+**Lean Track**
+For solo devs and prototypes:
+
+* No C4 level 2–3
+* No threat modeling tables
+* Reduced requirements structure
+* Test strategy limited to unit + integration
+
+Let the user decide the rigor level.
+
+---
+
+## ⭐ **2. Replace Giant Prompts With Modular “Prompt Modules”**
+
+Instead of one massive Phase 1 or Phase 2 prompt, create:
+
+* `/prompts/modules/requirements.md`
+* `/prompts/modules/architecture.md`
+* `/prompts/modules/security.md`
+
+Each module is:
+
+* Short
+* Robust
+* Easier for LLMs to follow
+* Easier to maintain
+
+IDE Agents consume modules selectively.
+
+---
+
+## ⭐ **3. Add a “Spec Lockfile” System**
+
+Inspired by package lockfiles:
+
+* `requirements.lock.json`
+* `architecture.lock.json`
+* `security.lock.json`
+
+Every run of the Web LLM updates or revalidates these lockfiles.
+IDE Agents read *only lockfiles*, not raw prompts.
+
+This solves drift.
+
+---
+
+## ⭐ **4. Add a “Diff & Validate” Step**
+
+Before the IDE Agent builds features, run:
+
+```
+QDF validate
+```
+
+It checks:
+
+* Data models match API
+* API matches C4
+* Threat model references actual endpoints
+* Test plan covers critical features
+
+This is deterministic and prevents spec rot.
+
+---
+
+## ⭐ **5. Introduce Iteration Protocols**
+
+Right now QDF v2.0 is strictly linear.
+
+Add:
+
+* `QDF revise requirements`
+* `QDF revise architecture`
+* `QDF revise security`
+* `QDF revise testplan`
+
+Each revision re-generates:
+
+* Diffs
+* Lockfile updates
+* “Breaking changes” lists
+
+---
+
+## ⭐ **6. Add “Human Effort Controls”**
+
+Prompts should ask:
+
+> “Do you want full detail, medium detail, or a lightweight summary?”
+
+This lets the human modulate output verbosity.
+
+---
+
+## ⭐ **7. Add Automation Layers**
+
+Provide optional scripts to:
+
+* Lint requirements
+* Validate C4 diagrams
+* Check for missing test cases
+* Auto-generate coverage reports
+
+This shifts burden off the developer.
+
+---
+
+# 🔥 **Risk Assessment**
+
+### **Major Risks**
+
+1. **Developer abandonment** (workflow too heavy)
+2. **LLM drift** (context overload)
+3. **Stale specs** (no sync mechanism)
+4. **Security gaps** (artifacts with no enforcement)
+5. **Prompt brittleness** (mega-prompts unreliable)
+6. **Human burnout** (too many artifacts)
+7. **Lack of iteration support** (protocol breaks under change)
+
+### **Biggest Threat**
+
+**The protocol optimizes for rigor at the expense of velocity and practicality.**
+Without stronger automation and simplification, QDF v2.0 risks becoming a documentation generator rather than a productivity booster.
+
+---
+
+# ✔️ If you want, I can now generate:
+
+* A **rewritten QDF v2.1** with all these improvements
+* A **Lean Track variant** for fast-moving solo developers
+* A **Spec Lockfile system**
+* A **Validation & Drift Checker**
+* A **Modular prompt architecture**
+* Or a **diagram of the improved workflow**
+
+Just say:
+**“Generate the v2.1 protocol with improvements.”**
 
 ```
 
 ## File: prompts/REDTEAM/grok4-response.md
 ```md
+### Executive Summary
+Quantum Diamond Forge v2.0 represents a solid evolution from its lightweight predecessor, introducing a structured, enterprise-inspired workflow that enforces rigor through phased prompts and human oversight, making it suitable for mid-scale projects aiming for production readiness. However, it remains overly bureaucratic and fragmented, with excessive manual steps that undermine developer efficiency and risk low adoption among solo or agile teams. While it addresses v1's fragility, it swings too far toward over-engineering, potentially stifling the "speed" promised in AI-native development.
 
+### Strengths
+- **Comprehensive Coverage of Enterprise Essentials:** The 5-step workflow effectively mirrors industry standards like those from AWS Well-Architected or Google's SRE practices, incorporating threat modeling (STRIDE), test pyramids, C4 diagrams, and ADRs. This ensures outputs are not just prototypes but robust blueprints, with strong emphasis on security and compliance from the outset—e.g., the Security prompt's focus on encryption and SDLC controls is practical and actionable.
+- **Human-in-the-Loop Balance:** By positioning the human as orchestrator, it mitigates AI hallucinations through review gates, while leveraging web LLMs for heavy lifting. The CLI tools (forge.sh) add convenience for governance, like automated task/ADR creation and git hooks, enhancing maintainability without full automation overload.
+- **Modular and Extensible Design:** Prompts are self-contained yet chainable, with clear inputs/outputs (e.g., attaching prior docs). The Expert Council and Inbox workflow provide flexibility for deep dives or iterations, and CI/CD guides ground the protocol in real-world ops.
+- **Focus on Developer Experience:** Features like code snapshots and conventional commits promote clean habits, and the diagrams (Mermaid) aid visualization, making complex architectures accessible.
+
+### Weaknesses
+- **Workflow Fragmentation and Manual Overhead:** The process relies on tedious copy-paste between CLI, web LLMs, and IDE agents, with no integrated tooling for automation (e.g., no API wrappers for LLMs). This creates friction—e.g., saving outputs as separate MD files invites version mismatches or lost context, and the "Review the Output" step assumes flawless human judgment without checklists.
+- **Over-Engineering for Broad Use Cases:** Prompts enforce enterprise artifacts (e.g., full STRIDE models, SOC2 mappings) even for simple apps, bloating small projects. Non-functional requirements like "99.9% uptime" are aspirational but impractical without cost analysis. Edge cases like hybrid mobile/web apps, real-time features (e.g., WebSockets), or international compliance (e.g., non-GDPR regions) are underexplored.
+- **Usability Barriers for Solos:** The protocol assumes familiarity with tools like Mermaid, Husky, or Terraform, overwhelming beginners. Prompts are verbose and prescriptive, limiting creativity—e.g., fixed formats (MoSCoW, C4) might not fit all domains. The "Antigravity Loop" in execution feels vague, with no explicit error recovery if LLM outputs diverge.
+- **Blind Spots in AI Integration:** Assumptions that web LLMs (e.g., Gemini/Claude) consistently produce "Gold Standard" specs ignore variability in responses. No mechanisms for prompt versioning or A/B testing LLMs. Practicality suffers from artifact heaviness—maintaining 5+ MD files plus TASKS/ADRS could lead to outdated docs, especially without auto-sync tools.
+- **Limited Scope and Assumptions:** Optimizes for backend-heavy web apps (e.g., Next.js/PostgreSQL stacks), neglecting frontend-heavy or no-code scenarios. Risks include LLM dependency (what if APIs change?) and no built-in metrics for protocol efficacy (e.g., time-to-deploy benchmarks).
+
+### Recommendations
+- **Streamline Orchestration:** Integrate a unified CLI command (e.g., `./forge.sh run-phase 1`) that automates pasting to LLMs via APIs (if available) or clipboard managers, and auto-saves outputs with versioning (e.g., git commits). Add a "lite mode" flag to skip non-essentials like full compliance for MVPs.
+- **Enhance Completeness with Templates and Checks:** Include prompt refinements for edge cases—e.g., add sections in Architecture prompt for scalability (auto-scaling rules) and deployment (Kubernetes vs. serverless). Introduce validation scripts (e.g., `./forge.sh validate-spec`) that check artifacts for consistency (e.g., ensuring API designs match data models).
+- **Improve Usability and Pragmatism:** Shorten prompts by 30% with modular sections (e.g., optional "Advanced" blocks for enterprise features). Provide starter templates in repo for common stacks, and add a "feedback loop" prompt in Implementation Plan to iterate on specs mid-build. For solos, bundle a quick-start script that generates a minimal workflow.
+- **Address Practicality Barriers:** Lighten artifacts by consolidating into a single "Master Spec" MD with sections, using tools like Notion exporters for easier maintenance. Lower adoption hurdles with video tutorials in README and community examples. Track usage via optional telemetry in CLI to iterate on the protocol itself.
+- **Mitigate Blind Spots:** Explicitly document assumptions (e.g., "Assumes stable LLM access") in GUIDE.md. Add a "Post-Implementation Review" phase with prompts for auditing drift (e.g., code vs. specs). Optimize for agility by allowing parallel phases (e.g., start coding while security refines) and include cost/benefit analyses in prompts.
+
+### Risk Assessment
+The biggest threat to adoption is developer fatigue from the manual, multi-tool workflow—solo devs might abandon it after Phase 2 for simpler tools like Cursor or Replit AI, leading to niche use in enterprises only. What could fail: Inconsistent LLM outputs causing spec drift, amplified by weak human review; or over-reliance on git hooks leading to blocked workflows in fast-iterating teams. Overall, the protocol risks becoming a "shelfware" artifact—rigorous but unused—if not balanced with more automation, as it optimizes for perfection at the expense of iteration speed in an AI era where prototypes evolve rapidly.
 ```
 
-## File: prompts/REDTEAM/redteam_v2_analysis.md
+## File: prompts/REDTEAM/redteam_analysis.md
 ```md
 # Red Team Analysis: Quantum Diamond Forge Protocol v2.0
 
@@ -2888,18 +3395,22 @@ You are an **Independent Protocol Auditor** with expertise in:
 - Developer experience (DX) design
 
 ## Context
-The Quantum Diamond Forge (QDF) is a protocol for building production-ready software using AI agents. It recently underwent a major upgrade from v1 to v2.
+The Quantum Diamond Forge (QDF) is a protocol for building production-ready software using AI agents. It recently underwent a major upgrade from v2.0 to v2.1 based on red team feedback.
 
-**What Changed:**
-- **v1**: Lightweight prompts focused on MVP-style outputs
-- **v2**: Enterprise-grade 5-step workflow inspired by industry benchmarks
+**What Changed from v2.0 to v2.1:**
+- **Two-Track Workflow**: Added "Lean" mode for MVPs (~1 hour) alongside "Enterprise" mode (~4-6 hours)
+- **Modular Prompts**: Broke monolithic prompts into focused modules (60-70% shorter)
+- **Improved DX**: Reduced artifacts from 25+ to ~10 for Lean mode
 
-**The v2 Workflow:**
-1. **Requirements Analysis** → Feature Catalog, User Stories
-2. **Architecture Design** → C4 Diagrams, API Design, Data Models  
-3. **Security & Compliance** → Threat Modeling, AuthZ
-4. **Testing Strategy** → Test Pyramid, Performance
-5. **Implementation Plan** → Task Breakdown
+**The v2.1 Lean Workflow:**
+1. **Requirements Analysis** → Feature Catalog (Must-Have only), 3-5 User Stories
+2. **Architecture Design** → C4 Level 1, Simple API list, Data Models
+3. **Security** → Basic AuthN/AuthZ, Encryption checklist (no full STRIDE)
+4. **Testing Strategy** → Unit + Integration only (no E2E/perf)
+5. **Implementation Plan** → MVP task breakdown
+
+**The v2.1 Enterprise Workflow:**
+- Same as v2.0 but now with modular prompts for better reliability
 
 **The Orchestration Model:**
 - **Human** provides vision and decisions
@@ -2958,6 +3469,1849 @@ Please structure your response as:
 ---
 
 **Be brutally honest.** We want to find flaws before users do.
+
+```
+
+## File: prompts/REDTEAM/synthesis.md
+```md
+# Red Team Analysis Synthesis
+
+**Date**: 2025-11-22  
+**Reviewers**: GPT-5, Grok 4  
+**Protocol Version**: v2.0
+
+## Executive Summary
+
+Both reviewers agree: **Protocol v2.0 is a dramatic improvement over v1**, bringing enterprise-grade rigor and structure. However, **it over-indexes on ceremony at the expense of velocity**, creating a workflow that is powerful but potentially unusable for solo developers and small teams.
+
+### Consensus Assessment
+- ✅ **Foundation is excellent** (C4, STRIDE, test pyramids, ADRs)
+- ⚠️ **Execution is too heavy** (25+ artifacts, manual copy-paste, no automation)
+- 🔴 **Critical Risk**: Developer abandonment due to cognitive overload
+
+---
+
+## Common Themes
+
+### 🎯 Strengths (Both Agree)
+1. **Enterprise-grade artifacts** - Formal requirements, C4 diagrams, threat modeling, test strategy
+2. **Human-in-the-loop model** - Mitigates AI hallucinations through review gates
+3. **Security-first approach** - STRIDE, AuthN/AuthZ, encryption strategies
+4. **Deterministic workflow** - Clear 5-step process reduces drift
+5. **Modular design** - Prompts are chainable with clear inputs/outputs
+
+### ❌ Weaknesses (Both Agree)
+
+#### 1. **Workflow Too Heavy**
+- GPT-5: "5-phase waterfall with 25+ artifacts. Solo developers will bail."
+- Grok 4: "Overly bureaucratic... excessive manual steps undermine efficiency."
+
+**Impact**: High abandonment risk for non-enterprise users.
+
+#### 2. **Prompt Bloat & Brittleness**
+- GPT-5: "Walls of text... LLM robustness decreases as prompt length increases."
+- Grok 4: "Prompts are verbose and prescriptive, limiting creativity."
+
+**Impact**: Hallucinated sections, formatting drift, missing subsections.
+
+#### 3. **No Sync Mechanism**
+- GPT-5: "No blueprint lockfiles, incremental diffs, or cross-file validation."
+- Grok 4: "Maintaining 5+ MD files... could lead to outdated docs."
+
+**Impact**: Guaranteed spec drift as projects evolve.
+
+#### 4. **Manual Overhead**
+- GPT-5: "Tedious copy-paste... too much cognitive overhead."
+- Grok 4: "No integrated tooling... saving outputs as separate MD files invites version mismatches."
+
+**Impact**: Developer fatigue, human error.
+
+#### 5. **No Escape Hatches**
+- GPT-5: "No instructions for skipping steps, iterating quickly, or partial artifacts."
+- Grok 4: "No explicit error recovery if LLM outputs diverge."
+
+**Impact**: Rigid system breaks under real-world pressure.
+
+#### 6. **Security Theater**
+- GPT-5: "Threat modeling included, but no tooling, validation, or automated checks."
+- Grok 4: "Assumes flawless human judgment without checklists."
+
+**Impact**: Security artifacts exist but aren't enforced.
+
+---
+
+## Top Recommendations (Prioritized)
+
+### 🔥 Critical (Must-Have for v2.1)
+
+#### 1. **Two-Track Workflow**
+**Source**: GPT-5, Grok 4  
+**What**: Create "Enterprise" and "Lean" tracks
+- **Lean**: Skip C4 level 2-3, threat tables, reduce requirements
+- **Enterprise**: Full 5-phase process
+
+**Why**: Prevents solo dev abandonment while preserving rigor for teams.
+
+#### 2. **Modular Prompts**
+**Source**: GPT-5, Grok 4  
+**What**: Break prompts into `/prompts/modules/` (requirements, architecture, security)
+- Each module: short, robust, easier for LLMs
+- Reduce prompt length by 30%
+
+**Why**: Reduces hallucinations, improves maintainability.
+
+#### 3. **Spec Lockfile System**
+**Source**: GPT-5  
+**What**: Introduce `requirements.lock.json`, `architecture.lock.json`
+- IDE agents read lockfiles, not raw prompts
+- Versioned, diffable, prevents drift
+
+**Why**: Solves the #1 technical debt issue.
+
+### ⚠️ High Priority (Should-Have)
+
+#### 4. **Validation & Diff Tools**
+**Source**: GPT-5, Grok 4  
+**What**: `./forge.sh validate` command
+- Checks: data models match API, threat model references real endpoints
+- Lints requirements, validates C4 diagrams
+
+**Why**: Shifts burden from human to automation.
+
+#### 5. **Iteration Support**
+**Source**: GPT-5, Grok 4  
+**What**: Add `./forge.sh revise <phase>` commands
+- Generates diffs, lockfile updates, breaking changes lists
+- Supports mid-implementation spec changes
+
+**Why**: Real projects evolve; protocol must support iteration.
+
+#### 6. **CLI Automation**
+**Source**: Grok 4  
+**What**: `./forge.sh run-phase 1` with API wrappers or clipboard automation
+- Auto-saves outputs with git versioning
+- Adds "lite mode" flag
+
+**Why**: Reduces manual copy-paste friction.
+
+### 💡 Nice-to-Have
+
+#### 7. **Human Effort Controls**
+**Source**: GPT-5  
+**What**: Prompts ask: "Full detail, medium, or lightweight?"
+- Modulates output verbosity
+
+**Why**: Reduces cognitive load.
+
+#### 8. **Starter Templates**
+**Source**: Grok 4  
+**What**: Pre-built templates for common stacks (Next.js/Supabase, etc.)
+
+**Why**: Lowers adoption barriers.
+
+---
+
+## Risk Assessment
+
+### Biggest Threat (Both Agree)
+**"Developer abandonment due to workflow heaviness."**
+
+- GPT-5: "Risks becoming a documentation generator rather than productivity booster."
+- Grok 4: "Solo devs might abandon after Phase 2 for simpler tools like Cursor."
+
+### What Could Fail
+1. **Inconsistent LLM outputs** → Spec drift (amplified by weak human review)
+2. **Over-reliance on git hooks** → Blocked workflows in fast-iterating teams
+3. **Artifact maintenance burden** → Outdated docs, "shelfware" protocol
+
+---
+
+## Next Steps
+
+I recommend creating the following tasks:
+
+1. **Task 003**: Design Two-Track Workflow (Lean vs Enterprise)
+2. **Task 004**: Implement Modular Prompt Architecture
+3. **Task 005**: Design Spec Lockfile System
+4. **Task 006**: Build Validation & Diff Tooling
+5. **Task 007**: Add Iteration Support (`revise` commands)
+
+**Priority**: Start with Tasks 003 and 004 (Two-Track + Modular Prompts) as they address the most critical feedback.
+
+```
+
+## File: prompts/lean/01_requirements_analysis.md
+```md
+# Requirements Analysis (Lean Mode)
+
+## Your Role
+You are a **Product Analyst** helping a solo developer or small team build an MVP. Focus on **essential features** and **clear user stories** without excessive ceremony.
+
+## Context
+The user has an idea for a software product. Your job is to help them define:
+1. **What** they're building (feature catalog)
+2. **Who** it's for (user stories)
+3. **How** to validate it (acceptance criteria)
+
+Keep it **lean and actionable**—this is an MVP, not an enterprise product.
+
+## Input
+The user will provide:
+- A brief description of their idea
+- Target users (if known)
+- Key problems they're solving
+
+## Your Task
+
+Generate a **Requirements Document** with the following structure:
+
+---
+
+### 1. Product Overview
+**Format**:
+```
+## Product Overview
+
+**Name**: [Product Name]
+**Tagline**: [One-line description]
+**Problem**: [What problem does this solve?]
+**Solution**: [How does this product solve it?]
+```
+
+Keep this to 3-4 sentences total.
+
+---
+
+### 2. Feature Catalog (MoSCoW - Lean)
+**Format**:
+```
+## Feature Catalog
+
+### Must-Have (MVP Core)
+1. [Feature Name]: [1-sentence description]
+2. [Feature Name]: [1-sentence description]
+...
+
+### Should-Have (Post-MVP)
+1. [Feature Name]: [1-sentence description]
+2. [Feature Name]: [1-sentence description]
+...
+```
+
+**Rules**:
+- **Must-Have**: 3-7 features max (the absolute minimum for a working product)
+- **Should-Have**: 3-5 features (nice-to-haves for v1.1)
+- **Skip**: Could-Have and Won't-Have (not needed for MVP)
+
+---
+
+### 3. User Stories (Top 3-5 Only)
+**Format**:
+```
+## User Stories
+
+### US-001: [Story Title]
+**As a** [user type]  
+**I want** [action]  
+**So that** [benefit]
+
+**Acceptance Criteria**:
+- [ ] [Specific, testable criterion]
+- [ ] [Specific, testable criterion]
+
+---
+
+### US-002: [Story Title]
+...
+```
+
+**Rules**:
+- Write **3-5 stories** covering the Must-Have features
+- Each story should have **2-4 acceptance criteria**
+- Keep criteria **simple and testable**
+
+---
+
+### 4. Non-Functional Requirements (Essentials Only)
+**Format**:
+```
+## Non-Functional Requirements
+
+### Performance
+- [1-2 key metrics, e.g., "Page load < 2s"]
+
+### Security
+- [1-2 essentials, e.g., "HTTPS only", "Password hashing"]
+
+### Scalability
+- [1 sentence on expected load, e.g., "Support 100 concurrent users"]
+```
+
+**Rules**:
+- **Skip**: Detailed SLAs, compliance requirements, extensive monitoring
+- **Keep**: Basic performance, security, and scalability expectations
+
+---
+
+## Output Format
+
+Provide the complete document in **Markdown** format, ready to save as `docs/01_REQUIREMENTS.md`.
+
+---
+
+## Example Output
+
+```markdown
+# Requirements Document (Lean)
+
+## Product Overview
+
+**Name**: TaskFlow  
+**Tagline**: Simple task management for solo developers  
+**Problem**: Developers need a lightweight way to track tasks without complex project management tools.  
+**Solution**: A minimal task board with drag-and-drop, markdown support, and GitHub integration.
+
+## Feature Catalog
+
+### Must-Have (MVP Core)
+1. **Task Board**: Kanban-style board with To Do, In Progress, Done columns
+2. **Markdown Tasks**: Create tasks with markdown descriptions
+3. **Drag & Drop**: Move tasks between columns
+4. **GitHub Sync**: Import issues from GitHub repos
+5. **Local Storage**: Save tasks in browser (no backend needed for MVP)
+
+### Should-Have (Post-MVP)
+1. **Tags & Filters**: Organize tasks by tags
+2. **Due Dates**: Set deadlines for tasks
+3. **Cloud Sync**: Save tasks to a backend for multi-device access
+
+## User Stories
+
+### US-001: Create a Task
+**As a** developer  
+**I want** to create a task with a title and markdown description  
+**So that** I can track what I need to do
+
+**Acceptance Criteria**:
+- [ ] User can click "New Task" button
+- [ ] User can enter title and markdown description
+- [ ] Task appears in "To Do" column
+
+---
+
+### US-002: Move Tasks Between Columns
+**As a** developer  
+**I want** to drag tasks between columns  
+**So that** I can update task status visually
+
+**Acceptance Criteria**:
+- [ ] User can drag a task from one column to another
+- [ ] Task position updates immediately
+- [ ] Changes persist in local storage
+
+---
+
+### US-003: Import GitHub Issues
+**As a** developer  
+**I want** to import issues from my GitHub repo  
+**So that** I don't have to manually recreate tasks
+
+**Acceptance Criteria**:
+- [ ] User can enter GitHub repo URL
+- [ ] System fetches open issues via GitHub API
+- [ ] Issues appear as tasks in "To Do" column
+
+## Non-Functional Requirements
+
+### Performance
+- Page load < 2 seconds
+- Drag-and-drop feels instant (< 100ms)
+
+### Security
+- HTTPS only
+- GitHub OAuth for API access
+
+### Scalability
+- Support 500 tasks per board
+- Handle 10 concurrent users (for future cloud sync)
+```
+
+---
+
+## Important Notes
+
+- **Be concise**: This is Lean mode—no walls of text
+- **Focus on MVP**: Only include features needed for a working v1.0
+- **Skip enterprise artifacts**: No detailed compliance, no extensive NFRs
+- **Make it actionable**: Every feature should be clear enough to build
+
+---
+
+## Ready?
+
+Paste the user's idea below, and I'll generate the lean requirements document.
+
+```
+
+## File: prompts/lean/02_architecture_design.md
+```md
+# Architecture Design (Lean Mode)
+
+## Your Role
+You are a **Software Architect** helping design an MVP. Focus on **essential architecture** without over-engineering.
+
+## Context
+The user has defined their requirements. Your job is to design:
+1. **System Context** (C4 Level 1 only)
+2. **API Endpoints** (simple list, not full OpenAPI)
+3. **Data Models** (tables + key relationships)
+
+Keep it **lean and buildable**—this is an MVP, not a microservices architecture.
+
+## Input
+Attach the `docs/01_REQUIREMENTS.md` file from the previous step.
+
+## Your Task
+
+Generate an **Architecture Document** with the following structure:
+
+---
+
+### 1. System Context (C4 Level 1)
+**Format**:
+```
+## System Context Diagram
+
+\`\`\`mermaid
+C4Context
+    title System Context - [Product Name]
+    
+    Person(user, "User", "End user of the system")
+    System(app, "[Product Name]", "Core application")
+    System_Ext(external, "[External System]", "Description")
+    
+    Rel(user, app, "Uses")
+    Rel(app, external, "Integrates with")
+\`\`\`
+
+**Key Components**:
+- **[Product Name]**: [1-sentence description]
+- **[External System]**: [1-sentence description]
+```
+
+**Rules**:
+- Show **only** the main system and key external dependencies
+- **Skip**: Container diagrams (C4 Level 2), Component diagrams (C4 Level 3)
+
+---
+
+### 2. Technology Stack
+**Format**:
+```
+## Technology Stack
+
+### Frontend
+- **Framework**: [e.g., React, Vue, vanilla JS]
+- **Styling**: [e.g., Tailwind, CSS]
+
+### Backend
+- **Runtime**: [e.g., Node.js, Python]
+- **Framework**: [e.g., Express, FastAPI]
+- **Database**: [e.g., PostgreSQL, SQLite]
+
+### Deployment
+- **Hosting**: [e.g., Vercel, Railway, local]
+```
+
+**Rules**:
+- Choose **simple, proven** technologies
+- Prefer **managed services** over self-hosted (e.g., Supabase over self-hosted Postgres)
+- **Skip**: Detailed infrastructure diagrams, Kubernetes, microservices
+
+---
+
+### 3. API Design (Endpoint List)
+**Format**:
+```
+## API Endpoints
+
+### Tasks
+- `GET /api/tasks` - List all tasks
+- `POST /api/tasks` - Create a new task
+- `PATCH /api/tasks/:id` - Update a task
+- `DELETE /api/tasks/:id` - Delete a task
+
+### Users
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+```
+
+**Rules**:
+- List **only** the core endpoints needed for MVP
+- Use **RESTful** conventions
+- **Skip**: Full OpenAPI spec, detailed request/response schemas
+
+---
+
+### 4. Data Models
+**Format**:
+```
+## Data Models
+
+### Table: users
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | UUID | PRIMARY KEY |
+| email | VARCHAR(255) | UNIQUE, NOT NULL |
+| password_hash | VARCHAR(255) | NOT NULL |
+| created_at | TIMESTAMP | DEFAULT NOW() |
+
+### Table: tasks
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | UUID | PRIMARY KEY |
+| user_id | UUID | FOREIGN KEY (users.id) |
+| title | VARCHAR(255) | NOT NULL |
+| description | TEXT | |
+| status | ENUM | 'todo', 'in_progress', 'done' |
+| created_at | TIMESTAMP | DEFAULT NOW() |
+
+**Relationships**:
+- `tasks.user_id` → `users.id` (many-to-one)
+```
+
+**Rules**:
+- Show **only** the core tables needed for MVP
+- Include **primary keys, foreign keys, and essential constraints**
+- **Skip**: Detailed indexes, triggers, stored procedures
+
+---
+
+## Output Format
+
+Provide the complete document in **Markdown** format, ready to save as `docs/02_ARCHITECTURE.md`.
+
+---
+
+## Important Notes
+
+- **Be pragmatic**: Choose boring, proven tech over cutting-edge
+- **Avoid over-engineering**: No microservices, no Kubernetes, no event sourcing
+- **Focus on MVP**: Design for 100 users, not 1 million
+- **Keep it simple**: If you can do it with a single database table, do it
+
+---
+
+## Ready?
+
+Paste the requirements document below, and I'll generate the lean architecture.
+
+```
+
+## File: prompts/lean/04_testing_strategy.md
+```md
+# Testing Strategy (Lean Mode)
+
+## Your Role
+You are a **QA Engineer** helping define a practical testing strategy for an MVP. Focus on **essential tests** without excessive coverage.
+
+## Context
+The user has defined requirements and architecture. Your job is to define:
+1. **Unit Test Strategy** (test core logic)
+2. **Integration Test Strategy** (test API endpoints)
+3. **Manual Testing Checklist** (for features that are hard to automate)
+
+Keep it **lean and practical**—this is an MVP, not a safety-critical system.
+
+## Input
+Attach the `docs/01_REQUIREMENTS.md` and `docs/02_ARCHITECTURE.md` files.
+
+## Your Task
+
+Generate a **Testing Strategy Document** with the following structure:
+
+---
+
+### 1. Testing Philosophy
+**Format**:
+```
+## Testing Philosophy
+
+For this MVP, we focus on:
+- **Unit Tests**: Core business logic and utilities
+- **Integration Tests**: API endpoints and database interactions
+- **Manual Testing**: UI flows and edge cases
+
+**What We Skip** (for now):
+- E2E tests (too slow for MVP iteration)
+- Performance tests (optimize later)
+- Security tests (basic security in code review)
+```
+
+---
+
+### 2. Unit Test Strategy
+**Format**:
+```
+## Unit Tests
+
+### What to Test
+- [ ] [Business logic function 1]
+- [ ] [Business logic function 2]
+- [ ] [Utility function 1]
+
+### Example Test Cases
+**Function**: `validateEmail(email)`
+- ✅ Valid email: `test@example.com` → `true`
+- ✅ Invalid email: `notanemail` → `false`
+- ✅ Empty string: `""` → `false`
+
+**Coverage Goal**: 70% of core logic
+```
+
+**Rules**:
+- List **5-10** key functions to unit test
+- Provide **2-3 example test cases** for the most critical function
+- **Skip**: 100% coverage, testing trivial getters/setters
+
+---
+
+### 3. Integration Test Strategy
+**Format**:
+```
+## Integration Tests
+
+### API Endpoints to Test
+- [ ] `POST /api/tasks` - Create task
+- [ ] `GET /api/tasks` - List tasks
+- [ ] `PATCH /api/tasks/:id` - Update task
+- [ ] `DELETE /api/tasks/:id` - Delete task
+
+### Example Test Case
+**Endpoint**: `POST /api/tasks`
+- **Setup**: Create a test user
+- **Request**: `{ "title": "Test Task", "description": "..." }`
+- **Expected**: 201 Created, task appears in database
+- **Teardown**: Delete test user and task
+
+**Coverage Goal**: All core API endpoints
+```
+
+**Rules**:
+- Test **all** core API endpoints from the architecture doc
+- Provide **1 detailed example** test case
+- **Skip**: Testing every edge case, load testing
+
+---
+
+### 4. Manual Testing Checklist
+**Format**:
+```
+## Manual Testing Checklist
+
+### Pre-Release Checklist
+- [ ] User can sign up and log in
+- [ ] User can create a task
+- [ ] User can drag task between columns
+- [ ] User can delete a task
+- [ ] UI looks good on mobile
+- [ ] UI looks good on desktop
+
+### Edge Cases to Verify
+- [ ] What happens if user creates 100 tasks?
+- [ ] What happens if task title is very long?
+- [ ] What happens if user loses internet connection?
+```
+
+**Rules**:
+- List **5-10** critical user flows
+- Include **3-5** edge cases to manually verify
+- **Skip**: Exhaustive test matrices
+
+---
+
+## Output Format
+
+Provide the complete document in **Markdown** format, ready to save as `docs/04_TESTING.md`.
+
+---
+
+## Important Notes
+
+- **Be practical**: Focus on tests that catch real bugs
+- **Avoid perfectionism**: 70% coverage is fine for an MVP
+- **Manual testing is OK**: Not everything needs to be automated
+- **Iterate**: Add more tests as the product matures
+
+---
+
+## Ready?
+
+Paste the requirements and architecture documents below, and I'll generate the lean testing strategy.
+
+```
+
+## File: prompts/lean/05_implementation_plan.md
+```md
+# Implementation Plan (Lean Mode)
+
+## Your Role
+You are a **Technical Lead** helping break down an MVP into actionable tasks. Focus on **getting to a working v1.0 quickly**.
+
+## Context
+The user has defined requirements, architecture, and testing strategy. Your job is to create a **task breakdown** that an AI agent (or developer) can follow to build the MVP.
+
+Keep it **lean and actionable**—this is an MVP, not a 6-month project.
+
+## Input
+Attach all previous documents:
+- `docs/01_REQUIREMENTS.md`
+- `docs/02_ARCHITECTURE.md`
+- `docs/04_TESTING.md`
+
+## Your Task
+
+Generate an **Implementation Plan** with the following structure:
+
+---
+
+### 1. Implementation Phases
+**Format**:
+```
+## Implementation Phases
+
+### Phase 1: Foundation (Week 1)
+- Set up project structure
+- Configure database
+- Implement authentication
+
+### Phase 2: Core Features (Week 2)
+- Build task CRUD API
+- Implement task board UI
+- Add drag-and-drop
+
+### Phase 3: Polish (Week 3)
+- Add tests
+- Fix bugs
+- Deploy to production
+```
+
+**Rules**:
+- Break into **3-4 phases** max
+- Each phase should be **1-2 weeks** of work
+- Focus on **Must-Have** features only
+
+---
+
+### 2. Task Breakdown
+**Format**:
+```
+## Task Breakdown
+
+### Phase 1: Foundation
+
+#### Task 1.1: Project Setup
+**Description**: Initialize project with chosen tech stack
+**Deliverables**:
+- [ ] Create Next.js app
+- [ ] Set up Tailwind CSS
+- [ ] Configure ESLint and Prettier
+
+**Estimated Time**: 2 hours
+
+---
+
+#### Task 1.2: Database Setup
+**Description**: Set up PostgreSQL database and ORM
+**Deliverables**:
+- [ ] Create Supabase project
+- [ ] Define `users` and `tasks` tables
+- [ ] Test database connection
+
+**Estimated Time**: 3 hours
+
+---
+
+### Phase 2: Core Features
+
+#### Task 2.1: Task CRUD API
+**Description**: Implement API endpoints for task management
+**Deliverables**:
+- [ ] `POST /api/tasks` - Create task
+- [ ] `GET /api/tasks` - List tasks
+- [ ] `PATCH /api/tasks/:id` - Update task
+- [ ] `DELETE /api/tasks/:id` - Delete task
+
+**Estimated Time**: 6 hours
+```
+
+**Rules**:
+- Each task should be **2-8 hours** of work
+- Include **clear deliverables** (checkboxes)
+- Provide **time estimates**
+- Order tasks by **dependency** (foundation first)
+
+---
+
+### 3. Dependency Graph
+**Format**:
+```
+## Dependency Graph
+
+\`\`\`mermaid
+graph TD
+    T1[Task 1.1: Project Setup] --> T2[Task 1.2: Database Setup]
+    T2 --> T3[Task 2.1: Task CRUD API]
+    T3 --> T4[Task 2.2: Task Board UI]
+    T4 --> T5[Task 2.3: Drag & Drop]
+\`\`\`
+```
+
+**Rules**:
+- Show **critical path** dependencies
+- **Skip**: Complex dependency matrices
+
+---
+
+### 4. MVP Checklist
+**Format**:
+```
+## MVP Checklist
+
+### Must-Have Before Launch
+- [ ] User can sign up and log in
+- [ ] User can create, edit, delete tasks
+- [ ] User can drag tasks between columns
+- [ ] Basic tests pass
+- [ ] Deployed to production
+
+### Nice-to-Have (Post-Launch)
+- [ ] Tags and filters
+- [ ] Due dates
+- [ ] Cloud sync
+```
+
+---
+
+## Output Format
+
+Provide the complete document in **Markdown** format, ready to save as `docs/05_IMPLEMENTATION.md`.
+
+---
+
+## Important Notes
+
+- **Be realistic**: Don't underestimate time
+- **Focus on MVP**: Only include Must-Have features
+- **Make it actionable**: Each task should be clear enough to start immediately
+- **Order matters**: Dependencies should be obvious
+
+---
+
+## Ready?
+
+Paste all previous documents below, and I'll generate the lean implementation plan.
+
+```
+
+## File: prompts/lean/TEST_SCENARIO.md
+```md
+# Lean Mode Test Scenario
+
+## Test Idea
+**Product**: "QuickPoll" - A simple polling app for teams
+
+**Description**: 
+A lightweight polling tool where users can create quick polls, share them with their team, and see real-time results. Think Strawpoll but for internal teams.
+
+**Target Users**: Small teams (5-20 people) who need quick decision-making
+
+**Key Problems**: 
+- Email threads for simple yes/no questions are slow
+- Existing tools (Slack polls, etc.) lack persistence
+- Need something dead simple with no setup
+
+---
+
+## Expected Lean Mode Output
+
+### Step 1: Requirements (~10 min)
+**Expected Artifacts**:
+- Feature catalog: 5-7 Must-Have features (create poll, vote, view results, share link, basic auth)
+- 3-5 user stories
+- Basic NFRs (page load < 2s, HTTPS, 100 concurrent users)
+
+**Success Criteria**: 
+- ✅ Output is concise (< 2 pages)
+- ✅ Focuses only on MVP features
+- ✅ No extensive compliance requirements
+
+---
+
+### Step 2: Architecture (~15 min)
+**Expected Artifacts**:
+- C4 Level 1 diagram (QuickPoll app + external auth provider)
+- Simple API endpoint list (5-10 endpoints)
+- 2-3 database tables (users, polls, votes)
+
+**Success Criteria**:
+- ✅ No C4 Level 2-3 diagrams
+- ✅ No detailed OpenAPI spec
+- ✅ Simple tech stack (e.g., Next.js + Supabase)
+
+---
+
+### Step 3: Security (~10 min)
+**Expected Artifacts**:
+- AuthN/AuthZ strategy (OAuth or email/password)
+- Basic encryption (HTTPS, password hashing)
+- Input validation checklist
+
+**Success Criteria**:
+- ✅ No full STRIDE tables
+- ✅ No SOC2/HIPAA compliance mapping
+- ✅ Practical security only
+
+---
+
+### Step 4: Testing (~10 min)
+**Expected Artifacts**:
+- Unit test strategy (5-10 key functions)
+- Integration test strategy (all API endpoints)
+- Manual testing checklist (5-10 flows)
+
+**Success Criteria**:
+- ✅ No E2E tests
+- ✅ No performance/security testing
+- ✅ 70% coverage goal (not 100%)
+
+---
+
+### Step 5: Implementation Plan (~10 min)
+**Expected Artifacts**:
+- 3 phases (Foundation, Core Features, Polish)
+- 10-15 tasks with time estimates
+- Simple dependency graph
+
+**Success Criteria**:
+- ✅ Tasks are 2-8 hours each
+- ✅ Focus on Must-Have features only
+- ✅ Total MVP timeline: 2-3 weeks
+
+---
+
+## Validation Checklist
+
+### Prompt Quality
+- [ ] Prompts are clear and easy to follow
+- [ ] Examples are helpful and relevant
+- [ ] Instructions are concise (not walls of text)
+- [ ] Output format is well-defined
+
+### Workflow Efficiency
+- [ ] Total time to complete all 5 steps: ~1 hour
+- [ ] Each step builds on the previous one
+- [ ] No redundant information requested
+- [ ] Easy to copy-paste between steps
+
+### Output Quality
+- [ ] Artifacts are actionable (can start building immediately)
+- [ ] No over-engineering (appropriate for MVP)
+- [ ] Consistent naming and structure
+- [ ] Clear enough for an AI agent to implement
+
+---
+
+## Next Steps After Validation
+
+If test passes:
+1. ✅ Lean mode is ready for use
+2. Continue with Phase 2 (Modular Prompts)
+3. Add GUIDE.md mode selector
+
+If test fails:
+1. Identify issues in prompts
+2. Refine unclear sections
+3. Re-test before proceeding
+
+```
+
+## File: prompts/modules/README.md
+```md
+# Modular Prompt Architecture Guide
+
+## Overview
+Instead of using monolithic prompts (like `01_requirements_analysis.md`), you can compose custom workflows using **prompt modules**.
+
+## Why Modular?
+- **Shorter prompts** = fewer LLM hallucinations
+- **Easier to maintain** = update one module, not entire prompt
+- **Flexible** = mix and match modules for your needs
+- **Robust** = smaller prompts are more reliable
+
+## How to Use
+
+### Option 1: Use Pre-Composed Prompts (Recommended)
+Just use the existing prompts:
+- `prompts/01_requirements_analysis.md` (uses all requirements modules)
+- `prompts/02_architecture_design.md` (uses all architecture modules)
+- etc.
+
+### Option 2: Compose Your Own
+Pick and choose modules based on your needs:
+
+**Example: Lightweight Requirements**
+```
+Use modules:
+- prompts/modules/requirements/product_overview.md
+- prompts/modules/requirements/feature_catalog.md
+- prompts/modules/requirements/user_stories.md
+
+Skip:
+- Functional requirements table
+- Non-functional requirements
+```
+
+**Example: Security-Focused Architecture**
+```
+Use modules:
+- prompts/modules/architecture/c4_diagrams.md
+- prompts/modules/architecture/data_models.md
+- prompts/modules/security/threat_modeling.md
+- prompts/modules/security/authz.md
+
+Skip:
+- API design
+- Technology stack
+```
+
+## Module Directory Structure
+
+```
+prompts/modules/
+├── requirements/
+│   ├── product_overview.md
+│   ├── feature_catalog.md
+│   ├── functional_requirements.md
+│   ├── nonfunctional_requirements.md
+│   └── user_stories.md
+├── architecture/
+│   ├── c4_diagrams.md
+│   ├── technology_stack.md
+│   ├── api_design.md
+│   └── data_models.md
+├── security/
+│   ├── threat_modeling.md
+│   ├── authz.md
+│   └── compliance.md
+└── testing/
+    ├── test_pyramid.md
+    ├── performance_testing.md
+    └── security_testing.md
+```
+
+## Module Format
+
+Each module is self-contained and follows this structure:
+
+```markdown
+# [Module Name]
+
+## Purpose
+[What this module generates]
+
+## Input Required
+[What context the LLM needs]
+
+## Output Format
+[Exact structure to generate]
+
+## Example
+[Sample output]
+```
+
+## Composing Modules
+
+### Method 1: Sequential (Recommended)
+Run modules one at a time, feeding output to the next:
+
+1. Run `product_overview.md` → save output
+2. Run `feature_catalog.md` + attach previous output → save
+3. Run `user_stories.md` + attach all previous outputs → save
+
+### Method 2: Single Prompt
+Combine multiple modules into one prompt:
+
+```
+I need you to generate:
+1. [Copy content from product_overview.md]
+2. [Copy content from feature_catalog.md]
+3. [Copy content from user_stories.md]
+```
+
+**Warning**: This defeats the purpose of modularity. Only use for 2-3 small modules.
+
+## Benefits by Use Case
+
+### Solo Developer (MVP)
+**Use**: 3-5 modules only
+- Product overview
+- Feature catalog (Must-Have only)
+- User stories (top 3)
+- C4 Level 1
+- Data models
+
+**Skip**: Everything else
+
+### Small Team (Production)
+**Use**: 8-12 modules
+- All requirements modules
+- C4 Level 1-2
+- API design
+- Data models
+- Basic threat modeling
+- Test pyramid
+
+**Skip**: Compliance, detailed security
+
+### Enterprise Team
+**Use**: All modules (15+)
+- Full requirements
+- C4 Level 1-3
+- Full security (STRIDE, compliance)
+- Full testing (pyramid + perf + security)
+
+## Migration Guide
+
+### From Monolithic to Modular
+
+**Before** (Monolithic):
+```bash
+# Copy entire 01_requirements_analysis.md
+# Paste to LLM
+# Get 5-page output
+```
+
+**After** (Modular):
+```bash
+# Copy product_overview.md
+# Paste to LLM → get 1 paragraph
+
+# Copy feature_catalog.md
+# Paste to LLM + attach overview → get feature list
+
+# Copy user_stories.md
+# Paste to LLM + attach features → get stories
+```
+
+**Result**: Same output, but in 3 focused steps instead of 1 giant prompt.
+
+## Tips
+
+1. **Start small**: Use 2-3 modules first, add more as needed
+2. **Feed forward**: Always attach previous outputs as context
+3. **Iterate**: If output is wrong, re-run just that module
+4. **Combine for speed**: If modules are small (<500 words), combine 2-3
+
+## Next Steps
+
+1. Browse `prompts/modules/` to see available modules
+2. Pick modules for your use case
+3. Run them sequentially
+4. Combine outputs into final document
+
+```
+
+## File: prompts/modules/architecture/c4_diagrams.md
+```md
+# C4 Diagrams Module
+
+## Purpose
+Generate C4 architecture diagrams (System Context, Container, Component).
+
+## Input Required
+- Product overview
+- Feature catalog
+- OR brief product description
+
+## Output Format
+
+```markdown
+## C4 Architecture Diagrams
+
+### Level 1: System Context
+\`\`\`mermaid
+C4Context
+    title System Context - [Product Name]
+    
+    Person(user, "[User Type]", "Description")
+    System(app, "[Product Name]", "Core application")
+    System_Ext(external, "[External System]", "Description")
+    
+    Rel(user, app, "Uses")
+    Rel(app, external, "Integrates with")
+\`\`\`
+
+### Level 2: Container Diagram
+\`\`\`mermaid
+C4Container
+    title Container Diagram - [Product Name]
+    
+    Person(user, "[User Type]")
+    
+    Container(web, "Web Application", "React", "User interface")
+    Container(api, "API", "Node.js", "Business logic")
+    ContainerDb(db, "Database", "PostgreSQL", "Data storage")
+    
+    Rel(user, web, "Uses", "HTTPS")
+    Rel(web, api, "Calls", "REST/JSON")
+    Rel(api, db, "Reads/Writes", "SQL")
+\`\`\`
+
+### Level 3: Component Diagram (Optional)
+[Only for complex systems]
+```
+
+## Instructions for LLM
+
+1. **Level 1** (Required): Show the system and its external dependencies
+2. **Level 2** (Required): Show internal containers (frontend, backend, database)
+3. **Level 3** (Optional): Only if system is complex (5+ containers)
+
+Use Mermaid C4 syntax for all diagrams.
+
+## Example Output
+
+```markdown
+## C4 Architecture Diagrams
+
+### Level 1: System Context
+\`\`\`mermaid
+C4Context
+    title System Context - TaskFlow
+    
+    Person(dev, "Developer", "Solo developer managing tasks")
+    System(taskflow, "TaskFlow", "Task management application")
+    System_Ext(github, "GitHub API", "Issue tracking")
+    
+    Rel(dev, taskflow, "Manages tasks")
+    Rel(taskflow, github, "Imports issues", "REST API")
+\`\`\`
+
+### Level 2: Container Diagram
+\`\`\`mermaid
+C4Container
+    title Container Diagram - TaskFlow
+    
+    Person(dev, "Developer")
+    
+    Container(spa, "Single Page App", "React", "Task board UI")
+    Container(api, "API Server", "Node.js/Express", "Business logic")
+    ContainerDb(db, "Database", "PostgreSQL", "Task storage")
+    System_Ext(github, "GitHub API")
+    
+    Rel(dev, spa, "Uses", "HTTPS")
+    Rel(spa, api, "API calls", "REST/JSON")
+    Rel(api, db, "Reads/Writes", "SQL")
+    Rel(api, github, "Fetches issues", "REST API")
+\`\`\`
+```
+
+## Ready?
+
+Paste the product overview and feature catalog below, and I'll generate the C4 diagrams.
+
+```
+
+## File: prompts/modules/architecture/data_models.md
+```md
+# Data Models Module
+
+## Purpose
+Generate database schema with tables, columns, and relationships.
+
+## Input Required
+- Feature catalog
+- User stories
+- OR brief product description
+
+## Output Format
+
+```markdown
+## Data Models
+
+### Table: [table_name]
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | UUID | PRIMARY KEY |
+| [column] | [type] | [constraints] |
+...
+
+**Indexes**:
+- `idx_[table]_[column]` on `[column]`
+
+---
+
+### Table: [table_name]
+...
+
+## Relationships
+
+\`\`\`mermaid
+erDiagram
+    TABLE1 ||--o{ TABLE2 : "relationship"
+    TABLE2 }o--|| TABLE3 : "relationship"
+\`\`\`
+
+**Relationship Details**:
+- `table1.id` → `table2.table1_id` (one-to-many)
+- `table2.table3_id` → `table3.id` (many-to-one)
+```
+
+## Instructions for LLM
+
+1. Define all tables needed for Must-Have features
+2. Include primary keys, foreign keys, and essential indexes
+3. Use standard SQL types (UUID, VARCHAR, INTEGER, TIMESTAMP, etc.)
+4. Show relationships in both diagram and text
+
+## Example Output
+
+```markdown
+## Data Models
+
+### Table: users
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | UUID | PRIMARY KEY |
+| email | VARCHAR(255) | UNIQUE, NOT NULL |
+| password_hash | VARCHAR(255) | NOT NULL |
+| created_at | TIMESTAMP | DEFAULT NOW() |
+| updated_at | TIMESTAMP | DEFAULT NOW() |
+
+**Indexes**:
+- `idx_users_email` on `email`
+
+---
+
+### Table: tasks
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | UUID | PRIMARY KEY |
+| user_id | UUID | FOREIGN KEY (users.id), NOT NULL |
+| title | VARCHAR(255) | NOT NULL |
+| description | TEXT | |
+| status | VARCHAR(50) | CHECK (status IN ('todo', 'in_progress', 'done')) |
+| position | INTEGER | NOT NULL |
+| created_at | TIMESTAMP | DEFAULT NOW() |
+| updated_at | TIMESTAMP | DEFAULT NOW() |
+
+**Indexes**:
+- `idx_tasks_user_id` on `user_id`
+- `idx_tasks_status` on `status`
+
+## Relationships
+
+\`\`\`mermaid
+erDiagram
+    users ||--o{ tasks : "owns"
+\`\`\`
+
+**Relationship Details**:
+- `users.id` → `tasks.user_id` (one-to-many): A user can have many tasks
+```
+
+## Ready?
+
+Paste the feature catalog and user stories below, and I'll generate the data models.
+
+```
+
+## File: prompts/modules/requirements/feature_catalog.md
+```md
+# Feature Catalog Module
+
+## Purpose
+Generate a prioritized list of features using MoSCoW method.
+
+## Input Required
+- Product overview (from previous module)
+- OR brief product description
+
+## Output Format
+
+```markdown
+## Feature Catalog (MoSCoW)
+
+### Must Have (MVP Core)
+1. **[Feature Name]**: [1-sentence description]
+2. **[Feature Name]**: [1-sentence description]
+...
+
+### Should Have (Post-MVP)
+1. **[Feature Name]**: [1-sentence description]
+...
+
+### Could Have (Future)
+1. **[Feature Name]**: [1-sentence description]
+...
+
+### Won't Have (Out of Scope)
+1. **[Feature Name]**: [1-sentence reason why not]
+...
+```
+
+## Instructions for LLM
+
+1. **Must Have**: 5-10 features that are absolutely required for MVP
+2. **Should Have**: 5-8 features that would be nice for v1.1
+3. **Could Have**: 3-5 features for future consideration
+4. **Won't Have**: 2-3 features explicitly out of scope
+
+Keep each description to ONE sentence.
+
+## Example Output
+
+```markdown
+## Feature Catalog (MoSCoW)
+
+### Must Have (MVP Core)
+1. **Task Board**: Kanban-style board with To Do, In Progress, Done columns
+2. **Create Tasks**: Add tasks with title and markdown description
+3. **Drag & Drop**: Move tasks between columns with drag-and-drop
+4. **Local Storage**: Save tasks in browser (no backend required)
+5. **GitHub Import**: One-click import of GitHub issues as tasks
+
+### Should Have (Post-MVP)
+1. **Tags & Filters**: Organize and filter tasks by custom tags
+2. **Due Dates**: Set and track task deadlines
+3. **Cloud Sync**: Save tasks to backend for multi-device access
+4. **Keyboard Shortcuts**: Power-user shortcuts for common actions
+
+### Could Have (Future)
+1. **Time Tracking**: Track time spent on each task
+2. **Subtasks**: Break down tasks into smaller subtasks
+3. **Team Collaboration**: Share boards with team members
+
+### Won't Have (Out of Scope)
+1. **Gantt Charts**: Too complex for the target audience
+2. **Resource Management**: Not needed for solo developers
+3. **Billing/Invoicing**: Out of scope for a task management tool
+```
+
+## Ready?
+
+Paste the product overview (or idea) below, and I'll generate the feature catalog.
+
+```
+
+## File: prompts/modules/requirements/product_overview.md
+```md
+# Product Overview Module
+
+## Purpose
+Generate a concise executive summary of the product idea.
+
+## Input Required
+- Brief description of the product idea
+- Target users (if known)
+- Problem being solved
+
+## Output Format
+
+```markdown
+## Product Overview
+
+**Name**: [Product Name]
+**Tagline**: [One-sentence value proposition]
+
+**The Problem**: [2-3 sentences describing the pain point]
+
+**The Solution**: [2-3 sentences describing how the product solves it]
+
+**Target Audience**:
+- **Primary**: [Main user persona]
+- **Secondary**: [Additional user personas]
+```
+
+## Instructions for LLM
+
+1. Keep the product name short and memorable
+2. Tagline should be under 10 words
+3. Problem and Solution should each be 2-3 sentences max
+4. Identify 1 primary and 1-2 secondary personas
+
+## Example Output
+
+```markdown
+## Product Overview
+
+**Name**: TaskFlow
+**Tagline**: Simple task management for solo developers
+
+**The Problem**: Developers need a lightweight way to track tasks without the complexity of enterprise project management tools. Existing solutions like Jira are overkill for solo projects, while simple to-do apps lack developer-specific features like GitHub integration and markdown support.
+
+**The Solution**: TaskFlow provides a minimal Kanban board with drag-and-drop, markdown task descriptions, and one-click GitHub issue import. It's designed for developers who want just enough structure without the overhead.
+
+**Target Audience**:
+- **Primary**: Solo developers and freelancers managing personal projects
+- **Secondary**: Small development teams (2-5 people) working on side projects
+```
+
+## Ready?
+
+Paste the product idea below, and I'll generate the product overview.
+
+```
+
+## File: prompts/modules/requirements/user_stories.md
+```md
+# User Stories Module
+
+## Purpose
+Generate user stories with acceptance criteria for Must-Have features.
+
+## Input Required
+- Feature catalog (from previous module)
+- OR list of Must-Have features
+
+## Output Format
+
+```markdown
+## User Stories
+
+### US-001: [Story Title]
+**As a** [user type]
+**I want** [action]
+**So that** [benefit]
+
+**Acceptance Criteria**:
+- [ ] [Specific, testable criterion]
+- [ ] [Specific, testable criterion]
+- [ ] [Specific, testable criterion]
+
+---
+
+### US-002: [Story Title]
+...
+```
+
+## Instructions for LLM
+
+1. Create **1 user story per Must-Have feature**
+2. Each story should have **3-5 acceptance criteria**
+3. Acceptance criteria must be **specific and testable**
+4. Use checkboxes for acceptance criteria
+
+## Example Output
+
+```markdown
+## User Stories
+
+### US-001: Create a Task
+**As a** developer
+**I want** to create a task with a title and markdown description
+**So that** I can track what I need to do
+
+**Acceptance Criteria**:
+- [ ] User can click "New Task" button
+- [ ] User can enter a task title (required field)
+- [ ] User can enter a markdown description (optional field)
+- [ ] Task appears in "To Do" column after creation
+- [ ] Task has a unique ID and timestamp
+
+---
+
+### US-002: Move Tasks Between Columns
+**As a** developer
+**I want** to drag tasks between columns
+**So that** I can update task status visually
+
+**Acceptance Criteria**:
+- [ ] User can click and drag a task card
+- [ ] Task can be dropped into any column
+- [ ] Task position updates immediately (no page refresh)
+- [ ] Changes persist in local storage
+- [ ] Dragging is smooth and responsive (< 100ms)
+
+---
+
+### US-003: Import GitHub Issues
+**As a** developer
+**I want** to import issues from my GitHub repo
+**So that** I don't have to manually recreate tasks
+
+**Acceptance Criteria**:
+- [ ] User can enter a GitHub repo URL
+- [ ] System validates the URL format
+- [ ] System fetches open issues via GitHub API
+- [ ] Issues appear as tasks in "To Do" column
+- [ ] Issue title and description are preserved
+```
+
+## Ready?
+
+Paste the feature catalog (or Must-Have features) below, and I'll generate the user stories.
+
+```
+
+## File: prompts/modules/security/threat_modeling.md
+```md
+# Threat Modeling Module
+
+## Purpose
+Generate a STRIDE threat model for the application.
+
+## Input Required
+- C4 diagrams
+- Data models
+- Feature catalog
+
+## Output Format
+
+```markdown
+## Threat Model (STRIDE)
+
+### Spoofing
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+| [Threat description] | [How attacker could exploit] | [How we prevent it] |
+
+### Tampering
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+...
+
+### Repudiation
+...
+
+### Information Disclosure
+...
+
+### Denial of Service
+...
+
+### Elevation of Privilege
+...
+
+## High-Priority Threats
+
+1. **[Threat Name]** (Severity: High)
+   - **Risk**: [Description]
+   - **Mitigation**: [Action plan]
+```
+
+## Instructions for LLM
+
+1. Identify 2-3 threats per STRIDE category
+2. Focus on realistic, high-impact threats
+3. Provide specific mitigations (not generic advice)
+4. Highlight top 3-5 high-priority threats
+
+## Example Output
+
+```markdown
+## Threat Model (STRIDE)
+
+### Spoofing
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+| User impersonation | Attacker steals session token | Use HTTP-only cookies, short session timeouts (15 min) |
+| GitHub OAuth bypass | Attacker forges OAuth callback | Validate state parameter, verify token with GitHub |
+
+### Tampering
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+| Task data modification | Attacker modifies task via API | Validate user owns task before update, use CSRF tokens |
+| SQL injection | Attacker injects SQL via task title | Use parameterized queries, input validation |
+
+### Repudiation
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+| Deny task deletion | User claims they didn't delete task | Log all delete operations with user ID and timestamp |
+
+### Information Disclosure
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+| Expose other users' tasks | Attacker guesses task IDs | Use UUIDs, enforce user ownership checks |
+| Leak GitHub tokens | Token exposed in logs or errors | Never log tokens, use environment variables |
+
+### Denial of Service
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+| API rate limiting bypass | Attacker floods API with requests | Implement rate limiting (100 req/min per IP) |
+| Database overload | Attacker creates millions of tasks | Limit tasks per user (1000 max) |
+
+### Elevation of Privilege
+| Threat | Attack Vector | Mitigation |
+|--------|---------------|------------|
+| Access admin endpoints | Attacker guesses admin routes | No admin routes in MVP, use role-based access later |
+
+## High-Priority Threats
+
+1. **SQL Injection** (Severity: High)
+   - **Risk**: Attacker could read/modify all database data
+   - **Mitigation**: Use ORM (Prisma) with parameterized queries, validate all inputs
+
+2. **Session Hijacking** (Severity: High)
+   - **Risk**: Attacker steals session token and impersonates user
+   - **Mitigation**: HTTP-only cookies, HTTPS only, 15-minute session timeout
+
+3. **Unauthorized Task Access** (Severity: Medium)
+   - **Risk**: User A could view/modify User B's tasks
+   - **Mitigation**: Enforce user ownership checks on all task operations
+```
+
+## Ready?
+
+Paste the C4 diagrams, data models, and feature catalog below, and I'll generate the threat model.
+
+```
+
+## File: prompts/modules/testing/test_pyramid.md
+```md
+# Test Pyramid Module
+
+## Purpose
+Generate a test strategy following the test pyramid pattern.
+
+## Input Required
+- Feature catalog
+- Data models
+- API endpoints (if available)
+
+## Output Format
+
+```markdown
+## Test Strategy (Test Pyramid)
+
+### Unit Tests (70% of tests)
+**What to Test**:
+- Business logic functions
+- Utility functions
+- Data validation
+
+**Example Test Cases**:
+- `validateEmail()`: Valid email → true, Invalid email → false
+- `calculateTaskPosition()`: Returns correct position based on column
+
+**Coverage Goal**: 80% of business logic
+
+---
+
+### Integration Tests (20% of tests)
+**What to Test**:
+- API endpoints
+- Database operations
+- External service integrations
+
+**Example Test Cases**:
+- `POST /api/tasks`: Creates task and returns 201
+- `GET /api/tasks`: Returns user's tasks only
+- GitHub API integration: Fetches issues successfully
+
+**Coverage Goal**: All API endpoints
+
+---
+
+### E2E Tests (10% of tests)
+**What to Test**:
+- Critical user flows
+- Multi-step interactions
+
+**Example Test Cases**:
+- User signup → login → create task → drag task → logout
+- Import GitHub issues → verify tasks appear → delete tasks
+
+**Coverage Goal**: Top 3-5 user flows
+```
+
+## Instructions for LLM
+
+1. Follow the 70/20/10 ratio (Unit/Integration/E2E)
+2. Provide 3-5 example test cases per level
+3. Focus on Must-Have features
+4. Keep coverage goals realistic
+
+## Example Output
+
+```markdown
+## Test Strategy (Test Pyramid)
+
+### Unit Tests (70% of tests)
+**What to Test**:
+- Task validation logic
+- Position calculation
+- Status transitions
+- Input sanitization
+
+**Example Test Cases**:
+- `validateTaskTitle()`: 
+  - Valid title (1-255 chars) → true
+  - Empty title → false
+  - Title > 255 chars → false
+- `calculateTaskPosition()`:
+  - First task in column → position = 0
+  - Task between two others → position = average
+- `sanitizeMarkdown()`:
+  - Removes script tags
+  - Preserves safe markdown
+
+**Coverage Goal**: 80% of business logic
+
+---
+
+### Integration Tests (20% of tests)
+**What to Test**:
+- Task CRUD API endpoints
+- User authentication
+- GitHub API integration
+- Database transactions
+
+**Example Test Cases**:
+- `POST /api/tasks`:
+  - Valid request → 201 Created
+  - Missing title → 400 Bad Request
+  - Unauthorized → 401 Unauthorized
+- `GET /api/tasks`:
+  - Returns only current user's tasks
+  - Filters by status if provided
+  - Returns empty array if no tasks
+- `POST /api/github/import`:
+  - Valid repo → imports issues
+  - Invalid repo → 404 Not Found
+  - Rate limit exceeded → 429 Too Many Requests
+
+**Coverage Goal**: All API endpoints
+
+---
+
+### E2E Tests (10% of tests)
+**What to Test**:
+- Complete user journeys
+- Cross-browser compatibility
+- Mobile responsiveness
+
+**Example Test Cases**:
+- **Happy Path**: 
+  - User signs up → verifies email → logs in → creates task → drags to "Done" → logs out
+- **GitHub Import Flow**:
+  - User connects GitHub → selects repo → imports issues → verifies tasks created
+- **Error Handling**:
+  - User loses connection mid-drag → task reverts → error message shown
+
+**Coverage Goal**: Top 5 user flows
+
+## Test Tools
+
+- **Unit**: Jest, Vitest
+- **Integration**: Supertest, Playwright
+- **E2E**: Playwright, Cypress
+```
+
+## Ready?
+
+Paste the feature catalog and data models below, and I'll generate the test strategy.
 
 ```
 
