@@ -27,7 +27,8 @@ const IGNORE_PATTERNS = [
     'node_modules', 'prompts/BLITZY', '.git', '.next', 'dist', 'build', 'coverage',
     'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', '.DS_Store', '.env',
     '*.png', '*.jpg', '*.jpeg', '*.gif', '*.ico', '*.svg', '*.woff', '*.woff2', '*.ttf', '*.eot', '*.mp4', '*.webm', '*.mp3', '*.wav',
-    'snapshot.txt', 'output.txt' // Ignore self-generated outputs
+    'snapshot.txt', 'output.txt', // Ignore self-generated outputs
+    'archive/prompt iteration'
 ];
 
 // Default extensions for "code" mode

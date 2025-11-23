@@ -1,10 +1,10 @@
 
 ================================================================================
 QUANTUM DIAMOND FORGE - PROTOCOL v2.0 RED TEAM SNAPSHOT
-Timestamp: 2025-11-23T01:45:17.970Z
+Timestamp: 2025-11-23T16:24:11.260Z
 Purpose: Independent analysis and review by external LLMs
 ================================================================================
-Total Files: 37
+Total Files: 46
 --------------------------------------------------------------------------------
 
 ## Project Structure
@@ -13,10 +13,12 @@ GUIDE.md
 INBOX/README.md
 README.md
 TASKS/done/001_harden-protocol-with-industry-benchmarks.md
-diagrams/conceptual_overview.mermaid
-diagrams/dependency_graph.mermaid
-diagrams/sequence_diagram.mermaid
-diagrams/workflow_map.mermaid
+diagrams/conceptual_overview(2.2).mermaid
+diagrams/dependency_graph(2.2).mermaid
+diagrams/high_level_flow(2.2).mermaid
+diagrams/sequence_diagram(2.2).mermaid
+docs/LOCKFILE_GUIDE.md
+docs/VALIDATOR_GUIDE.md
 guides/cicd/git_workflow.md
 guides/cicd/github_setup.md
 guides/cicd/how_to_commit.md
@@ -24,6 +26,8 @@ guides/cicd/overview.md
 guides/cicd/security_scanning.md
 prompts/00_MASTER_PROTOCOL.md
 prompts/00_MASTER_PROTOCOL_LEAN.md
+prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md
+prompts/00_interactive_kickoff.md
 prompts/01_requirements_analysis.md
 prompts/02_architecture_design.md
 prompts/03_security_compliance.md
@@ -46,6 +50,11 @@ prompts/modules/requirements/product_overview.md
 prompts/modules/requirements/user_stories.md
 prompts/modules/security/threat_modeling.md
 prompts/modules/testing/test_pyramid.md
+prompts/ultra-lean/00_overview.md
+prompts/ultra-lean/01_features.md
+prompts/ultra-lean/02_system.md
+prompts/ultra-lean/03_api.md
+prompts/ultra-lean/04_plan.md
 ```
 
 ## File: GUIDE.md
@@ -90,7 +99,31 @@ It addresses the common critiques of AI code (like those found in an [Antigravit
 
 ---
 
-## 3. The Workflow
+## 3. Choose Your Mode
+
+The Forge offers three tracks to match your project needs. Choose the one that fits your timeline and rigor requirements.
+
+### ⚡ Ultra-Lean Mode (Rapid Prototypes)
+**Best for**: Weekend projects, hackathons, quick experiments
+- **Time to Spec**: ~30 minutes
+- **Artifacts**: 5 docs
+- **Start here**: `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
+
+### 🏃 Lean Mode (Solo Devs & MVPs)
+**Best for**: Prototypes, MVPs, solo developers, small teams
+- **Time to Spec**: ~1 hour
+- **Artifacts**: ~10 docs
+- **Start here**: `prompts/00_MASTER_PROTOCOL_LEAN.md`
+
+### 🏢 Enterprise Mode (Production Apps)
+**Best for**: Production apps, teams, compliance-heavy projects
+- **Time to Spec**: ~4-6 hours
+- **Artifacts**: 25+ docs
+- **Start here**: `prompts/00_MASTER_PROTOCOL.md`
+
+---
+
+## 4. The Workflow
 
 ### Conceptual Overview
 This is how the entire system works from a developer's perspective.
@@ -100,55 +133,40 @@ flowchart TB
     Start([Developer with Idea]) --> Clone[Clone Quantum Diamond Forge]
     Clone --> IDE[Open in Antigravity IDE]
     
-    subgraph Orchestration ["🎯 Antigravity IDE (The Orchestrator)"]
-        IDE --> Guide[Read GUIDE.md]
-        Guide --> Loop{Walk Through Steps}
+    %% --- Orchestration ---
+    subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
+        IDE --> Kickoff[Run ./forge.sh start]
+        Kickoff --> Mode{Choose Mode<br/>(Ultra/Lean/Ent)}
+        Mode --> Loop{Specification Loop}
     end
     
-    subgraph WebTools ["🌐 External AI Tools (Precision Strikes)"]
-        WebAI[ChatGPT/Claude<br/>Product & Architecture]
-        Gemini[Google AI Studio<br/>Design & Scaffolding]
-        Specialized[App Builder Tools<br/>Specialized Outputs]
+    %% --- Web LLM ---
+    subgraph WebTools ["🧠 Web LLM (The Heavy Lifter)"]
+        Gemini["Web LLM e.g. Gemini 3 pro<br/>Generates Specs (per Mode)"]
     end
     
-    subgraph LocalExecution ["💻 Local Project (Growing Rigor)"]
-        Artifacts[Artifacts Folder<br/>PRODUCT_SPEC.md<br/>TECHNICAL_BLUEPRINT.md<br/>context.design.json]
-        Scripts[Scripts & Validation<br/>validate_drift.ts<br/>Security Baseline]
-        Code[Production Code<br/>With Tests & Docs]
-    end
-    
-    subgraph ExpertCouncil ["👥 Expert Council (Role-Based Context)"]
-        Architect[System Architect<br/>ADRs & Structure]
-        Backend[Backend Developer<br/>APIs & Services]
-        DevOps[DevOps Engineer<br/>CI/CD & Infra]
-        QA[QA Engineer<br/>Test Strategy]
-        Security[Security Auditor<br/>Threat Modeling]
+    %% --- Local Execution ---
+    subgraph LocalExecution ["💻 Local Project (The Build)"]
+        Artifacts["docs/ Folder<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Implementation"]
+        Agent["Antigravity Agent<br/>(The Builder)"]
+        Code[Production Code]
     end
     
     %% Main Flow
-    Loop -->|Step 1-2| WebAI
-    Loop -->|Step 3-4| Gemini
-    Loop -->|Optional| Specialized
+    Loop -->|1. Copy Prompts| Gemini
+    Gemini -->|2. Generate Docs<br/>(Detail Level = Mode)| Artifacts
     
-    WebAI --> Artifacts
-    Gemini --> Artifacts
-    Specialized --> Artifacts
+    Artifacts -->|3. Guide| Agent
+    Agent -->|4. Write| Code
     
-    Artifacts --> Scripts
-    Scripts --> Code
-    
-    %% Expert Invocations (Dotted = Optional)
-    Loop -.->|Deep Dive| ExpertCouncil
-    ExpertCouncil -.-> Code
-    
-    %% IDE Orchestration
-    IDE -->|Infinite Context| Code
-    IDE -->|Quality Gates| Scripts
-    IDE -->|Drift Prevention| Artifacts
+    %% Feedback Loops
+    Code -.->|Verify| Agent
+    Agent -.->|Refine| Artifacts
     
     %% Final Output
     Code --> Done([Production-Ready Application])
     
+    %% Styles
     style IDE fill:#dcfce7,stroke:#166534,stroke-width:3px
     style Done fill:#fef3c7,stroke:#d97706,stroke-width:3px
     style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
@@ -158,39 +176,27 @@ flowchart TB
 This diagram shows the artifact generation pipeline and how the Expert Council integrates.
 
 ```mermaid
----
-config:
-  layout: dagre
----
-flowchart LR
-    User([👤 You]) -->|1. Clone & Open| IDE[🎯 Antigravity IDE]
-    
-    IDE -->|2. Kickoff Prompt| Kickoff[🚀 Phase 0: Kickoff<br/>Gemini 1.5 Pro]
-    
-    Kickoff -->|Guides User| WebAI[🌐 Web AI<br/>ChatGPT/Claude/Grok/Gemini]
-    
-    WebAI -->|Generates| Artifacts[📦 Artifacts<br/>Specs, Blueprints,<br/>Design, Scripts]
-    
-    WebAI -.->|Deep Dive Prompts| Experts[👥 Expert Council<br/>Architect, DevOps,<br/>QA, Security]
-    
-    Artifacts -.->|Optional Deep Dive| Experts
-    
-    Artifacts --> IDE
-    Experts -.-> IDE
-    
-    IDE -->|3. Build & Validate| Code[💻 Production Code]
-    
-    Code -->|Drift Check| Validate{✓ Quality Gates}
-    
-    Validate -->|Pass| Done([✅ Production Ready])
-    Validate -->|Fail| IDE
-    
-    Done --> User
-    
-    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+flowchart TB
+    User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
+    Mode -- Lean --> Lean["🏃 10 Artifacts"]
+    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
+    Lean --> WebAI
+    Ent --> WebAI
+    WebAI -- "3. Generates" --> Docs["📂 docs/ + 🔐 locks/<br>1. Requirements<br>2. Architecture<br>3. Security<br>4. Testing<br>5. Plan"]
+    Docs -- "4. Validate" --> Gate{"✅ Validator"}
+    Gate -- Pass --> Agent["🤖 Antigravity Agent<br>(IDE)"]
+    Gate -- Fail --> Docs
+    Agent -- "5. Builds" --> Code["💻 Production Code"]
+    Code -- Verify --> Tests{"✓ Tests"}
+    Tests -- Pass --> Done["✅ Production Ready"]
+    Tests -- Fail --> Agent
+
+    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Gate fill:#fcd34d,stroke:#d97706,stroke-width:2px
+    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
     style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
-    style IDE fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style Kickoff fill:#e0e7ff,stroke:#3730a3,stroke-width:2px
 ```
 
 ### Detailed Sequence
@@ -199,51 +205,72 @@ This diagram shows the exact step-by-step interaction between you, the CLI, and 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User
-    participant CLI as Forge CLI
-    participant WebAI as Web AI (ChatGPT/Gemini)
-    participant Repo as Local Repo (Artifacts)
-    participant Agent as Local IDE Agent
+    actor User as 👤 You (Orchestrator)
+    participant Agent as 🤖 Antigravity IDE<BR> Agent
+    participant CLI as 🛠️ Forge CLI
+    participant WebAI as 🧠 Web LLM<BR>(Gemini/Grok/<BR>ChatGPT/Claude)
+    participant Repo as 📂 Local Repo<BR>(docs/)
 
-    Note over User, Repo: Phase 0: Initialization
-    User->>CLI: ./forge.sh init
-    CLI-->>Repo: Creates Project Structure
-    User->>CLI: ./forge.sh prompt 0
-    User->>WebAI: Paste Kickoff Prompt
-    WebAI-->>User: Strategic Roadmap
-
-    Note over User, WebAI: Phase 1: Product Spec
-    User->>CLI: ./forge.sh prompt 1
-    User->>WebAI: Paste Prompt 1 + Idea
-    WebAI-->>User: Generates PRODUCT_SPEC.md
-    User->>Repo: Save PRODUCT_SPEC.md
-
-    Note over User, WebAI: Phase 2: Tech Blueprint
-    User->>CLI: ./forge.sh prompt 2
-    User->>WebAI: Paste Prompt 2 + PRODUCT_SPEC
-    WebAI-->>User: Generates TECHNICAL_BLUEPRINT.md
-    User->>Repo: Save TECHNICAL_BLUEPRINT.md
-
-    Note over User, WebAI: Phase 3: Design System
-    User->>CLI: ./forge.sh prompt 3
-    User->>WebAI: Paste Prompt 3 + Artifacts
-    WebAI-->>User: Generates context.design.json
-    User->>Repo: Save context.design.json
-
-    Note over User, WebAI: Phase 4: Scaffolding
-    User->>CLI: ./forge.sh prompt 4
-    User->>WebAI: Paste Prompt 4 + Artifacts
-    WebAI-->>User: Generates setup.sh
-    User->>Repo: Run setup.sh (Generates Security/Drift)
-
-    Note over User, Agent: Phase 5: Execution (Antigravity)
-    User->>CLI: ./forge.sh prompt 5
-    User->>Agent: Paste System Prompt
-    loop Antigravity Loop
-        User->>Agent: Assign Task (from Backlog)
-        Agent->>Repo: Read Artifacts (Blueprint/Design)
+    Note over User, Repo: Phase 1: The Specification Loop
+    
+    Note over User, Agent: Phase 0: Initialization
+    
+    User->>Agent: "I have an idea..."
+    Agent-->>User: "Let's start. Run ./forge.sh start"
+    
+    User->>CLI: ./forge.sh start (Kickoff)
+    CLI-->>User: Interactive Interview -> Mode Selection<br/>(Ultra-Lean / Lean / Enterprise)
+    
+    Note over User, Repo: Step 1: Requirements
+    User->>CLI: ./forge.sh prompt 1 (Requirements)
+    User->>WebAI: Paste Prompt + Idea
+    WebAI-->>User: Generates Feature Catalog
+    User->>Repo: Save docs/01_requirements_analysis.md
+    User->>CLI: ./forge.sh lock requirements
+    CLI-->>Repo: Generates requirements.lock.json
+    
+    Note over User, Repo: Step 2: Architecture
+    User->>CLI: ./forge.sh prompt 2 (Architecture)
+    User->>WebAI: Paste Prompt + Requirements Lock
+    WebAI-->>User: Generates C4 Diagrams
+    User->>Repo: Save docs/02_architecture_design.md
+    User->>CLI: ./forge.sh lock architecture
+    CLI-->>Repo: Generates architecture.lock.json
+    
+    Note over User, Repo: Step 3: Security
+    User->>CLI: ./forge.sh prompt 3 (Security)
+    User->>WebAI: Paste Prompt + Architecture Lock
+    WebAI-->>User: Generates Threat Model
+    User->>Repo: Save docs/03_security_compliance.md
+    User->>CLI: ./forge.sh lock security
+    CLI-->>Repo: Generates security.lock.json
+    
+    Note over User, Repo: Step 4: Testing
+    User->>CLI: ./forge.sh prompt 4 (Testing)
+    User->>WebAI: Paste Prompt + Context
+    WebAI-->>User: Generates Test Strategy
+    User->>Repo: Save docs/04_testing_strategy.md
+    User->>CLI: ./forge.sh lock testing
+    CLI-->>Repo: Generates testing.lock.json
+    
+    Note over User, Repo: Step 5: Plan
+    User->>CLI: ./forge.sh prompt 5 (Plan)
+    User->>WebAI: Paste Prompt + Context
+    WebAI-->>User: Generates Implementation Plan
+    User->>Repo: Save docs/05_implementation_plan.md
+    User->>CLI: ./forge.sh lock implementation
+    CLI-->>Repo: Generates implementation.lock.json
+    
+    Note over User, Agent: Phase 2: The Build Loop
+    
+    User->>CLI: ./forge.sh validate
+    CLI-->>User: ✅ All Checks Passed
+    
+    User->>Agent: Point to docs/locks/implementation.lock.json
+    loop Antigravity Build Cycle
+        Agent->>Repo: Read Lockfiles
         Agent->>Repo: Write Code
-        Agent->>Repo: Run validate:drift
+        Agent->>Repo: Run Tests
         Repo-->>Agent: Pass/Fail
     end
 ```
@@ -258,27 +285,27 @@ sequenceDiagram
 *   **Action:** Run `./forge.sh start` -> Paste to Gemini 1.5 Pro.
     *   *Note:* This launches the **Interactive Antigravity Guide**, which will interview you about your idea and create a tailored plan.
 
-### Step 1: Product Specification (The "What")
-**[👉 View Guide](guides/01_product_spec.md)**
+### Step 1: Requirements Analysis (The "What")
+**[👉 View Guide](guides/01_requirements_analysis.md)**
 *   **Goal:** Define the Narrative, Audience, and Core Features.
-*   **Action:** Run `./forge.sh prompt 1` -> Paste to ChatGPT -> Save `PRODUCT_SPEC.md`.
+*   **Action:** Run `./forge.sh prompt 1` -> Paste to ChatGPT -> Save `docs/01_requirements_analysis.md`.
 
-### Step 2: Technical Blueprint (The "How")
-**[👉 View Guide](guides/02_tech_blueprint.md)**
+### Step 2: Architecture Design (The "How")
+**[👉 View Guide](guides/02_architecture_design.md)**
 *   **Goal:** Define the Architecture, Stack, and Security.
-*   **Action:** Run `./forge.sh prompt 2` -> Paste to ChatGPT (with Spec) -> Save `TECHNICAL_BLUEPRINT.md`.
+*   **Action:** Run `./forge.sh prompt 2` -> Paste to ChatGPT (with Requirements) -> Save `docs/02_architecture_design.md`.
 
-### Step 3: Design System (The "Look")
-*   **Goal:** Define the Visual Language.
-*   **Action:** Run `./forge.sh prompt 3` -> Paste to Gemini (with Spec) -> Save `context.design.json`.
+### Step 3: Security Compliance (The "Shield")
+*   **Goal:** Define the Security Model and Compliance Requirements.
+*   **Action:** Run `./forge.sh prompt 3` -> Paste to ChatGPT (with Architecture) -> Save `docs/03_security_compliance.md`.
 
-### Step 4: Scaffolding (The "Build")
-*   **Goal:** Create the secure habitat.
-*   **Action:** Run `./forge.sh prompt 4` -> Paste to Gemini (with Blueprint + Design) -> Save & Run `setup.sh`.
+### Step 4: Testing Strategy (The "Proof")
+*   **Goal:** Define the Test Plan and Quality Gates.
+*   **Action:** Run `./forge.sh prompt 4` -> Paste to ChatGPT (with Security) -> Save `docs/04_testing_strategy.md`.
 
-### Step 5: Execution (The "Loop")
-*   **Goal:** Build features.
-*   **Action:** Run `./forge.sh prompt 5` -> Paste to IDE Agent -> Drag in Tasks.
+### Step 5: Implementation Plan (The "Build")
+*   **Goal:** Create the step-by-step build plan.
+*   **Action:** Run `./forge.sh prompt 5` -> Paste to IDE Agent -> Save `docs/05_implementation_plan.md`.
 
 ---
 
@@ -405,14 +432,22 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 
 ## 🛠️ Features
 
-*   **Protocol-Driven Workflow:** A 5-step granular process (Spec → Blueprint → Design → Scaffold → Code).
+*   **Protocol-Driven Workflow:** A 5-step granular process (Requirements → Architecture → Security → Testing → Implementation).
 *   **Expert Council:** Specialized AI personas (Architect, DevOps, Security) for deep-dive tasks.
 *   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
 *   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
 
 ## ⚡ Quick Start: Protocol v2.1
 
-The Forge offers **two tracks** to match your project needs:
+The Forge offers **three tracks** to match your project needs:
+
+### ⚡ Ultra-Lean Mode (Rapid Prototypes)
+**Best for**: Weekend projects, hackathons, quick experiments
+
+- **Time to Spec**: ~30 minutes
+- **Artifacts**: 5 docs
+- **Focus**: Ship it this weekend
+- **Start here**: `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
 
 ### 🏃 Lean Mode (Solo Devs & MVPs)
 **Best for**: Prototypes, MVPs, solo developers, small teams
@@ -432,23 +467,29 @@ The Forge offers **two tracks** to match your project needs:
 
 ---
 
-### The Workflow (Both Modes)
+### The Workflow (All Modes)
 ```mermaid
-graph TD
-    User["👤 You (Orchestrator)"] -->|1. Idea| WebLLM["🧠 Web LLM (Gemini/Claude)"]
-    WebLLM -->|2. Generates| Specs["📄 Rigorous Specs (docs/)"]
-    Specs -->|3. Guides| Agent["🤖 Antigravity Agent (IDE)"]
-    Agent -->|4. Builds| Code["💻 Production Code"]
-    
-    subgraph "Phase 1: Specification Loop"
-    WebLLM
-    Specs
-    end
-    
-    subgraph "Phase 2: Build Loop"
-    Agent
-    Code
-    end
+flowchart TB
+    User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
+    Mode -- Lean --> Lean["🏃 10 Artifacts"]
+    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
+    Lean --> WebAI
+    Ent --> WebAI
+    WebAI -- "3. Generates" --> Docs["📂 docs/ + 🔐 locks/<br>1. Requirements<br>2. Architecture<br>3. Security<br>4. Testing<br>5. Plan"]
+    Docs -- "4. Validate" --> Gate{"✅ Validator"}
+    Gate -- Pass --> Agent["🤖 Antigravity Agent<br>(IDE)"]
+    Gate -- Fail --> Docs
+    Agent -- "5. Builds" --> Code["💻 Production Code"]
+    Code -- Verify --> Tests{"✓ Tests"}
+    Tests -- Pass --> Done["✅ Production Ready"]
+    Tests -- Fail --> Agent
+
+    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Gate fill:#fcd34d,stroke:#d97706,stroke-width:2px
+    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
 ```
 
 ### Step-by-Step
@@ -459,19 +500,20 @@ graph TD
     cd quantum-diamond-forge
     ```
 
-2.  **Start the Master Protocol:**
-    Open `prompts/00_MASTER_PROTOCOL.md`. This is your command center.
+2.  **Start the Interactive Kickoff:**
+    ```bash
+    ./forge.sh start
+    ```
+    This will interview you and guide you to the right mode (Ultra-Lean, Lean, or Enterprise).
 
 3.  **Phase 1: The Specification Loop**
-    Follow the guide to generate your "Gold Standard" documentation suite:
-    *   `01_REQUIREMENTS.md` (Feature Catalog)
-    *   `02_ARCHITECTURE.md` (C4 Diagrams)
-    *   `03_SECURITY.md` (Threat Models)
-    *   `04_TESTING.md` (Test Strategy)
-    *   `05_IMPLEMENTATION.md` (Task Plan)
+    Follow the prompts to generate your documentation suite.
+    *   **Lock It Down**: Run `./forge.sh lock all` to prevent drift.
+    *   **Validate**: Run `./forge.sh validate` to check consistency.
 
 4.  **Phase 2: The Build Loop**
-    Point your IDE Agent to the generated `task.md` and watch it build!
+    *   **Build**: Run `./forge.sh build` to instruct the Agent.
+    *   **Test**: Run `./forge.sh test` to verify the build.
 
 ## 📚 Documentation
 
@@ -543,30 +585,34 @@ Upgrade QDF to **Protocol v2.0** by implementing a rigorous 5-step prompting str
 
 ```
 
-## File: diagrams/conceptual_overview.mermaid
+## File: diagrams/conceptual_overview(2.2).mermaid
 ```mermaid
 flowchart TB
     Start([Developer with Idea]) --> Clone[Clone Quantum Diamond Forge]
     Clone --> IDE[Open in Antigravity IDE]
     
+    %% --- Orchestration ---
     subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
-        IDE --> Master[Read 00_MASTER_PROTOCOL.md]
-        Master --> Loop{Specification Loop}
+        IDE --> Kickoff[Run ./forge.sh start]
+        Kickoff --> Mode{Choose Mode<br/>(Ultra/Lean/Ent)}
+        Mode --> Loop{Specification Loop}
     end
     
+    %% --- Web LLM ---
     subgraph WebTools ["🧠 Web LLM (The Heavy Lifter)"]
-        Gemini[Gemini 1.5 Pro / Claude 3.5<br/>Generates Enterprise Specs]
+        Gemini["Web LLM e.g. Gemini 3 pro<br/>Generates Specs (per Mode)"]
     end
     
+    %% --- Local Execution ---
     subgraph LocalExecution ["💻 Local Project (The Build)"]
-        Artifacts[docs/ Folder<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Implementation]
-        Agent[Antigravity Agent<br/>(The Builder)]
+        Artifacts["docs/ Folder<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Implementation"]
+        Agent["Antigravity Agent<br/>(The Builder)"]
         Code[Production Code]
     end
     
     %% Main Flow
     Loop -->|1. Copy Prompts| Gemini
-    Gemini -->|2. Generate Docs| Artifacts
+    Gemini -->|2. Generate Docs<br/>(Detail Level = Mode)| Artifacts
     
     Artifacts -->|3. Guide| Agent
     Agent -->|4. Write| Code
@@ -578,75 +624,122 @@ flowchart TB
     %% Final Output
     Code --> Done([Production-Ready Application])
     
+    %% Styles
     style IDE fill:#dcfce7,stroke:#166534,stroke-width:3px
     style Done fill:#fef3c7,stroke:#d97706,stroke-width:3px
     style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
 
 ```
 
-## File: diagrams/dependency_graph.mermaid
+## File: diagrams/dependency_graph(2.2).mermaid
 ```mermaid
-graph TD
-    Req[01_REQUIREMENTS.md<br/>(Feature Catalog)] --> Arch[02_ARCHITECTURE.md<br/>(C4 & Data Models)]
-    
-    Req --> Sec[03_SECURITY.md<br/>(Threat Models)]
-    Arch --> Sec
-    
-    Req --> Test[04_TESTING.md<br/>(Test Strategy)]
-    Arch --> Test
-    
-    Req --> Plan[05_IMPLEMENTATION.md<br/>(Task Breakdown)]
-    Arch --> Plan
+---
+config:
+  layout: elk
+---
+flowchart TB
+    Req["01_requirements_analysis.md<br>(Feature Catalog)"] --> Arch["02_architecture_design.md<br>(C4 &amp; Data Models)"] & Sec["03_security_compliance.md<br>(Threat Models)"] & Test["04_testing_strategy.md<br>(Test Strategy)"] & Plan["05_implementation_plan.md<br>(Task Breakdown)"]
+    Arch --> Sec & Test & Plan
     Sec --> Plan
     Test --> Plan
-    
+
     style Req fill:#dbeafe,stroke:#1e40af,stroke-width:2px
     style Plan fill:#dcfce7,stroke:#166534,stroke-width:2px
-
 ```
 
-## File: diagrams/sequence_diagram.mermaid
+## File: diagrams/high_level_flow(2.2).mermaid
+```mermaid
+flowchart TB
+    User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
+    Mode -- Lean --> Lean["🏃 10 Artifacts"]
+    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
+    Lean --> WebAI
+    Ent --> WebAI
+    WebAI -- "3. Generates" --> Docs["📂 docs/ + 🔐 locks/<br>1. Requirements<br>2. Architecture<br>3. Security<br>4. Testing<br>5. Plan"]
+    Docs -- "4. Validate" --> Gate{"✅ Validator"}
+    Gate -- Pass --> Agent["🤖 Antigravity Agent<br>(IDE)"]
+    Gate -- Fail --> Docs
+    Agent -- "5. Builds" --> Code["💻 Production Code"]
+    Code -- Verify --> Tests{"✓ Tests"}
+    Tests -- Pass --> Done["✅ Production Ready"]
+    Tests -- Fail --> Agent
+
+    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Gate fill:#fcd34d,stroke:#d97706,stroke-width:2px
+    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
+```
+
+## File: diagrams/sequence_diagram(2.2).mermaid
 ```mermaid
 sequenceDiagram
     autonumber
     actor User as 👤 You (Orchestrator)
-    participant Master as 📜 Master Protocol
-    participant WebAI as 🧠 Web LLM (Gemini/Claude)
-    participant Repo as 📂 Local Repo (docs/)
-    participant Agent as 🤖 Antigravity Agent
+    participant Agent as 🤖 Antigravity IDE<BR> Agent
+    participant CLI as 🛠️ Forge CLI
+    participant WebAI as 🧠 Web LLM<BR>(Gemini/Grok/<BR>ChatGPT/Claude)
+    participant Repo as 📂 Local Repo<BR>(docs/)
 
     Note over User, Repo: Phase 1: The Specification Loop
     
-    User->>Master: Read Step 1 (Requirements)
-    User->>WebAI: Paste Prompt 01 + Idea
+    Note over User, Agent: Phase 0: Initialization
+    
+    User->>Agent: "I have an idea..."
+    Agent-->>User: "Let's start. Run ./forge.sh start"
+    
+    User->>CLI: ./forge.sh start (Kickoff)
+    CLI-->>User: Interactive Interview -> Mode Selection<br/>(Ultra-Lean / Lean / Enterprise)
+    
+    Note over User, Repo: Step 1: Requirements
+    User->>CLI: ./forge.sh prompt 1 (Requirements)
+    User->>WebAI: Paste Prompt + Idea
     WebAI-->>User: Generates Feature Catalog
     User->>Repo: Save docs/01_REQUIREMENTS.md
+    User->>CLI: ./forge.sh lock requirements
+    CLI-->>Repo: Generates requirements.lock.json
     
-    User->>Master: Read Step 2 (Architecture)
-    User->>WebAI: Paste Prompt 02 + Requirements
+    Note over User, Repo: Step 2: Architecture
+    User->>CLI: ./forge.sh prompt 2 (Architecture)
+    User->>WebAI: Paste Prompt + Requirements Lock
     WebAI-->>User: Generates C4 Diagrams
     User->>Repo: Save docs/02_ARCHITECTURE.md
+    User->>CLI: ./forge.sh lock architecture
+    CLI-->>Repo: Generates architecture.lock.json
     
-    User->>Master: Read Step 3 (Security)
-    User->>WebAI: Paste Prompt 03 + Context
+    Note over User, Repo: Step 3: Security
+    User->>CLI: ./forge.sh prompt 3 (Security)
+    User->>WebAI: Paste Prompt + Architecture Lock
     WebAI-->>User: Generates Threat Model
     User->>Repo: Save docs/03_SECURITY.md
+    User->>CLI: ./forge.sh lock security
+    CLI-->>Repo: Generates security.lock.json
     
-    User->>Master: Read Step 4 (Testing)
-    User->>WebAI: Paste Prompt 04 + Context
+    Note over User, Repo: Step 4: Testing
+    User->>CLI: ./forge.sh prompt 4 (Testing)
+    User->>WebAI: Paste Prompt + Context
     WebAI-->>User: Generates Test Strategy
     User->>Repo: Save docs/04_TESTING.md
+    User->>CLI: ./forge.sh lock testing
+    CLI-->>Repo: Generates testing.lock.json
     
-    User->>Master: Read Step 5 (Plan)
-    User->>WebAI: Paste Prompt 05 + Context
+    Note over User, Repo: Step 5: Plan
+    User->>CLI: ./forge.sh prompt 5 (Plan)
+    User->>WebAI: Paste Prompt + Context
     WebAI-->>User: Generates Implementation Plan
     User->>Repo: Save docs/05_IMPLEMENTATION.md
+    User->>CLI: ./forge.sh lock implementation
+    CLI-->>Repo: Generates implementation.lock.json
     
     Note over User, Agent: Phase 2: The Build Loop
     
-    User->>Agent: Point to docs/05_IMPLEMENTATION.md
+    User->>CLI: ./forge.sh validate
+    CLI-->>User: ✅ All Checks Passed
+    
+    User->>Agent: Point to docs/locks/implementation.lock.json
     loop Antigravity Build Cycle
-        Agent->>Repo: Read Specs
+        Agent->>Repo: Read Lockfiles
         Agent->>Repo: Write Code
         Agent->>Repo: Run Tests
         Repo-->>Agent: Pass/Fail
@@ -654,32 +747,232 @@ sequenceDiagram
 
 ```
 
-## File: diagrams/workflow_map.mermaid
-```mermaid
----
-config:
-  layout: dagre
----
-flowchart LR
-    User([👤 You (Orchestrator)]) -->|1. Open| Master[📜 Master Protocol]
-    
-    Master -->|2. Copy Prompts| WebAI[🧠 Web LLM<br/>Gemini 1.5 Pro / Claude 3.5]
-    
-    WebAI -->|3. Generates| Docs[📂 docs/<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Plan]
-    
-    Docs -->|4. Guides| Agent[🤖 Antigravity Agent<br/>(IDE)]
-    
-    Agent -->|5. Builds| Code[💻 Production Code]
-    
-    Code -->|Verify| Validate{✓ Quality Gates}
-    
-    Validate -->|Pass| Done([✅ Production Ready])
-    Validate -->|Fail| Agent
-    
-    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
-    style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
-    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style Master fill:#e0e7ff,stroke:#3730a3,stroke-width:2px
+## File: docs/LOCKFILE_GUIDE.md
+```md
+# Lockfile System Guide
+
+## Overview
+Lockfiles prevent spec drift by creating versioned, hashed snapshots of your artifacts. The IDE agent reads lockfiles instead of raw markdown, ensuring consistency.
+
+## Why Lockfiles?
+
+**Problem**: As projects evolve, artifacts diverge:
+- Requirements change, but architecture doesn't update
+- API spec contradicts data models
+- Security model references non-existent endpoints
+
+**Solution**: Lockfiles act as a "single source of truth" that:
+- Track changes via hashing
+- Enforce dependencies between artifacts
+- Enable validation before building
+
+## Lockfile Structure
+
+```json
+{
+  "version": "1.0.0",
+  "generated": "2025-11-22T19:00:00Z",
+  "source": "docs/01_REQUIREMENTS.md",
+  "hash": "sha256:abc123...",
+  "dependencies": [],
+  "content": {
+    "features": ["Feature 1", "Feature 2"],
+    "userStories": ["US-001: ...", "US-002: ..."],
+    "nfrs": {}
+  }
+}
+```
+
+## Usage
+
+### Generate Lockfiles
+
+```bash
+# Generate all lockfiles
+node scripts/generate_lockfile.js all
+
+# Generate single lockfile
+node scripts/generate_lockfile.js requirements
+node scripts/generate_lockfile.js architecture
+```
+
+### Validate Lockfiles
+
+```bash
+# Validate all lockfiles
+node scripts/validate_lockfiles.js
+```
+
+**Checks performed**:
+- ✅ Hash integrity (detect if source changed)
+- ✅ API ↔ Data Model consistency
+- ✅ Requirements ↔ Tests coverage
+- ✅ Security ↔ Endpoints mapping (future)
+
+### Workflow Integration
+
+**After generating specs**:
+1. Generate lockfiles: `node scripts/generate_lockfile.js all`
+2. Validate: `node scripts/validate_lockfiles.js`
+3. If validation passes, proceed to IDE agent
+4. IDE agent reads lockfiles from `docs/locks/`
+
+**When specs change**:
+1. Update markdown artifact
+2. Regenerate lockfile: `node scripts/generate_lockfile.js <artifact>`
+3. Validate again
+4. Commit both markdown and lockfile
+
+## Lockfile Locations
+
+```
+docs/locks/
+├── requirements.lock.json
+├── architecture.lock.json
+├── security.lock.json
+├── testing.lock.json
+└── implementation.lock.json
+```
+
+## Dependencies
+
+Lockfiles track dependencies:
+- `requirements` → no dependencies
+- `architecture` → depends on `requirements`
+- `security` → depends on `requirements`, `architecture`
+- `testing` → depends on `requirements`, `architecture`
+- `implementation` → depends on all above
+
+## Example Validation Output
+
+```
+🔍 Quantum Diamond Forge - Lockfile Validator
+
+📋 Checking hash integrity...
+✅ requirements: OK
+✅ architecture: OK
+❌ security: Hash mismatch - source file changed
+
+📋 Checking API ↔ Data Model consistency...
+⚠️  Warnings:
+   - API endpoint POST /api/users may not have corresponding data model
+   - Data model 'Task' is defined but not used in any API
+
+📋 Checking Requirements ↔ Tests coverage...
+✅ Requirements ↔ Tests: OK
+
+📊 Summary:
+   Errors: 1
+   Warnings: 2
+
+❌ Validation failed. Fix errors before proceeding.
+```
+
+## Best Practices
+
+1. **Generate lockfiles after every spec change**
+2. **Commit lockfiles with markdown** (both should be in sync)
+3. **Run validation before starting implementation**
+4. **Fix errors immediately** (don't ignore validation failures)
+5. **Review warnings** (they may indicate real issues)
+
+## Future Enhancements
+
+- Auto-generate lockfiles on save (watch mode)
+- Git pre-commit hook integration
+- Diff tool to compare lockfile versions
+- Auto-fix capabilities for common issues
+
+```
+
+## File: docs/VALIDATOR_GUIDE.md
+```md
+# Spec Validator CLI Guide
+
+## Overview
+The **Spec Validator** (`./forge.sh validate`) is your automated quality assurance tool for the specification phase. It ensures that your artifacts (Requirements, Architecture, API, etc.) remain consistent, complete, and drift-free.
+
+## Why Use It?
+As your project grows, keeping 5+ markdown files in sync is hard. The validator automates this by checking:
+- **Consistency**: Does the API match the Data Model?
+- **Completeness**: Do all Requirements have Tests?
+- **Integrity**: Have the source files changed without updating the lockfiles?
+
+## Usage
+
+### Basic Validation
+Run this command to check all artifacts:
+```bash
+./forge.sh validate
+```
+
+**Example Output:**
+```
+🔍 Quantum Diamond Forge - Spec Validation Report
+
+✅ Hash Integrity Check
+⚠️  API ↔ Data Model Consistency
+   🔸 Endpoint POST /api/users references undefined model 'UserProfile'
+✅ Requirements ↔ Tests Coverage
+
+📊 Summary:
+   Errors: 0
+   Warnings: 1
+```
+
+### Auto-Fixing Issues
+The validator can automatically fix common issues, such as missing lockfiles.
+```bash
+./forge.sh validate --fix
+```
+
+### JSON Output (CI/CD)
+Generate a machine-readable report for CI pipelines.
+```bash
+./forge.sh validate --report json
+```
+
+## Validation Rules
+
+### 1. Hash Integrity Check
+**What it checks**: Ensures that the markdown source files (`docs/*.md`) haven't changed since the last lockfile generation.
+**Why**: Prevents "Spec Drift" where the IDE agent works off outdated specs.
+**Fix**: Run `./forge.sh lock all` or use `./forge.sh validate --fix`.
+
+### 2. API ↔ Data Model Consistency
+**What it checks**:
+- **Missing Models**: API endpoints referencing data models that don't exist.
+- **Unused Models**: Data models defined but never used in any API.
+**Why**: Ensures your architecture is coherent.
+
+### 3. Requirements ↔ Tests Coverage
+**What it checks**: Ensures that if you have defined features in `01_REQUIREMENTS.md`, you also have a testing strategy in `04_TESTING.md`.
+**Why**: Prevents "Untested Features".
+
+## Integration with Workflow
+
+1. **Edit Specs**: You update `docs/01_REQUIREMENTS.md`.
+2. **Validate**: Run `./forge.sh validate`.
+   - It will fail the **Hash Integrity Check**.
+3. **Fix**: Run `./forge.sh validate --fix` (or `./forge.sh lock requirements`).
+   - This updates the lockfile.
+4. **Re-Validate**: Run `./forge.sh validate`.
+   - Now it checks for logical inconsistencies.
+5. **Commit**: `git commit -am "Update specs"`
+
+## Troubleshooting
+
+**"Hash mismatch for..."**
+- You edited a markdown file but didn't update the lockfile.
+- **Fix**: Run `./forge.sh lock <artifact>` or `./forge.sh validate --fix`.
+
+**"Endpoint ... references undefined model..."**
+- Your API definition uses a model name that isn't in your Data Models section.
+- **Fix**: Add the model to `docs/02_ARCHITECTURE.md` or correct the API definition.
+
+**"Found X features but no testing lockfile..."**
+- You defined requirements but haven't created `docs/04_TESTING.md` yet.
+- **Fix**: Create the testing doc or run the Testing Strategy prompt.
 
 ```
 
@@ -2118,7 +2411,7 @@ gh auth status
 gh api repos/OWNER/REPO/dependabot/alerts
 
 # Pretty formatted output
-gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts \
+gh api repos/richfrem/ingPoC/dependabot/alerts \
   --jq '.[] | {
     number: .number,
     severity: .security_advisory.severity,
@@ -2525,8 +2818,31 @@ This shift-left approach catches vulnerabilities early, reduces security debt, a
 
 ## File: prompts/00_MASTER_PROTOCOL.md
 ```md
-# Quantum Diamond Forge: Master Protocol (v2.0)
+# Quantum Diamond Forge - Master Protocol (Enterprise Mode)
 
+## Before You Start: Choose Your Mode
+
+**You are viewing: Enterprise Mode** (Full rigor, 25+ artifacts, 4-6 hours)
+
+**Other modes available:**
+- **Ultra-Lean Mode**: 5 artifacts, ~30 min → `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
+- **Lean Mode**: ~10 artifacts, ~1 hour → `prompts/00_MASTER_PROTOCOL_LEAN.md`
+
+**Use Enterprise Mode if:**
+- Building production applications
+- Working with a team
+- Compliance/regulatory requirements
+- Need full documentation
+
+**Consider a lighter mode if:**
+- Solo developer or small team
+- Prototype or MVP
+- Time-constrained project
+- Already know the domain well
+
+---
+
+## Philosophy
 **Objective:**
 Generate "Enterprise Benchmark" quality software specifications and code by orchestrating a "Human-in-the-Loop" workflow with high-end LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet, or Grok).
 
@@ -2602,7 +2918,27 @@ This "Human-in-the-Loop" workflow ensures enterprise-grade quality without losin
 ```md
 # Quantum Diamond Forge - Master Protocol (Lean Mode)
 
-**Version**: 2.1 Lean  
+## Before You Start: Choose Your Mode
+
+**You are viewing: Lean Mode** (~10 artifacts, ~1 hour)
+
+**Other modes available:**
+- **Ultra-Lean Mode**: 5 artifacts, ~30 min → `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
+- **Enterprise Mode**: 25+ artifacts, 4-6 hours → `prompts/00_MASTER_PROTOCOL.md`
+
+**Use Lean Mode if:**
+- Building an MVP
+- Solo developer or small team
+- Need some rigor but not full enterprise
+- Time budget: ~1 hour for specs
+
+**Consider a different mode if:**
+- Need faster (30 min) → Ultra-Lean
+- Need full compliance → Enterprise
+
+---
+
+## Philosophyion**: 2.1 Lean  
 **Audience**: Solo developers, MVPs, prototypes, small teams  
 **Philosophy**: Speed + Essential Rigor
 
@@ -2784,6 +3120,223 @@ Skip Steps 3-4 entirely. Just do:
 
 ```
 
+## File: prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md
+```md
+# Quantum Diamond Forge - Ultra-Lean Mode
+
+## Before You Start: Choose Your Mode
+
+**You are viewing: Ultra-Lean Mode** (5 artifacts, ~30 min)
+
+**Other modes available:**
+- **Lean Mode**: ~10 artifacts, ~1 hour → `prompts/00_MASTER_PROTOCOL_LEAN.md`
+- **Enterprise Mode**: 25+ artifacts, 4-6 hours → `prompts/00_MASTER_PROTOCOL.md`
+
+**Use Ultra-Lean Mode if:**
+- Weekend project or hackathon
+- Rapid prototype
+- Time budget: ~30 minutes
+- You know the domain well
+
+**Consider a different mode if:**
+- Need more structure → Lean
+- Need full rigor → Enterprise
+
+---
+
+## Philosophy
+**"Ship it this weekend."**
+
+Ultra-Lean mode is for rapid prototypes, hackathons, and quick experiments where speed matters more than completeness. You'll generate just enough spec to start building—everything else gets inferred by the IDE agent.
+
+## When to Use Ultra-Lean
+
+✅ **Use Ultra-Lean when:**
+- Weekend projects or hackathons
+- Quick proof-of-concepts
+- Testing an idea before committing
+- Solo developer, tight deadline
+- You know the domain well
+
+❌ **Don't use Ultra-Lean when:**
+- Production applications
+- Team projects (use Lean or Enterprise)
+- Compliance requirements
+- Complex integrations
+- You need detailed documentation
+
+## The Ultra-Lean Workflow
+
+**Total Time**: ~30 minutes  
+**Total Artifacts**: 5
+
+### Step 1: Product Overview (5 min)
+**Prompt**: `prompts/ultra-lean/00_overview.md`  
+**Output**: `docs/00_OVERVIEW.md`
+
+Defines: Name, tagline, problem, solution, target users
+
+### Step 2: Core Features (5 min)
+**Prompt**: `prompts/ultra-lean/01_features.md`  
+**Output**: `docs/01_FEATURES.md`
+
+Defines: 3-5 Must-Have features with minimal acceptance criteria
+
+### Step 3: System Diagram (5 min)
+**Prompt**: `prompts/ultra-lean/02_system.md`  
+**Output**: `docs/02_SYSTEM.md`
+
+Defines: C4 Level 1 diagram + suggested tech stack
+
+### Step 4: API Sketch (10 min)
+**Prompt**: `prompts/ultra-lean/03_api.md`  
+**Output**: `docs/03_API.md`
+
+Defines: 5-10 endpoints + inferred data models
+
+### Step 5: Build Plan (5 min)
+**Prompt**: `prompts/ultra-lean/04_plan.md`  
+**Output**: `docs/04_PLAN.md`
+
+Defines: 5-10 implementation tasks with time estimates
+
+## What Gets Auto-Generated
+
+The IDE agent will infer and generate:
+- Detailed data models (from API endpoints)
+- Test cases (basic templates)
+- Security checklist (standard template)
+- Error handling patterns
+- Validation rules
+
+## Mode Comparison
+
+| Mode | Artifacts | Time | Best For |
+|------|-----------|------|----------|
+| **Ultra-Lean** | 5 | ~30 min | Rapid prototypes, hackathons |
+| **Lean** | ~10 | ~1 hour | MVPs, solo devs |
+| **Enterprise** | 25+ | 4-6 hours | Production apps, teams |
+
+## Example: QuickPoll
+
+**Idea**: "Simple polling app for teams"
+
+**Ultra-Lean Spec** (30 minutes):
+1. Overview: Problem, solution, users
+2. Features: Create poll, vote, view results, share link, export CSV
+3. System: Web app → API → SQLite
+4. API: 7 endpoints (polls CRUD, vote, results, export)
+5. Plan: 8 tasks, 21 hours over 3 days
+
+**Result**: Enough to start building immediately.
+
+## Tips for Success
+
+1. **Be ruthless**: Only include what you absolutely need
+2. **Trust the agent**: Let it infer details from context
+3. **Iterate fast**: Build first, refine later
+4. **Keep it simple**: Boring tech wins for prototypes
+5. **Time-box it**: If a step takes >10 min, you're overthinking
+
+## Upgrading Later
+
+You can always upgrade from Ultra-Lean to Lean or Enterprise:
+- Add more features → Lean mode
+- Add security/compliance → Enterprise mode
+- Add detailed architecture → Enterprise mode
+
+## Ready?
+
+Start with `prompts/ultra-lean/00_overview.md` and work through the 5 steps sequentially.
+
+```
+
+## File: prompts/00_interactive_kickoff.md
+```md
+# Interactive Kickoff: The Antigravity Guide
+
+**Act as**: The "Antigravity Guide," an expert software architect and product strategist.
+
+**Your Goal**: Interview the user to understand their project, recommend the right "Flight Path" (Mode), and generate a tailored roadmap.
+
+---
+
+## Phase 1: The Interview
+
+Start by greeting the user and asking these 3 questions (one by one or together, your choice):
+
+1.  **The Idea**: "In 1-2 sentences, what are you building?"
+2.  **The Goal**: "Is this a weekend prototype, an MVP for users, or a production enterprise app?"
+3.  **The Constraints**: "What is your timeline? (e.g., 2 days, 2 weeks, 2 months)"
+
+**Wait for the user's response.**
+
+---
+
+## Phase 2: The Recommendation
+
+Based on their answers, recommend one of the following modes:
+
+### ⚡ Option A: Ultra-Lean Mode
+*   **Best for**: Weekend projects, hackathons, rapid prototypes.
+*   **Timeline**: ~30 minutes to spec.
+*   **Artifacts**: 5 minimal docs.
+*   **Why**: "You want to ship fast and don't need heavy documentation yet."
+
+### 🏃 Option B: Lean Mode
+*   **Best for**: MVPs, solo founders, small teams.
+*   **Timeline**: ~1 hour to spec.
+*   **Artifacts**: ~10 docs (User Stories, Basic Security).
+*   **Why**: "You need a solid plan but can't afford enterprise bureaucracy."
+
+### 🏢 Option C: Enterprise Mode
+*   **Best for**: Production apps, large teams, compliance.
+*   **Timeline**: 4-6 hours to spec.
+*   **Artifacts**: 25+ docs (C4 Level 3, STRIDE, Compliance).
+*   **Why**: "You need rigorous security and scalability from Day 1."
+
+**Ask the user to confirm their choice.**
+
+---
+
+## Phase 3: The Roadmap
+
+Once they choose a mode, generate a **Step-by-Step Roadmap** for them.
+
+**If Ultra-Lean:**
+1.  **Product Overview**: Run `prompts/ultra-lean/00_overview.md`
+2.  **Core Features**: Run `prompts/ultra-lean/01_features.md`
+3.  **System Diagram**: Run `prompts/ultra-lean/02_system.md`
+4.  **API Sketch**: Run `prompts/ultra-lean/03_api.md`
+5.  **Build Plan**: Run `prompts/ultra-lean/04_plan.md`
+6.  **Execution**: Hand artifacts to IDE Agent.
+
+**If Lean:**
+1.  **Requirements**: Run `prompts/lean/01_requirements_analysis.md`
+2.  **Architecture**: Run `prompts/lean/02_architecture_design.md`
+3.  **Testing**: Run `prompts/lean/04_testing_strategy.md`
+4.  **Plan**: Run `prompts/lean/05_implementation_plan.md`
+5.  **Lockfiles**: Run `./forge.sh lock all`
+6.  **Execution**: Hand artifacts to IDE Agent.
+
+**If Enterprise:**
+1.  **Requirements**: Run `prompts/01_requirements_analysis.md`
+2.  **Architecture**: Run `prompts/02_architecture_design.md`
+3.  **Security**: Run `prompts/03_security_compliance.md`
+4.  **Testing**: Run `prompts/04_testing_strategy.md`
+5.  **Plan**: Run `prompts/05_implementation_plan.md`
+6.  **Lockfiles**: Run `./forge.sh lock all`
+7.  **Execution**: Hand artifacts to IDE Agent.
+
+---
+
+## Final Output
+
+End with this message:
+> "Ready to start? Copy the prompt for **Step 1** of your chosen mode and paste it here. I'm ready when you are."
+
+```
+
 ## File: prompts/01_requirements_analysis.md
 ```md
 Act as a Principal Product Manager operating under the "Antigravity" framework.
@@ -2792,9 +3345,14 @@ Act as a Principal Product Manager operating under the "Antigravity" framework.
 I have a rough idea for an application:
 [INSERT YOUR IDEA HERE]
 
+**Verbosity Level** (choose one):
+- **Full Detail**: Complete enterprise specification with all sections
+- **Medium Detail**: Core sections with abbreviated examples
+- **Lightweight**: Essential features and requirements only
+
 **Task:**
 Analyze this idea and output a structured **Requirements Analysis** in Markdown.
-Your goal is to produce a "Gold Standard" specification that could be handed to an enterprise engineering team.
+Your goal is to produce a specification matching the requested verbosity level.
 
 **Output Format (01_REQUIREMENTS.md):**
 
@@ -3015,372 +3573,318 @@ Generate the initial `task.md` file content that the AI Agent will use to track 
 
 ## File: prompts/REDTEAM/gpt5-response.md
 ```md
-Below is the **full Red-Team Audit** of your **Quantum Diamond Forge Protocol v2.0**, based directly on the complete v2 snapshot you provided in `redteam_snapshot_v2.txt` .
-
-I’m treating this like an enterprise methodology review—no politeness, no euphemisms, just an honest audit of what works, what doesn’t, and what needs fixing before real teams adopt it.
-
----
-
-# ⭐ **Executive Summary**
-
-The QDF v2.0 protocol is a **dramatic upgrade** in structure and maturity over v1.0—especially in its inclusion of professional-grade requirements engineering, C4 modeling, threat modeling, and testing discipline. However, the current prompts and workflow **over-index on rigor**, creating a process that is powerful but *fragile, heavy, and potentially unusable* for non-enterprise developers.
-
-The biggest risks are:
-
-* **Prompt bloat**
-* **Unclear ownership boundaries**
-* **High ceremony with low automation**
-* **Maintenance unsustainability**
-
-Overall: **Excellent foundation, but the cost-to-benefit ratio is not yet optimized.**
+Below is your **complete Red-Team Review of Quantum Diamond Forge v2.1**, grounded directly in the v2.0 snapshot and the changes introduced in v2.1.
+Citations refer to the contents of the uploaded snapshot files.
 
 ---
 
-# ✅ **Strengths**
+# **Quantum Diamond Forge v2.1 — Red-Team Analysis**
 
-### **1. Enterprise-Grade Scope & Artifacts**
+## **Executive Summary**
 
-QDF v2.0 includes:
+QDF v2.1 is a **major improvement** over v2.0, successfully reducing cognitive load through a Lean mode, modular prompts, and fewer required artifacts. However, the protocol **still carries significant complexity**, relies heavily on human ceremony, and risks becoming a “documentation machine” instead of a velocity amplifier. The Enterprise track is strong but still brittle, and Lean mode is helpful but not yet frictionless.
 
-* Formal requirements
-* C4 diagrams
-* API definition
-* Data modeling
-* Threat modeling
-* Test strategy
-  These are *exactly* the kinds of artifacts missing in most AI-driven workflows; the protocol brings much-needed discipline.
-
-### **2. Clear Role Separation**
-
-The 3-agent model is strong:
-
-* Human = decider
-* Web LLM = spec generator
-* IDE Agent = implementer
-  This maintains guardrails and mitigates hallucinations by preventing single-LLM authority.
-
-### **3. Strong Emphasis on Security & Testing**
-
-Unlike other frameworks, v2.0 actively pushes:
-
-* Threat modeling
-* AuthN/AuthZ strategy
-* Test pyramid
-* Performance considerations
-  This is rare and valuable.
-
-### **4. The Protocol Is Deterministic**
-
-The step-by-step decomposition is tight:
-1 → 2 → 3 → 4 → 5
-Each step produces discrete artifacts, reducing drift.
+Overall: **Massively improved; not yet optimized for real-world adoption.**
 
 ---
 
-# ❌ **Weaknesses**
+# **Strengths**
 
-Below are the critical failure points.
+### **1. Lean Mode is a real breakthrough**
 
----
+The split into Lean vs. Enterprise tracks directly addresses the “protocol bloat” highlighted in the v2.0 red-team audits. Developers who would have abandoned v2.0 by Phase 2 now have a viable ~1 hr path.
 
-## **1. The Workflow Is Too Heavy for Real Developers**
+### **2. Modular prompt architecture dramatically increases reliability**
 
-Even senior engineers will not maintain:
+Breaking monolithic prompts into modules (e.g., `feature_catalog.md`, `c4_diagrams.md`, `threat_modeling.md`) fixes the prompt brittleness issue cited in the v2.0 audit. LLMs handle shorter prompts far more reliably.
 
-* A full feature catalog
-* Multiple C4 diagrams
-* Complete threat model
-* Test pyramid
-* Detailed implementation plan
+### **3. Better Developer Experience via reduced artifact count**
 
-**It’s a 5-phase waterfall with 25+ artifacts.**
-Solo developers and startups will bail.
+The Lean workflow’s reduction from 25+ artifacts to ~10 addresses one of the largest adoption barriers. This is backed directly by the v2.0 red-team findings that developers would not maintain the original artifact set.
 
----
+### **4. Orchestration model remains a differentiator**
 
-## **2. Prompts Are Overly Dense and Brittle**
+Human → Web LLM → IDE Agent is still the strongest part of the entire protocol. The role separation is clear and matches real-world AI development patterns.
 
-The v2 prompts rely on:
+### **5. Documentation quality is high**
 
-* Walls of text
-* Nested instructions
-* Multi-part artifacts
-
-Large prompts get misinterpreted by LLMs, especially when structure is strict.
-This causes:
-
-* Hallucinated sections
-* Missing subsections
-* Formatting drift
-* Overwriting of prior parts
-
-LLM robustness decreases as prompt length → increases.
+The new `GUIDE.md` and modular prompts are more structured, clearer, and easier to follow than the v2.0 version. The Inbox workflow also remains a powerful utility.
 
 ---
 
-## **3. No Mechanism to Keep Artifacts in Sync**
+# **Weaknesses**
 
-QDF v2.0 still assumes:
+### **1. Lean mode is “lighter” but not actually *lean***
 
-* Requirements won't change
-* Architectural designs won't change
-* API specs won't change
+Lean mode still produces:
 
-But real projects evolve.
+* Feature catalog
+* User stories
+* C4 Level 1
+* Data model
+* Basic security
+* Testing plan
+* Implementation plan
 
-There is **no sync mechanism** such as:
+For a solo developer or a fast iteration cycle, this is still ceremony.
+Lean mode currently feels like “Enterprise-lite,” not truly lean.
 
-* Blueprint lockfiles
-* Incremental diffs
-* Semantic versioning of specs
-* Cross-file validation
+### **2. No automated *sync* between artifacts**
 
-This guarantees drift.
+A major v2.0 flaw remains unresolved:
+**spec drift** between requirements → architecture → API → data models → tests.
+Even with fewer documents, the drift problem persists because:
 
----
+The protocol offers *structure* but no *synchronization*.
 
-## **4. LLM Context & Cognitive Load Problems**
+### **3. Too much manual copy/paste and switching between tools**
 
-You’re asking the Web LLM to:
+Most steps still require:
 
-* Hold the Feature Catalog
-* Hold the architecture
-* Hold threat models
-* Hold test strategy
-* Hold implementation plan
+* Open prompt
+* Copy prompt
+* Paste into LLM
+* Copy output
+* Save file
+* Repeat
 
-This is too much; it will compress context and begin dropping details after ~20 steps.
+This choreography is still a major adoption barrier.
 
-Result:
+### **4. Human-in-the-loop burden is still heavy**
 
-* Inconsistencies
-* Violated requirements
-* Mismatched names
+Even in Lean mode, the human must:
 
-IDE Agents will drift further.
+* Review multiple artifacts
+* Detect inconsistencies
+* Guide iterations
+* Reconcile conflicts between LLM outputs
 
----
+This friction is a large threat to daily use.
 
-## **5. The Protocol Lacks “Escape Hatches”**
+### **5. Lean mode still assumes stable context in the Web LLM**
 
-There are no instructions for:
+But using *multiple modular prompts* without cross-validation means:
+**LLMs will contradict earlier artifacts unless explicitly reminded**.
 
-* When a developer wants to skip a step
-* When they want to iterate quickly
-* When they only need a partial artifact
-* When specs need revisions mid-implementation
+This is exactly the context-compression problem found in the v2.0 analysis.
 
-Rigid systems break easily.
+### **6. Enterprise mode remains over-optimized for completeness**
 
----
+While modular prompts help, the overall workflow is still complex and may still be too heavy for teams not explicitly pursuing regulatory-grade rigor.
 
-## **6. Security Is Suggested but Not Enforced**
+### **7. No clear recovery path when artifacts disagree**
 
-Threat modeling is included, but:
-
-* No tooling
-* No validation
-* No automated checks
-
-Developers won’t manually update STRIDE tables.
-
-Thus:
-**Security theater instead of security guarantees.**
+Example:
+If API spec contradicts data model, who resolves it?
+Human? IDE Agent? Web LLM?
 
 ---
 
-## **7. Burden on the Human-in-the-Loop**
+# **Recommendations (Actionable)**
 
-The human is expected to:
+## **1. Introduce a “Lockfile System” (Critical)**
 
-* Provide vision
-* Approve decisions
-* Validate artifacts
-* Navigate huge text dumps
-* Detect inconsistencies manually
-
-This is *too much cognitive overhead*.
-
----
-
-# 🛠️ **Recommendations**
-
-Here are the specific, actionable upgrades.
-
----
-
-## ⭐ **1. Introduce a Two-Track Workflow**
-
-**Enterprise Track**
-Full 5-phase process for large products.
-
-**Lean Track**
-For solo devs and prototypes:
-
-* No C4 level 2–3
-* No threat modeling tables
-* Reduced requirements structure
-* Test strategy limited to unit + integration
-
-Let the user decide the rigor level.
-
----
-
-## ⭐ **2. Replace Giant Prompts With Modular “Prompt Modules”**
-
-Instead of one massive Phase 1 or Phase 2 prompt, create:
-
-* `/prompts/modules/requirements.md`
-* `/prompts/modules/architecture.md`
-* `/prompts/modules/security.md`
-
-Each module is:
-
-* Short
-* Robust
-* Easier for LLMs to follow
-* Easier to maintain
-
-IDE Agents consume modules selectively.
-
----
-
-## ⭐ **3. Add a “Spec Lockfile” System**
-
-Inspired by package lockfiles:
-
-* `requirements.lock.json`
-* `architecture.lock.json`
-* `security.lock.json`
-
-Every run of the Web LLM updates or revalidates these lockfiles.
-IDE Agents read *only lockfiles*, not raw prompts.
-
-This solves drift.
-
----
-
-## ⭐ **4. Add a “Diff & Validate” Step**
-
-Before the IDE Agent builds features, run:
+This was a top recommendation in the v2.0 red-team content.
+QDF v2.1 still needs:
 
 ```
-QDF validate
+requirements.lock.json
+architecture.lock.json
+api.lock.json
+security.lock.json
+testing.lock.json
 ```
 
-It checks:
+The IDE agent should **only** consume lockfiles.
+Each Web LLM operation updates or validates the lockfiles.
+This fully solves drift.
 
+---
+
+## **2. Create a “Spec Validator” CLI step**
+
+Before the IDE Agent runs:
+
+```
+qdf validate
+```
+
+Should check:
+
+* APIs referenced in C4 exist in API spec
 * Data models match API
-* API matches C4
-* Threat model references actual endpoints
-* Test plan covers critical features
+* Requirements map to tests
+* Security model references actual endpoints
 
-This is deterministic and prevents spec rot.
+This reduces cognitive burden on the human.
 
 ---
 
-## ⭐ **5. Introduce Iteration Protocols**
+## **3. Make Lean mode *truly lean***
 
-Right now QDF v2.0 is strictly linear.
+Current Lean mode still requires too many artifacts.
+A more realistic Lean mode:
 
-Add:
+**Artifacts:**
+
+1. Product overview
+2. 3–5 must-have features
+3. One diagram (system context)
+4. Minimal API list
+5. Implementation plan
+
+Everything else auto-generated by the IDE Agent on demand.
+
+---
+
+## **4. Add an “Iteration Loop” for changing requirements**
+
+You need explicit protocols like:
 
 * `QDF revise requirements`
 * `QDF revise architecture`
-* `QDF revise security`
-* `QDF revise testplan`
+* `QDF revise api`
 
-Each revision re-generates:
+These generate:
 
-* Diffs
-* Lockfile updates
-* “Breaking changes” lists
+* diffs
+* lockfile updates
+* breaking changes lists
 
----
-
-## ⭐ **6. Add “Human Effort Controls”**
-
-Prompts should ask:
-
-> “Do you want full detail, medium detail, or a lightweight summary?”
-
-This lets the human modulate output verbosity.
+This keeps the protocol resilient over time.
 
 ---
 
-## ⭐ **7. Add Automation Layers**
+## **5. Reduce prompt ceremony with a CLI wrapper**
 
-Provide optional scripts to:
+Example:
 
-* Lint requirements
-* Validate C4 diagrams
-* Check for missing test cases
-* Auto-generate coverage reports
+```
+qdf spec requirements
+qdf spec architecture
+qdf spec security --lean
+qdf build
+```
 
-This shifts burden off the developer.
+CLI generates prompts and sends them to the Web LLM automatically.
 
----
-
-# 🔥 **Risk Assessment**
-
-### **Major Risks**
-
-1. **Developer abandonment** (workflow too heavy)
-2. **LLM drift** (context overload)
-3. **Stale specs** (no sync mechanism)
-4. **Security gaps** (artifacts with no enforcement)
-5. **Prompt brittleness** (mega-prompts unreliable)
-6. **Human burnout** (too many artifacts)
-7. **Lack of iteration support** (protocol breaks under change)
-
-### **Biggest Threat**
-
-**The protocol optimizes for rigor at the expense of velocity and practicality.**
-Without stronger automation and simplification, QDF v2.0 risks becoming a documentation generator rather than a productivity booster.
+This removes 70% of the manual workflow friction.
 
 ---
 
-# ✔️ If you want, I can now generate:
+## **6. Introduce “Human Effort Controls”**
 
-* A **rewritten QDF v2.1** with all these improvements
-* A **Lean Track variant** for fast-moving solo developers
-* A **Spec Lockfile system**
-* A **Validation & Drift Checker**
-* A **Modular prompt architecture**
-* Or a **diagram of the improved workflow**
+Each module prompt should ask:
 
-Just say:
-**“Generate the v2.1 protocol with improvements.”**
+> Do you want:
+> (a) Full enterprise detail
+> (b) Medium detail
+> (c) Lightweight summary
+
+Let the user modulate verbosity.
+
+---
+
+## **7. Automate artifact generation wherever possible**
+
+For example:
+
+* Basic security checklist can be templated
+* Test pyramid skeleton can be auto-populated
+* Simple C4 Level 1 diagram can use a reusable template
+
+Automation should remove the burden from the human.
+
+---
+
+# **Risk Assessment**
+
+### **1. The biggest threat: Developer Abandonment**
+
+Even with Lean mode, the workflow might still feel burdensome unless automated further.
+
+### **2. Spec Drift**
+
+Without lockfiles + validator, drift will break the protocol during real use.
+
+### **3. Prompt Misalignment Across Modules**
+
+Even modular prompts can conflict unless diffs and validations exist.
+
+### **4. Human Cognitive Overload**
+
+Humans still do too much:
+
+* Reviewing
+* Copying
+* Reconciling
+* Deciding
+
+This doesn’t scale well.
+
+### **5. IDE Agent Constraints**
+
+If the IDE agent can’t enforce or understand the spec consistently, build quality drops.
+
+### **6. Over-optimization toward Rigor**
+
+The Enterprise track may still scare away teams unless Lean mode is dramatically leaner.
+
+---
+
+# **Final Verdict**
+
+**QDF v2.1 is a meaningful evolution**, addressing the biggest v2.0 criticisms.
+But the protocol still needs:
+
+* Lockfiles
+* Validators
+* Automated spec generation
+* A truly minimalist Lean path
+* Better iteration support
+* CLI orchestration
+
+With these additions, QDF could evolve from “a powerful but heavy framework” into **the first truly practical AI-native software development protocol**.
+
+If you'd like, I can now generate:
+
+✅ v2.2 Proposal
+✅ Lockfile System
+✅ Validator Design
+✅ Ultra-Lean Mode spec
+✅ CLI design for QDF
+
+Just tell me what you want next.
 
 ```
 
 ## File: prompts/REDTEAM/grok4-response.md
 ```md
 ### Executive Summary
-Quantum Diamond Forge v2.0 represents a solid evolution from its lightweight predecessor, introducing a structured, enterprise-inspired workflow that enforces rigor through phased prompts and human oversight, making it suitable for mid-scale projects aiming for production readiness. However, it remains overly bureaucratic and fragmented, with excessive manual steps that undermine developer efficiency and risk low adoption among solo or agile teams. While it addresses v1's fragility, it swings too far toward over-engineering, potentially stifling the "speed" promised in AI-native development.
+Quantum Diamond Forge v2.1 is a commendable pivot toward flexibility with its new Lean mode and modular prompts, addressing v2.0's over-engineering by reducing artifact bloat and enabling faster MVPs for solo devs, while retaining enterprise rigor for larger projects. However, it still clings to a fragmented, copy-paste-heavy workflow that feels archaic in an era of AI agents, risking continued friction and low adoption despite the improvements. The modular approach helps usability but introduces new inconsistencies, and blind spots like inadequate handling of AI variability persist, making it solid but not revolutionary.
 
 ### Strengths
-- **Comprehensive Coverage of Enterprise Essentials:** The 5-step workflow effectively mirrors industry standards like those from AWS Well-Architected or Google's SRE practices, incorporating threat modeling (STRIDE), test pyramids, C4 diagrams, and ADRs. This ensures outputs are not just prototypes but robust blueprints, with strong emphasis on security and compliance from the outset—e.g., the Security prompt's focus on encryption and SDLC controls is practical and actionable.
-- **Human-in-the-Loop Balance:** By positioning the human as orchestrator, it mitigates AI hallucinations through review gates, while leveraging web LLMs for heavy lifting. The CLI tools (forge.sh) add convenience for governance, like automated task/ADR creation and git hooks, enhancing maintainability without full automation overload.
-- **Modular and Extensible Design:** Prompts are self-contained yet chainable, with clear inputs/outputs (e.g., attaching prior docs). The Expert Council and Inbox workflow provide flexibility for deep dives or iterations, and CI/CD guides ground the protocol in real-world ops.
-- **Focus on Developer Experience:** Features like code snapshots and conventional commits promote clean habits, and the diagrams (Mermaid) aid visualization, making complex architectures accessible.
+- **Dual-Track Workflow Balances Needs:** The addition of Lean mode smartly caters to MVPs with lighter artifacts (e.g., Must-Have features only, no full STRIDE), aligning with pragmatic trends like low-code and AI-assisted prototyping from 2025 software development insights. Enterprise mode maintains depth with C4 diagrams and threat modeling, closely matching AWS Well-Architected pillars (security, reliability) and Google's framework (operational excellence, cost optimization).
+- **Modular Prompts Enhance Clarity and Reusability:** Breaking prompts into focused modules (e.g., feature_catalog.md, threat_modeling.md) reduces verbosity by 60-70%, making them more actionable and less overwhelming. This supports better DX, as seen in examples with clear inputs/outputs and realistic instructions (e.g., 3-5 acceptance criteria per user story).
+- **Improved Practicality for Solos:** Artifact reduction to ~10 in Lean mode lowers maintenance burden, and CLI tools like forge.sh for tasks/ADRs promote clean habits without overload. Integration of git hooks and CI/CD guides grounds it in real-world best practices like conventional commits and security scanning.
+- **Alignment with Industry Trends:** Incorporates 2025 emphases on AI/ML perspectives (e.g., Google's framework) and security-first approaches, with modules covering testing pyramids and data models that echo DRY/YAGNI principles and DevSecOps.
 
 ### Weaknesses
-- **Workflow Fragmentation and Manual Overhead:** The process relies on tedious copy-paste between CLI, web LLMs, and IDE agents, with no integrated tooling for automation (e.g., no API wrappers for LLMs). This creates friction—e.g., saving outputs as separate MD files invites version mismatches or lost context, and the "Review the Output" step assumes flawless human judgment without checklists.
-- **Over-Engineering for Broad Use Cases:** Prompts enforce enterprise artifacts (e.g., full STRIDE models, SOC2 mappings) even for simple apps, bloating small projects. Non-functional requirements like "99.9% uptime" are aspirational but impractical without cost analysis. Edge cases like hybrid mobile/web apps, real-time features (e.g., WebSockets), or international compliance (e.g., non-GDPR regions) are underexplored.
-- **Usability Barriers for Solos:** The protocol assumes familiarity with tools like Mermaid, Husky, or Terraform, overwhelming beginners. Prompts are verbose and prescriptive, limiting creativity—e.g., fixed formats (MoSCoW, C4) might not fit all domains. The "Antigravity Loop" in execution feels vague, with no explicit error recovery if LLM outputs diverge.
-- **Blind Spots in AI Integration:** Assumptions that web LLMs (e.g., Gemini/Claude) consistently produce "Gold Standard" specs ignore variability in responses. No mechanisms for prompt versioning or A/B testing LLMs. Practicality suffers from artifact heaviness—maintaining 5+ MD files plus TASKS/ADRS could lead to outdated docs, especially without auto-sync tools.
-- **Limited Scope and Assumptions:** Optimizes for backend-heavy web apps (e.g., Next.js/PostgreSQL stacks), neglecting frontend-heavy or no-code scenarios. Risks include LLM dependency (what if APIs change?) and no built-in metrics for protocol efficacy (e.g., time-to-deploy benchmarks).
+- **Persistent Fragmentation and Manual Drudgery:** Despite mods, the workflow remains a clunky sequence of CLI commands, web LLM pastes, and manual saves, creating friction in human-in-the-loop—e.g., no auto-chaining of modules or API integrations for LLMs, leading to potential context loss or errors. This ignores critiques from X posts where AI struggles with growing projects, amplifying slowdowns (e.g., developers taking 19% longer with AI per studies).
+- **Incomplete Coverage in Lean Mode:** Gaps include skimping on performance optimization and sustainability (absent from both modes, despite AWS/Google pillars), and no edge cases for real-time apps, hybrid environments, or international compliance. Enterprise mode's full STRIDE is thorough but overkill, while Lean's basic security checklist risks superficial mitigations for high-impact threats like hallucinations in AI-generated code.
+- **Usability Still Lags for Beginners:** Prompts assume familiarity with tools (Mermaid, Husky), and modularization can confuse without strong sequencing—e.g., no built-in validation if modules are run out-of-order. The "Human-in-the-Loop" amplifies this, as vague review steps invite bias or oversight, clashing with X critiques of AI's "chatty" nature and poor refactoring.
+- **Practicality Hindered by Artifact Management:** Even reduced, artifacts like separate MD/JSON files invite staleness without auto-sync or versioning tools, echoing complaints of spending 90% more time reviewing AI code. Adoption barriers persist: No metrics for protocol efficacy (e.g., time-to-MVP), and assumptions of stable LLM access ignore variability (e.g., model updates breaking prompts).
+- **Blind Spots in AI Reliance:** Optimizes for rigor but at the expense of agility—e.g., no mechanisms for handling AI's documented issues like prototype bias or quality crises (67% developer concerns per X insights). Assumes web LLMs produce consistent "gold standard" outputs without A/B testing or fallback prompts.
 
 ### Recommendations
-- **Streamline Orchestration:** Integrate a unified CLI command (e.g., `./forge.sh run-phase 1`) that automates pasting to LLMs via APIs (if available) or clipboard managers, and auto-saves outputs with versioning (e.g., git commits). Add a "lite mode" flag to skip non-essentials like full compliance for MVPs.
-- **Enhance Completeness with Templates and Checks:** Include prompt refinements for edge cases—e.g., add sections in Architecture prompt for scalability (auto-scaling rules) and deployment (Kubernetes vs. serverless). Introduce validation scripts (e.g., `./forge.sh validate-spec`) that check artifacts for consistency (e.g., ensuring API designs match data models).
-- **Improve Usability and Pragmatism:** Shorten prompts by 30% with modular sections (e.g., optional "Advanced" blocks for enterprise features). Provide starter templates in repo for common stacks, and add a "feedback loop" prompt in Implementation Plan to iterate on specs mid-build. For solos, bundle a quick-start script that generates a minimal workflow.
-- **Address Practicality Barriers:** Lighten artifacts by consolidating into a single "Master Spec" MD with sections, using tools like Notion exporters for easier maintenance. Lower adoption hurdles with video tutorials in README and community examples. Track usage via optional telemetry in CLI to iterate on the protocol itself.
-- **Mitigate Blind Spots:** Explicitly document assumptions (e.g., "Assumes stable LLM access") in GUIDE.md. Add a "Post-Implementation Review" phase with prompts for auditing drift (e.g., code vs. specs). Optimize for agility by allowing parallel phases (e.g., start coding while security refines) and include cost/benefit analyses in prompts.
+- **Automate Orchestration End-to-End:** Introduce a "forge.sh run-all --mode lean" command that chains modules via LLM APIs (if available) or local scripts, auto-assembling artifacts into a single "Master Spec" file with git versioning. Add module dependencies (e.g., require feature_catalog before user_stories) to prevent out-of-order runs.
+- **Fill Completeness Gaps with Essentials:** Expand Lean mode to include basic performance/cost checklists (e.g., "Latency targets <100ms") and sustainability notes (e.g., "Energy-efficient hosting"). Add edge-case modules for common scenarios like mobile-first or multi-cloud, and integrate AI-specific guidance from Google's framework (e.g., eval prompts for hallucination checks).
+- **Boost Usability with Onboarding and Feedback Loops:** Bundle beginner templates (e.g., pre-filled prompts for common stacks) and add interactive CLI tutorials. Implement a "Post-Phase Review" module with prompts like "Compare output to best practices; suggest fixes," drawing from X critiques to address quality concerns proactively.
+- **Enhance Practicality via Metrics and Maintenance:** Embed tracking in CLI (e.g., log phase times) for self-improvement, and use tools like auto-diff scripts to flag artifact drift. Lower barriers with video demos in README and community benchmarks (e.g., "Lean MVP in 45 mins"). For enterprise, mandate cost/benefit analyses in implementation plans.
+- **Mitigate Blind Spots Proactively:** Document assumptions explicitly (e.g., "Requires consistent LLM behavior; test with alternatives"). Add redundancy like prompt versioning and fallback to human overrides for AI failures. Optimize for speed by allowing parallel module execution (e.g., architecture alongside security) and include refactoring prompts to counter AI's "chatty" tendencies.
 
 ### Risk Assessment
-The biggest threat to adoption is developer fatigue from the manual, multi-tool workflow—solo devs might abandon it after Phase 2 for simpler tools like Cursor or Replit AI, leading to niche use in enterprises only. What could fail: Inconsistent LLM outputs causing spec drift, amplified by weak human review; or over-reliance on git hooks leading to blocked workflows in fast-iterating teams. Overall, the protocol risks becoming a "shelfware" artifact—rigorous but unused—if not balanced with more automation, as it optimizes for perfection at the expense of iteration speed in an AI era where prototypes evolve rapidly.
+The biggest threat to adoption is the protocol becoming "shelfware"—developers ditching it for seamless tools like Cursor AI or Replit due to persistent manual friction, especially if LLM inconsistencies (e.g., varying outputs from Gemini/Claude) lead to unreliable specs and wasted time. What could fail: In Lean mode, superficial security causing breaches in production; in Enterprise, over-rigor stifling iteration, amplifying the 19% slowdown from AI per studies. Overall, it risks optimizing for documentation over delivery, at the expense of the "Rigour at Speed" philosophy, in an AI era where agentic workflows demand more automation to stay relevant.
 ```
 
 ## File: prompts/REDTEAM/redteam_analysis.md
@@ -3478,16 +3982,26 @@ Please structure your response as:
 
 **Date**: 2025-11-22  
 **Reviewers**: GPT-5, Grok 4  
-**Protocol Version**: v2.0
+**Protocol Versions**: v2.0 → v2.1  
+**Status**: v2.1 implemented, second round of feedback received
 
 ## Executive Summary
 
-Both reviewers agree: **Protocol v2.0 is a dramatic improvement over v1**, bringing enterprise-grade rigor and structure. However, **it over-indexes on ceremony at the expense of velocity**, creating a workflow that is powerful but potentially unusable for solo developers and small teams.
+### v2.0 → v2.1 Progress
+**v2.1 successfully addressed the top 2 critical issues from v2.0 red team feedback:**
+- ✅ Two-Track Workflow implemented (Lean + Enterprise modes)
+- ✅ Modular Prompts created (60-70% shorter, more reliable)
 
-### Consensus Assessment
-- ✅ **Foundation is excellent** (C4, STRIDE, test pyramids, ADRs)
-- ⚠️ **Execution is too heavy** (25+ artifacts, manual copy-paste, no automation)
-- 🔴 **Critical Risk**: Developer abandonment due to cognitive overload
+**However, v2.1 feedback reveals persistent and new challenges:**
+- ⚠️ Lean mode is "lighter" but not truly lean (~10 artifacts still feels heavy)
+- 🔴 **Spec drift remains unsolved** (no lockfile/sync mechanism)
+- 🔴 **Manual workflow friction persists** (copy-paste ceremony unchanged)
+- 🔴 **Critical Risk**: Developer abandonment still a threat despite improvements
+
+### Consensus Assessment (v2.1)
+- ✅ **Major improvement** - Lean mode and modular prompts are breakthroughs
+- ⚠️ **Still too complex** - Workflow automation and sync mechanisms missing
+- 🔴 **New Priority**: Lockfile system + validator are now critical for v2.2
 
 ---
 
@@ -3626,17 +4140,109 @@ Both reviewers agree: **Protocol v2.0 is a dramatic improvement over v1**, bring
 
 ---
 
-## Next Steps
+## Next Steps (v2.0 → v2.1)
 
-I recommend creating the following tasks:
+**Completed Tasks** (v2.1):
+1. ✅ **Task 007**: Design Two-Track Workflow (Lean vs Enterprise) - DONE
+2. ✅ **Task 008**: Implement Modular Prompt Architecture - DONE
+3. ✅ **Task 004**: Design Spec Lockfile System - DONE
+4. ✅ **Task 006**: Create Ultra-Lean Mode - DONE
 
-1. **Task 003**: Design Two-Track Workflow (Lean vs Enterprise)
-2. **Task 004**: Implement Modular Prompt Architecture
-3. **Task 005**: Design Spec Lockfile System
-4. **Task 006**: Build Validation & Diff Tooling
-5. **Task 007**: Add Iteration Support (`revise` commands)
+**Remaining Tasks** (v2.2):
+5. **Task 009**: Build Spec Validator CLI Tool - BACKLOG
+6. **Task 003**: API-Driven Automation Layer - BACKLOG (optional)
 
-**Priority**: Start with Tasks 003 and 004 (Two-Track + Modular Prompts) as they address the most critical feedback.
+**Priority**: v2.1 addressed the top critical feedback. v2.2 focuses on optional automation.
+
+---
+
+## v2.1 Feedback Analysis
+
+### What v2.1 Fixed ✅
+1. **Two-Track Workflow** - Lean mode reduces time from 4-6 hours → ~1 hour
+2. **Modular Prompts** - 60-70% shorter, more reliable for LLMs
+3. **Reduced Artifacts** - From 25+ → ~10 in Lean mode
+4. **Better DX** - Clearer prompts, better examples
+
+### Persistent Issues from v2.0 🔴
+
+#### 1. **Spec Drift (Still Unsolved)**
+- GPT-5 v2.1: "No automated sync between artifacts... drift problem persists."
+- Grok 4 v2.1: "Incomplete coverage... no edge cases for real-time apps."
+
+**Impact**: Requirements → Architecture → API → Data models will diverge over time.
+
+#### 2. **Manual Workflow Friction (Unchanged)**
+- GPT-5 v2.1: "Most steps still require: Open prompt → Copy → Paste → Save → Repeat."
+- Grok 4 v2.1: "Persistent fragmentation... no auto-chaining of modules."
+
+**Impact**: Developer fatigue, high abandonment risk.
+
+#### 3. **Human Cognitive Overload (Still High)**
+- GPT-5 v2.1: "Human must review multiple artifacts, detect inconsistencies, reconcile conflicts."
+- Grok 4 v2.1: "Usability still lags... vague review steps invite bias."
+
+**Impact**: Doesn't scale for daily use.
+
+### New Issues Identified in v2.1 ⚠️
+
+#### 4. **Lean Mode Not Lean Enough**
+- GPT-5 v2.1: "Lean mode still produces: Feature catalog, user stories, C4, data model, security, testing, implementation. This is still ceremony."
+- Grok 4 v2.1: "Gaps include skimping on performance optimization and sustainability."
+
+**Impact**: Lean mode feels like "Enterprise-lite," not truly lean.
+
+#### 5. **No Recovery Path for Conflicts**
+- GPT-5 v2.1: "If API spec contradicts data model, who resolves it? Human? IDE Agent? Web LLM?"
+- Grok 4 v2.1: "No mechanisms for handling AI's documented issues like prototype bias."
+
+**Impact**: Breaks down when LLMs produce conflicting outputs.
+
+#### 6. **LLM Context Compression Across Modules**
+- GPT-5 v2.1: "Using multiple modular prompts without cross-validation means LLMs will contradict earlier artifacts."
+- Grok 4 v2.1: "Modularization can confuse without strong sequencing."
+
+**Impact**: Modules may conflict with each other.
+
+---
+
+## Updated Recommendations (v2.2 Priorities)
+
+### 🔥 Critical (Blockers for Adoption)
+
+#### 1. **Lockfile System** (HIGHEST PRIORITY)
+**Source**: GPT-5 v2.1, Grok 4 v2.1 (both emphasize heavily)  
+**What**: Introduce lockfiles for each phase (requirements.lock.json, architecture.lock.json, etc.)
+- IDE agent reads ONLY lockfiles
+- Each Web LLM operation updates/validates lockfiles
+- Versioned, diffable, prevents drift
+
+**Why**: Solves spec drift completely. Both reviewers call this "critical."
+
+#### 2. **Spec Validator CLI**
+**Source**: GPT-5 v2.1, Grok 4 v2.1  
+**What**: qdf validate command that checks cross-artifact consistency
+
+**Why**: Reduces human cognitive burden, catches conflicts automatically.
+
+#### 3. **Ultra-Lean Mode**
+**Source**: GPT-5 v2.1, Grok 4 v2.1  
+**What**: Truly minimal workflow with 3-5 artifacts max
+
+**Why**: Current Lean mode (10 artifacts) still feels heavy.
+
+---
+
+## Next Steps (v2.2 Roadmap)
+
+### Immediate Actions (Based on Valid Feedback)
+1. ✅ **Create Task**: Design and implement lockfile system
+2. ✅ **Create Task**: Build spec validator CLI
+3. ✅ **Create Task**: Create ultra-lean mode
+4. ⚠️ **Create Task**: Design CLI automation layer
+5. ⚠️ **Create Task**: Add iteration support
+
+**Priority**: Start with lockfile system and validator as they address the most critical gaps.
 
 ```
 
@@ -5312,6 +5918,429 @@ Generate a test strategy following the test pyramid pattern.
 ## Ready?
 
 Paste the feature catalog and data models below, and I'll generate the test strategy.
+
+```
+
+## File: prompts/ultra-lean/00_overview.md
+```md
+# Product Overview (Ultra-Lean Mode)
+
+## Your Role
+You are helping define a **rapid prototype**. Keep it minimal—this is for weekend projects and quick experiments.
+
+## Input
+The user will provide a brief product idea.
+
+## Your Task
+
+Generate a **Product Overview** with this exact structure:
+
+```markdown
+# Product Overview
+
+**Name**: [Product Name]  
+**Tagline**: [One-line description, max 10 words]
+
+**Problem**: [2-3 sentences describing the pain point]
+
+**Solution**: [2-3 sentences describing how the product solves it]
+
+**Target Users**: [1-2 user types]
+```
+
+## Example Output
+
+```markdown
+# Product Overview
+
+**Name**: QuickPoll  
+**Tagline**: Dead-simple polling for teams
+
+**Problem**: Teams waste time in email threads for simple yes/no decisions. Existing polling tools are too complex or lack persistence. Developers need something they can set up in 5 minutes.
+
+**Solution**: QuickPoll lets you create a poll with a question and options, share a link, and see real-time results. No signup required for voters, results export to CSV.
+
+**Target Users**: Small development teams (5-20 people), project managers
+```
+
+## Important Notes
+- **Be concise**: This is Ultra-Lean mode—no walls of text
+- **Focus on essentials**: Just the core problem and solution
+- **No fluff**: Skip market analysis, competitive landscape, etc.
+
+## Ready?
+
+Paste your product idea below, and I'll generate the overview.
+
+```
+
+## File: prompts/ultra-lean/01_features.md
+```md
+# Core Features (Ultra-Lean Mode)
+
+## Your Role
+You are helping define the **absolute minimum** features for a rapid prototype.
+
+## Input
+Attach the product overview from the previous step.
+
+## Your Task
+
+Generate a **Core Features List** with this exact structure:
+
+```markdown
+# Core Features
+
+## Must-Have (MVP)
+1. **[Feature Name]**: [One-sentence description]
+   - Acceptance: [1-2 criteria]
+
+2. **[Feature Name]**: [One-sentence description]
+   - Acceptance: [1-2 criteria]
+
+[3-5 features total]
+```
+
+## Rules
+- **3-5 features max** - If you can't build it in a weekend, it's not Ultra-Lean
+- **One sentence per feature** - No detailed descriptions
+- **1-2 acceptance criteria** - Just the bare minimum to know it works
+- **Skip everything else** - No Should-Have, Could-Have, Won't-Have
+
+## Example Output
+
+```markdown
+# Core Features
+
+## Must-Have (MVP)
+1. **Create Poll**: User can create a poll with a question and 2-5 options
+   - Acceptance: Poll has unique URL, options are saved
+
+2. **Vote**: Anyone with the link can vote once
+   - Acceptance: Vote is recorded, user can't vote twice
+
+3. **View Results**: See real-time vote counts
+   - Acceptance: Results update without refresh, show percentages
+
+4. **Share Link**: Copy poll URL to clipboard
+   - Acceptance: URL works in any browser, no login required
+
+5. **Export Results**: Download results as CSV
+   - Acceptance: CSV includes question, options, vote counts
+```
+
+## Important Notes
+- **Ruthlessly prioritize**: Only features you absolutely need for v0.1
+- **No nice-to-haves**: Tags, filters, due dates, etc. can wait
+- **Keep it simple**: If a feature needs 3+ acceptance criteria, it's too complex
+
+## Ready?
+
+Paste the product overview below, and I'll generate the core features.
+
+```
+
+## File: prompts/ultra-lean/02_system.md
+```md
+# System Diagram (Ultra-Lean Mode)
+
+## Your Role
+You are creating a **minimal system context diagram** for a rapid prototype.
+
+## Input
+Attach the product overview and core features.
+
+## Your Task
+
+Generate a **System Diagram** with this exact structure:
+
+```markdown
+# System Diagram
+
+\`\`\`mermaid
+C4Context
+    title System Context - [Product Name]
+    
+    Person(user, "[User Type]", "Primary user")
+    System(app, "[Product Name]", "Core application")
+    System_Ext(external, "[External Service]", "Description")
+    
+    Rel(user, app, "Uses")
+    Rel(app, external, "Integrates with")
+\`\`\`
+
+**Key Components**:
+- **[Product Name]**: [One-sentence description]
+- **[External Service]**: [One-sentence description]
+
+**Tech Stack** (suggested):
+- Frontend: [Framework]
+- Backend: [Framework]
+- Database: [Database]
+- Hosting: [Platform]
+```
+
+## Rules
+- **C4 Level 1 only** - Just system context, no containers or components
+- **Show only essentials** - Main system + 1-2 external dependencies
+- **One sentence per component** - No detailed descriptions
+- **Suggest simple tech** - Proven, easy-to-deploy stack
+
+## Example Output
+
+```markdown
+# System Diagram
+
+\`\`\`mermaid
+C4Context
+    title System Context - QuickPoll
+    
+    Person(user, "Team Member", "Creates and votes on polls")
+    System(quickpoll, "QuickPoll", "Polling application")
+    System_Ext(browser, "Web Browser", "Displays UI")
+    
+    Rel(user, quickpoll, "Creates polls, votes")
+    Rel(quickpoll, browser, "Renders UI")
+\`\`\`
+
+**Key Components**:
+- **QuickPoll**: Web app that manages polls and votes
+- **Web Browser**: Displays poll UI and results
+
+**Tech Stack** (suggested):
+- Frontend: React (Vite)
+- Backend: Node.js (Express)
+- Database: SQLite (local file)
+- Hosting: Vercel (frontend) + Railway (backend)
+```
+
+## Important Notes
+- **Keep it simple**: No microservices, no Kubernetes
+- **Boring tech wins**: Use proven, well-documented tools
+- **Optimize for speed**: Choose tech you can deploy in minutes
+
+## Ready?
+
+Paste the product overview and features below, and I'll generate the system diagram.
+
+```
+
+## File: prompts/ultra-lean/03_api.md
+```md
+# API Sketch (Ultra-Lean Mode)
+
+## Your Role
+You are creating a **minimal API list** for a rapid prototype.
+
+## Input
+Attach the core features and system diagram.
+
+## Your Task
+
+Generate an **API Sketch** with this exact structure:
+
+```markdown
+# API Sketch
+
+## Endpoints
+
+### [Resource Name]
+- `GET /api/[resource]` - [One-sentence description]
+- `POST /api/[resource]` - [One-sentence description]
+- `GET /api/[resource]/:id` - [One-sentence description]
+- `DELETE /api/[resource]/:id` - [One-sentence description]
+
+[5-10 endpoints total]
+
+## Data Models (Inferred)
+
+### [Model Name]
+- id, [field1], [field2], [field3]
+
+[2-4 models total]
+```
+
+## Rules
+- **5-10 endpoints max** - Just CRUD for core resources
+- **RESTful conventions** - Use standard HTTP methods
+- **One sentence per endpoint** - No detailed request/response schemas
+- **Infer data models** - Just list key fields, no types/constraints
+
+## Example Output
+
+```markdown
+# API Sketch
+
+## Endpoints
+
+### Polls
+- `GET /api/polls` - List all polls
+- `POST /api/polls` - Create a new poll
+- `GET /api/polls/:id` - Get poll details and results
+- `DELETE /api/polls/:id` - Delete a poll
+
+### Votes
+- `POST /api/polls/:id/vote` - Submit a vote
+- `GET /api/polls/:id/results` - Get vote counts
+
+### Export
+- `GET /api/polls/:id/export` - Download results as CSV
+
+## Data Models (Inferred)
+
+### Poll
+- id, question, options (array), created_at
+
+### Vote
+- id, poll_id, option_index, voter_ip, created_at
+```
+
+## Important Notes
+- **Skip detailed schemas**: No OpenAPI, no request/response examples
+- **Infer from features**: If feature needs data, add an endpoint
+- **Keep it RESTful**: Use standard patterns (GET, POST, DELETE)
+
+## Ready?
+
+Paste the features and system diagram below, and I'll generate the API sketch.
+
+```
+
+## File: prompts/ultra-lean/04_plan.md
+```md
+# Build Plan (Ultra-Lean Mode)
+
+## Your Role
+You are creating a **minimal implementation plan** for a rapid prototype.
+
+## Input
+Attach all previous artifacts (overview, features, system, API).
+
+## Your Task
+
+Generate a **Build Plan** with this exact structure:
+
+```markdown
+# Build Plan
+
+## Tasks
+
+### 1. [Task Name]
+**What**: [One-sentence description]  
+**Deliverables**: [1-3 bullet points]  
+**Time**: [Estimate in hours]
+
+[5-10 tasks total]
+
+## Timeline
+- **Day 1**: Tasks 1-3
+- **Day 2**: Tasks 4-6
+- **Day 3**: Tasks 7-10
+
+**Total**: [X] hours over [Y] days
+```
+
+## Rules
+- **5-10 tasks max** - Each task should be 2-6 hours
+- **Order by dependency** - Foundation first, polish last
+- **Be realistic** - Don't underestimate time
+- **Focus on MVP** - Only Must-Have features
+
+## Example Output
+
+```markdown
+# Build Plan
+
+## Tasks
+
+### 1. Project Setup
+**What**: Initialize project with chosen tech stack  
+**Deliverables**:
+- Vite + React app created
+- Express server configured
+- SQLite database initialized
+
+**Time**: 2 hours
+
+### 2. Database Schema
+**What**: Create tables for polls and votes  
+**Deliverables**:
+- polls table (id, question, options, created_at)
+- votes table (id, poll_id, option_index, voter_ip, created_at)
+- Test data seeded
+
+**Time**: 2 hours
+
+### 3. Poll CRUD API
+**What**: Implement poll creation and retrieval  
+**Deliverables**:
+- POST /api/polls endpoint
+- GET /api/polls/:id endpoint
+- DELETE /api/polls/:id endpoint
+
+**Time**: 4 hours
+
+### 4. Voting API
+**What**: Implement vote submission and results  
+**Deliverables**:
+- POST /api/polls/:id/vote endpoint
+- GET /api/polls/:id/results endpoint
+- Prevent duplicate votes (by IP)
+
+**Time**: 3 hours
+
+### 5. Poll UI
+**What**: Build poll creation and display interface  
+**Deliverables**:
+- Create poll form
+- Display poll with options
+- Show results with percentages
+
+**Time**: 4 hours
+
+### 6. Share & Export
+**What**: Add link sharing and CSV export  
+**Deliverables**:
+- Copy link button
+- CSV export endpoint
+- Download results button
+
+**Time**: 2 hours
+
+### 7. Basic Styling
+**What**: Make it look decent  
+**Deliverables**:
+- Responsive layout
+- Clean typography
+- Color scheme
+
+**Time**: 2 hours
+
+### 8. Deploy
+**What**: Deploy to production  
+**Deliverables**:
+- Frontend on Vercel
+- Backend on Railway
+- Database migrated
+
+**Time**: 2 hours
+
+## Timeline
+- **Day 1**: Tasks 1-3 (8 hours)
+- **Day 2**: Tasks 4-6 (9 hours)
+- **Day 3**: Tasks 7-8 (4 hours)
+
+**Total**: 21 hours over 3 days
+```
+
+## Important Notes
+- **Be honest with time**: Add 50% buffer to your estimates
+- **Order matters**: Can't build UI before API
+- **Keep it simple**: If a task is >6 hours, split it
+
+## Ready?
+
+Paste all previous artifacts below, and I'll generate the build plan.
 
 ```
 
