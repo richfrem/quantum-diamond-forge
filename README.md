@@ -55,17 +55,21 @@ The Forge offers **three tracks** to match your project needs:
 
 ---
 
-### The Workflow (Both Modes)
+### The Workflow (All Modes)
 ```mermaid
 graph TD
-    User["👤 You (Orchestrator)"] -->|1. Idea| WebLLM["🧠 Web LLM (Gemini/Claude)"]
-    WebLLM -->|2. Generates| Specs["📄 Rigorous Specs (docs/)"]
-    Specs -->|3. Guides| Agent["🤖 Antigravity Agent (IDE)"]
+    User["👤 You (Orchestrator)"] -->|1. Kickoff| Mode{Choose Mode}
+    Mode -->|Ultra/Lean/Ent| WebLLM["🧠 Web LLM (Gemini/Claude)"]
+    WebLLM -->|2. Generates| Specs["📄 Specs + 🔐 Lockfiles"]
+    Specs -->|3. Validate| Gate{✅ Validator}
+    Gate -->|Pass| Agent["🤖 Antigravity Agent (IDE)"]
+    Gate -->|Fail| Specs
     Agent -->|4. Builds| Code["💻 Production Code"]
     
     subgraph "Phase 1: Specification Loop"
     WebLLM
     Specs
+    Gate
     end
     
     subgraph "Phase 2: Build Loop"
@@ -82,19 +86,19 @@ graph TD
     cd quantum-diamond-forge
     ```
 
-2.  **Start the Master Protocol:**
-    Open `prompts/00_MASTER_PROTOCOL.md`. This is your command center.
+2.  **Start the Interactive Kickoff:**
+    ```bash
+    ./forge.sh start
+    ```
+    This will interview you and guide you to the right mode (Ultra-Lean, Lean, or Enterprise).
 
 3.  **Phase 1: The Specification Loop**
-    Follow the guide to generate your "Gold Standard" documentation suite:
-    *   `01_REQUIREMENTS.md` (Feature Catalog)
-    *   `02_ARCHITECTURE.md` (C4 Diagrams)
-    *   `03_SECURITY.md` (Threat Models)
-    *   `04_TESTING.md` (Test Strategy)
-    *   `05_IMPLEMENTATION.md` (Task Plan)
+    Follow the prompts to generate your documentation suite.
+    *   **Lock It Down**: Run `./forge.sh lock all` to prevent drift.
+    *   **Validate**: Run `./forge.sh validate` to check consistency.
 
 4.  **Phase 2: The Build Loop**
-    Point your IDE Agent to the generated `task.md` and watch it build!
+    Point your IDE Agent to the generated `implementation.lock.json` and watch it build!
 
 ## 📚 Documentation
 

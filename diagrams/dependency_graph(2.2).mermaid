@@ -1,0 +1,12 @@
+---
+config:
+  layout: elk
+---
+flowchart TB
+    Req["01_REQUIREMENTS.md<br>(Feature Catalog)"] --> Arch["02_ARCHITECTURE.md<br>(C4 &amp; Data Models)"] & Sec["03_SECURITY.md<br>(Threat Models)"] & Test["04_TESTING.md<br>(Test Strategy)"] & Plan["05_IMPLEMENTATION.md<br>(Task Breakdown)"]
+    Arch --> Sec & Test & Plan
+    Sec --> Plan
+    Test --> Plan
+
+    style Req fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Plan fill:#dcfce7,stroke:#166534,stroke-width:2px

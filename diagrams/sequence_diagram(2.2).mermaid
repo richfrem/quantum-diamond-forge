@@ -1,0 +1,70 @@
+sequenceDiagram
+    autonumber
+    actor User as 👤 You (Orchestrator)
+    participant Agent as 🤖 Antigravity IDE<BR> Agent
+    participant CLI as 🛠️ Forge CLI
+    participant WebAI as 🧠 Web LLM<BR>(Gemini/Grok/<BR>ChatGPT/Claude)
+    participant Repo as 📂 Local Repo<BR>(docs/)
+
+    Note over User, Repo: Phase 1: The Specification Loop
+    
+    Note over User, Agent: Phase 0: Initialization
+    
+    User->>Agent: "I have an idea..."
+    Agent-->>User: "Let's start. Run ./forge.sh start"
+    
+    User->>CLI: ./forge.sh start (Kickoff)
+    CLI-->>User: Interactive Interview -> Mode Selection
+    
+    Note over User, Repo: Step 1: Requirements
+    User->>CLI: ./forge.sh prompt 1 (Requirements)
+    User->>WebAI: Paste Prompt + Idea
+    WebAI-->>User: Generates Feature Catalog
+    User->>Repo: Save docs/01_REQUIREMENTS.md
+    User->>CLI: ./forge.sh lock requirements
+    CLI-->>Repo: Generates requirements.lock.json
+    
+    Note over User, Repo: Step 2: Architecture
+    User->>CLI: ./forge.sh prompt 2 (Architecture)
+    User->>WebAI: Paste Prompt + Requirements Lock
+    WebAI-->>User: Generates C4 Diagrams
+    User->>Repo: Save docs/02_ARCHITECTURE.md
+    User->>CLI: ./forge.sh lock architecture
+    CLI-->>Repo: Generates architecture.lock.json
+    
+    Note over User, Repo: Step 3: Security
+    User->>CLI: ./forge.sh prompt 3 (Security)
+    User->>WebAI: Paste Prompt + Architecture Lock
+    WebAI-->>User: Generates Threat Model
+    User->>Repo: Save docs/03_SECURITY.md
+    User->>CLI: ./forge.sh lock security
+    CLI-->>Repo: Generates security.lock.json
+    
+    Note over User, Repo: Step 4: Testing
+    User->>CLI: ./forge.sh prompt 4 (Testing)
+    User->>WebAI: Paste Prompt + Context
+    WebAI-->>User: Generates Test Strategy
+    User->>Repo: Save docs/04_TESTING.md
+    User->>CLI: ./forge.sh lock testing
+    CLI-->>Repo: Generates testing.lock.json
+    
+    Note over User, Repo: Step 5: Plan
+    User->>CLI: ./forge.sh prompt 5 (Plan)
+    User->>WebAI: Paste Prompt + Context
+    WebAI-->>User: Generates Implementation Plan
+    User->>Repo: Save docs/05_IMPLEMENTATION.md
+    User->>CLI: ./forge.sh lock implementation
+    CLI-->>Repo: Generates implementation.lock.json
+    
+    Note over User, Agent: Phase 2: The Build Loop
+    
+    User->>CLI: ./forge.sh validate
+    CLI-->>User: ✅ All Checks Passed
+    
+    User->>Agent: Point to docs/locks/implementation.lock.json
+    loop Antigravity Build Cycle
+        Agent->>Repo: Read Lockfiles
+        Agent->>Repo: Write Code
+        Agent->>Repo: Run Tests
+        Repo-->>Agent: Pass/Fail
+    end
