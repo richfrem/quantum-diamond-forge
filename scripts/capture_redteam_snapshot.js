@@ -47,7 +47,11 @@ function shouldExclude(filePath) {
 }
 
 function matchesPattern(filePath, pattern) {
-    const regex = new RegExp(pattern.replace(/\*/g, '.*').replace(/\//g, '\\/'));
+    // Escape all special regex characters in the pattern
+    const escapedPattern = pattern
+        .replace(/[\\^$*+?.()|[\]{}]/g, '\\$&')  // Escape all regex special chars
+        .replace(/\\\*/g, '.*');  // Convert escaped * back to .* for glob matching
+    const regex = new RegExp(escapedPattern);
     return regex.test(filePath);
 }
 
