@@ -23,7 +23,7 @@ flowchart TB
     
     %% Main Flow
     Loop -->|1. Copy Prompts| Gemini
-    Gemini -->|2. Generate Docs| Artifacts
+    Gemini -->|2. Generate Docs<br/>(Detail Level = Mode)| Artifacts
     
     Artifacts -->|3. Guide| Agent
     Agent -->|4. Write| Code
