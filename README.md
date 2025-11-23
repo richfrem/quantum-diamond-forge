@@ -27,7 +27,15 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 
 ## ⚡ Quick Start: Protocol v2.1
 
-The Forge offers **two tracks** to match your project needs:
+The Forge offers **three tracks** to match your project needs:
+
+### ⚡ Ultra-Lean Mode (Rapid Prototypes)
+**Best for**: Weekend projects, hackathons, quick experiments
+
+- **Time to Spec**: ~30 minutes
+- **Artifacts**: 5 docs
+- **Focus**: Ship it this weekend
+- **Start here**: `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
 
 ### 🏃 Lean Mode (Solo Devs & MVPs)
 **Best for**: Prototypes, MVPs, solo developers, small teams
