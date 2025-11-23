@@ -36,16 +36,20 @@ function show_help {
     echo "  lock [artifact]       Generate lockfile(s). Use 'all' for all artifacts."
     echo "  validate              Validate lockfiles for consistency."
     echo "                        Options: --fix (auto-fix issues), --report json"
+    echo ""
+    echo "Build & Test:"
+    echo "  build                 Trigger the build process (Agent instruction)."
+    echo "  test                  Run the project's test suite."
 }
 
 function copy_prompt {
     case $1 in
         0) FILE="00_kickoff.md" ;;
-        1) FILE="01_product_spec.md" ;;
-        2) FILE="02_tech_blueprint.md" ;;
-        3) FILE="03_ui_designer.md" ;;
-        4) FILE="04_scaffolder.md" ;;
-        5) FILE="05_ide_agent.md" ;;
+        1) FILE="01_requirements_analysis.md" ;;
+        2) FILE="02_architecture_design.md" ;;
+        3) FILE="03_security_compliance.md" ;;
+        4) FILE="04_testing_strategy.md" ;;
+        5) FILE="05_implementation_plan.md" ;;
         *) echo "Invalid step number. Use 1-5."; exit 1 ;;
     esac
 
@@ -183,6 +187,24 @@ case $COMMAND in
         ;;
     validate)
         node "$SCRIPTS_DIR/validator.js" "$ARG" "$ARG3"
+        ;;
+    build)
+        echo "🚀 Ready to Build!"
+        echo "👉 Please instruct the Antigravity Agent to: 'Build the application based on the lockfiles in docs/'"
+        ;;
+    test)
+        if [ -f "package.json" ]; then
+            if [ -f "yarn.lock" ]; then
+                yarn test
+            elif [ -f "pnpm-lock.yaml" ]; then
+                pnpm test
+            else
+                npm test
+            fi
+        else
+            echo "⚠️  No package.json found. Cannot run tests automatically."
+            echo "Please run your test command manually."
+        fi
         ;;
     help|*)
         show_help

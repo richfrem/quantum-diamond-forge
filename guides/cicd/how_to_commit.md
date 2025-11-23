@@ -1,6 +1,6 @@
 # How to Commit Changes - Step-by-Step Guide
 
-This guide walks you through committing changes to the PlumbingPOC project, including pre-commit hook validation and conventional commit format.
+This guide walks you through committing changes to the quantum-diamond-forge project, including pre-commit hook validation and conventional commit format.
 
 ## Prerequisites
 

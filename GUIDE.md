@@ -230,27 +230,27 @@ sequenceDiagram
 *   **Action:** Run `./forge.sh start` -> Paste to Gemini 1.5 Pro.
     *   *Note:* This launches the **Interactive Antigravity Guide**, which will interview you about your idea and create a tailored plan.
 
-### Step 1: Product Specification (The "What")
-**[👉 View Guide](guides/01_product_spec.md)**
+### Step 1: Requirements Analysis (The "What")
+**[👉 View Guide](guides/01_requirements_analysis.md)**
 *   **Goal:** Define the Narrative, Audience, and Core Features.
-*   **Action:** Run `./forge.sh prompt 1` -> Paste to ChatGPT -> Save `PRODUCT_SPEC.md`.
+*   **Action:** Run `./forge.sh prompt 1` -> Paste to ChatGPT -> Save `docs/01_requirements_analysis.md`.
 
-### Step 2: Technical Blueprint (The "How")
-**[👉 View Guide](guides/02_tech_blueprint.md)**
+### Step 2: Architecture Design (The "How")
+**[👉 View Guide](guides/02_architecture_design.md)**
 *   **Goal:** Define the Architecture, Stack, and Security.
-*   **Action:** Run `./forge.sh prompt 2` -> Paste to ChatGPT (with Spec) -> Save `TECHNICAL_BLUEPRINT.md`.
+*   **Action:** Run `./forge.sh prompt 2` -> Paste to ChatGPT (with Requirements) -> Save `docs/02_architecture_design.md`.
 
-### Step 3: Design System (The "Look")
-*   **Goal:** Define the Visual Language.
-*   **Action:** Run `./forge.sh prompt 3` -> Paste to Gemini (with Spec) -> Save `context.design.json`.
+### Step 3: Security Compliance (The "Shield")
+*   **Goal:** Define the Security Model and Compliance Requirements.
+*   **Action:** Run `./forge.sh prompt 3` -> Paste to ChatGPT (with Architecture) -> Save `docs/03_security_compliance.md`.
 
-### Step 4: Scaffolding (The "Build")
-*   **Goal:** Create the secure habitat.
-*   **Action:** Run `./forge.sh prompt 4` -> Paste to Gemini (with Blueprint + Design) -> Save & Run `setup.sh`.
+### Step 4: Testing Strategy (The "Proof")
+*   **Goal:** Define the Test Plan and Quality Gates.
+*   **Action:** Run `./forge.sh prompt 4` -> Paste to ChatGPT (with Security) -> Save `docs/04_testing_strategy.md`.
 
-### Step 5: Execution (The "Loop")
-*   **Goal:** Build features.
-*   **Action:** Run `./forge.sh prompt 5` -> Paste to IDE Agent -> Drag in Tasks.
+### Step 5: Implementation Plan (The "Build")
+*   **Goal:** Create the step-by-step build plan.
+*   **Action:** Run `./forge.sh prompt 5` -> Paste to IDE Agent -> Save `docs/05_implementation_plan.md`.
 
 ---
 

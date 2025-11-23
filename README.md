@@ -20,7 +20,7 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 
 ## 🛠️ Features
 
-*   **Protocol-Driven Workflow:** A 5-step granular process (Spec → Blueprint → Design → Scaffold → Code).
+*   **Protocol-Driven Workflow:** A 5-step granular process (Requirements → Architecture → Security → Testing → Implementation).
 *   **Expert Council:** Specialized AI personas (Architect, DevOps, Security) for deep-dive tasks.
 *   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
 *   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
@@ -98,7 +98,8 @@ graph TD
     *   **Validate**: Run `./forge.sh validate` to check consistency.
 
 4.  **Phase 2: The Build Loop**
-    Point your IDE Agent to the generated `implementation.lock.json` and watch it build!
+    *   **Build**: Run `./forge.sh build` to instruct the Agent.
+    *   **Test**: Run `./forge.sh test` to verify the build.
 
 ## 📚 Documentation
 
