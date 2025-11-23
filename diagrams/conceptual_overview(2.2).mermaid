@@ -5,7 +5,8 @@ flowchart TB
     %% --- Orchestration ---
     subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
         IDE --> Kickoff[Run ./forge.sh start]
-        Kickoff --> Loop{Specification Loop}
+        Kickoff --> Mode{Choose Mode<br/>(Ultra/Lean/Ent)}
+        Mode --> Loop{Specification Loop}
     end
     
     %% --- Web LLM ---
