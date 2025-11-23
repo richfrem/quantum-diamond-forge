@@ -25,7 +25,7 @@ The Forge solves this by providing a **Universal Base** of prompts, templates, a
 *   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
 *   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
 
-## ⚡ Quick Start: Protocol v2.1
+## ⚡ Quick Start: Protocol v2.2
 
 The Forge offers **three tracks** to match your project needs:
 
@@ -35,23 +35,23 @@ The Forge offers **three tracks** to match your project needs:
 - **Time to Spec**: ~30 minutes
 - **Artifacts**: 5 docs
 - **Focus**: Ship it this weekend
-- **Start here**: `prompts/00_MASTER_PROTOCOL_ULTRA_LEAN.md`
+- **Start here**: `./forge.sh start`
 
 ### 🏃 Lean Mode (Solo Devs & MVPs)
 **Best for**: Prototypes, MVPs, solo developers, small teams
 
 - **Time to Spec**: ~1 hour
-- **Artifacts**: ~10 docs
+- **Artifacts**: 4 docs
 - **Focus**: Essential features only
-- **Start here**: `prompts/00_MASTER_PROTOCOL_LEAN.md`
+- **Start here**: `./forge.sh start`
 
 ### 🏢 Enterprise Mode (Production Apps)
 **Best for**: Production apps, teams, compliance-heavy projects
 
 - **Time to Spec**: ~4-6 hours
-- **Artifacts**: 25+ docs
+- **Artifacts**: 5 detailed docs
 - **Focus**: Full rigor (C4 Level 1-3, STRIDE, compliance)
-- **Start here**: `prompts/00_MASTER_PROTOCOL.md`
+- **Start here**: `./forge.sh start`
 
 ---
 
@@ -59,9 +59,9 @@ The Forge offers **three tracks** to match your project needs:
 ```mermaid
 flowchart TB
     User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
-    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
-    Mode -- Lean --> Lean["🏃 10 Artifacts"]
-    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Docs"]
+    Mode -- Lean --> Lean["🏃 4 Docs"]
+    Mode -- Enterprise --> Ent["🏢 5 Detailed Docs"]
     Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
     Lean --> WebAI
     Ent --> WebAI

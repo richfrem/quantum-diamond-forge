@@ -54,9 +54,10 @@ Build a Node.js CLI that:
 
 ### Phase 2: API Provider Support
 Support multiple LLM providers:
-- OpenAI (GPT-4, GPT-4 Turbo)
-- Anthropic (Claude 3.5 Sonnet)
-- Google (Gemini 1.5 Pro)
+- Gemini
+- Anthropic claude
+- ChatGPT
+- Grok
 
 **Configuration**:
 ```bash

@@ -11,13 +11,24 @@ Instead of using monolithic prompts (like `01_requirements_analysis.md`), you ca
 
 ## How to Use
 
-### Option 1: Use Pre-Composed Prompts (Recommended)
-Just use the existing prompts:
-- `prompts/01_requirements_analysis.md` (uses all requirements modules)
-- `prompts/02_architecture_design.md` (uses all architecture modules)
-- etc.
+### Option 1: Use the Forge CLI (Recommended)
 
-### Option 2: Compose Your Own
+The easiest way to use these prompts is via the CLI:
+
+```bash
+./forge.sh start
+```
+
+This starts the Interactive Kickoff which will guide you to the right prompts (Ultra-Lean, Lean, or Enterprise).
+
+### Option 2: Manual Usage
+
+If you prefer to pick prompts manually:
+- **Enterprise**: `prompts/enterprise/01_requirements_analysis.md`
+- **Lean**: `prompts/lean/01_requirements_analysis.md`
+- **Ultra-Lean**: `prompts/ultra-lean/00_overview.md`
+
+### Option 3: Compose Your Own
 Pick and choose modules based on your needs:
 
 **Example: Lightweight Requirements**

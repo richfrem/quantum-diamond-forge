@@ -1,8 +1,8 @@
 flowchart TB
     User["👤 You (Orchestrator)"] -- "1. Kickoff<br/>(./forge.sh start -> Paste to Gemini)" --> Mode{"Choose Mode"}
-    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Artifacts"]
-    Mode -- Lean --> Lean["🏃 10 Artifacts"]
-    Mode -- Enterprise --> Ent["🏢 25+ Artifacts"]
+    Mode -- "Ultra-Lean" --> Ultra["⚡ 5 Docs"]
+    Mode -- Lean --> Lean["🏃 4 Docs"]
+    Mode -- Enterprise --> Ent["🏢 5 Detailed Docs"]
     Ultra -- "2. Copy Prompts<br/>(./forge.sh prompt 1-5)" --> WebAI["🧠 Web LLM<br>Gemini 3/GPT5/Claude4.5/Grok4/etc"]
     Lean --> WebAI
     Ent --> WebAI

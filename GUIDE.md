@@ -32,7 +32,7 @@ It addresses the common critiques of AI code (like those found in an [Antigravit
 ## 2. The Mental Model
 
 1.  **The General (You + Local Agent):** You operate *locally*, inside this repository.
-2.  **The Specialists (Web AIs):** ChatGPT (o1/4o) and Gemini (1.5 Pro) are your high-IQ consultants for "Precision Strikes".
+2.  **The Specialists (Web AIs):** ChatGPT (o1/4o) and Gemini ( Pro) are your high-IQ consultants for "Precision Strikes".
 3.  **The Expert Council:** A library of specialized personas (Architect, DevOps, Security) you can summon for deep-dive tasks.
 4.  **The Shared Brain (The Repo):** This repository is the source of truth. It comes pre-loaded with **Governance** (ADRs), **Task Management**, and **Validation Scripts**.
 
@@ -221,7 +221,7 @@ sequenceDiagram
 ### Step 0: Kickoff (The "Strategy")
 **[👉 View Guide](guides/00_kickoff.md)**
 *   **Goal:** Initialize strategy and get a personalized roadmap.
-*   **Action:** Run `./forge.sh start` -> Paste to Gemini 1.5 Pro.
+*   **Action:** Run `./forge.sh start` -> Paste to Gemini.
     *   *Note:* This launches the **Interactive Antigravity Guide**, which will interview you about your idea and create a tailored plan.
 
 ### Step 1: Requirements Analysis (The "What")

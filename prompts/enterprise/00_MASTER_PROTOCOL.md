@@ -24,7 +24,7 @@
 
 ## Philosophy
 **Objective:**
-Generate "Enterprise Benchmark" quality software specifications and code by orchestrating a "Human-in-the-Loop" workflow with high-end LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet, or Grok).
+Generate "Enterprise Benchmark" quality software specifications and code by orchestrating a "Human-in-the-Loop" workflow with high-end LLMs (Gemini, ChatGPT, ClaudeGrok).
 
 **The Concept:**
 Instead of relying on a swarm of autonomous agents, **YOU + ANTIGRAVITY** are the orchestrator.

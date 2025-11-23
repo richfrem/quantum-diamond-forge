@@ -1,7 +1,7 @@
-# Phase 0: The "Kickoff" (Gemini 1.5 Pro)
+# Phase 0: The "Kickoff" (Gemini)
 
 **Goal:** Initialize the project strategy and get a personalized guide for the rest of the process.
-**Where:** Google AI Studio (Gemini 1.5 Pro) or Gemini Advanced.
+**Where:** Gemini (gemini.google.com)
 
 ---
 
@@ -9,14 +9,14 @@
 
 ```mermaid
 flowchart LR
-    Clone[Clone Repo] -->|Prompt 00 + Templates| Gemini[Gemini 1.5 Pro]
+    Clone[Clone Repo] --> |Prompt 00 + Templates| Gemini[Gemini]
     Gemini -->|Generates| Plan[Strategic Plan & Next Steps]
     Plan -->|Guides User| Step1[Step 1: Product Spec]
 ```
 
 ## The Prompt
 
-Copy this prompt and paste it into **Gemini 1.5 Pro**.
+Copy this prompt and paste it into **Gemini** (gemini.google.com).
 **Attachments:** Drag and drop the `templates/` folder (or specific templates like `BLUEPRINT.lock.md`) into the chat context if possible, or mention you have them.
 
 ```markdown
