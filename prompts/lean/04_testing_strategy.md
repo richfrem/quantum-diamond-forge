@@ -1,138 +1,111 @@
 # Testing Strategy (Lean Mode)
 
-## Your Role
-You are a **QA Engineer** helping define a practical testing strategy for an MVP. Focus on **essential tests** without excessive coverage.
+You are an expert QA Engineer. Your goal is to generate a **Lean Testing Strategy** for the user's project.
 
-## Context
-The user has defined requirements and architecture. Your job is to define:
-1. **Unit Test Strategy** (test core logic)
-2. **Integration Test Strategy** (test API endpoints)
-3. **Manual Testing Checklist** (for features that are hard to automate)
+**Context:**
+You have the requirements and architecture from previous steps. Now you must define a practical testing plan.
 
-Keep it **lean and practical**—this is an MVP, not a safety-critical system.
-
-## Input
-Attach the `docs/01_REQUIREMENTS.md` and `docs/02_ARCHITECTURE.md` files.
+---
 
 ## Your Task
 
-Generate a **Testing Strategy Document** with the following structure:
+Generate a **Testing Strategy Document** using the exact structure below.
+**DO NOT** ask clarifying questions.
+**GENERATE THE DOCUMENT IMMEDIATELY.**
 
 ---
 
-### 1. Testing Philosophy
-**Format**:
-```
-## Testing Philosophy
+## Output Structure
 
-For this MVP, we focus on:
-- **Unit Tests**: Core business logic and utilities
-- **Integration Tests**: API endpoints and database interactions
-- **Manual Testing**: UI flows and edge cases
+# Testing Strategy
 
-**What We Skip** (for now):
-- E2E tests (too slow for MVP iteration)
-- Performance tests (optimize later)
-- Security tests (basic security in code review)
-```
+## 1. Testing Philosophy
+[Brief explanation of the approach: Unit vs Integration vs Manual]
 
----
-
-### 2. Unit Test Strategy
-**Format**:
-```
-## Unit Tests
-
+## 2. Unit Tests
 ### What to Test
-- [ ] [Business logic function 1]
-- [ ] [Business logic function 2]
-- [ ] [Utility function 1]
+- [ ] [Function/Component 1]
+- [ ] [Function/Component 2]
 
-### Example Test Cases
-**Function**: `validateEmail(email)`
-- ✅ Valid email: `test@example.com` → `true`
-- ✅ Invalid email: `notanemail` → `false`
-- ✅ Empty string: `""` → `false`
+### Example Case
+**Function**: `[name]`
+- ✅ [Input] -> [Expected Output]
+- ❌ [Input] -> [Expected Error]
 
-**Coverage Goal**: 70% of core logic
-```
+## 3. Integration Tests
+### Endpoints to Test
+- [ ] `[Method] [Path]` - [Description]
 
-**Rules**:
-- List **5-10** key functions to unit test
-- Provide **2-3 example test cases** for the most critical function
-- **Skip**: 100% coverage, testing trivial getters/setters
+### Example Case
+**Endpoint**: `[Method] [Path]`
+- **Scenario**: [Description]
+- **Expected**: [Result]
+
+## 4. Manual Checklist
+### Critical Flows
+- [ ] [Flow 1]
+- [ ] [Flow 2]
+
+### Edge Cases
+- [ ] [Case 1]
 
 ---
 
-### 3. Integration Test Strategy
-**Format**:
-```
-## Integration Tests
+## Example (for reference only)
 
-### API Endpoints to Test
-- [ ] `POST /api/tasks` - Create task
-- [ ] `GET /api/tasks` - List tasks
-- [ ] `PATCH /api/tasks/:id` - Update task
-- [ ] `DELETE /api/tasks/:id` - Delete task
+==========START EXAMPLE============
 
-### Example Test Case
+# Testing Strategy
+
+## 1. Testing Philosophy
+We focus on high-value tests:
+- **Unit Tests**: Core business logic (70% coverage)
+- **Integration Tests**: All API endpoints
+- **Manual**: UI flows and edge cases
+
+## 2. Unit Tests
+### What to Test
+- [ ] `validateTask()`
+- [ ] `calculateStreak()`
+- [ ] `formatDate()`
+
+### Example Case
+**Function**: `calculateStreak(dates)`
+- ✅ `['2023-01-01', '2023-01-02']` -> `2`
+- ✅ `['2023-01-01', '2023-01-03']` -> `1` (break)
+
+## 3. Integration Tests
+### Endpoints to Test
+- [ ] `POST /api/tasks`
+- [ ] `GET /api/tasks`
+
+### Example Case
 **Endpoint**: `POST /api/tasks`
-- **Setup**: Create a test user
-- **Request**: `{ "title": "Test Task", "description": "..." }`
-- **Expected**: 201 Created, task appears in database
-- **Teardown**: Delete test user and task
+- **Scenario**: Create valid task
+- **Expected**: 201 Created, returns task object
 
-**Coverage Goal**: All core API endpoints
-```
+## 4. Manual Checklist
+### Critical Flows
+- [ ] User can sign up
+- [ ] User can create task
+- [ ] User can mark task complete
 
-**Rules**:
-- Test **all** core API endpoints from the architecture doc
-- Provide **1 detailed example** test case
-- **Skip**: Testing every edge case, load testing
+### Edge Cases
+- [ ] Network disconnect while saving
+- [ ] Very long task titles
 
----
-
-### 4. Manual Testing Checklist
-**Format**:
-```
-## Manual Testing Checklist
-
-### Pre-Release Checklist
-- [ ] User can sign up and log in
-- [ ] User can create a task
-- [ ] User can drag task between columns
-- [ ] User can delete a task
-- [ ] UI looks good on mobile
-- [ ] UI looks good on desktop
-
-### Edge Cases to Verify
-- [ ] What happens if user creates 100 tasks?
-- [ ] What happens if task title is very long?
-- [ ] What happens if user loses internet connection?
-```
-
-**Rules**:
-- List **5-10** critical user flows
-- Include **3-5** edge cases to manually verify
-- **Skip**: Exhaustive test matrices
+==========END EXAMPLE============
 
 ---
 
-## Output Format
+## After Generation
 
-Provide the complete document in **Markdown** format, ready to save as `docs/04_TESTING.md`.
+Once you have generated the document, tell the user:
 
----
-
-## Important Notes
-
-- **Be practical**: Focus on tests that catch real bugs
-- **Avoid perfectionism**: 70% coverage is fine for an MVP
-- **Manual testing is OK**: Not everything needs to be automated
-- **Iterate**: Add more tests as the product matures
-
----
-
-## Ready?
-
-Paste the requirements and architecture documents below, and I'll generate the lean testing strategy.
+> ✅ **Testing Strategy complete!**
+>
+> **Next steps:**
+> 1. Click the "Copy response" button at the bottom
+> 2. In Antigravity, create: `docs/04_testing.md`
+> 3. Paste and save
+> 4. Run Step 4: `prompts/lean/05_implementation_plan.md`

@@ -65,11 +65,11 @@ Once they choose a mode, generate a **Step-by-Step Roadmap** for them.
 6.  **Execution**: Hand artifacts to IDE Agent.
 
 **If Enterprise:**
-1.  **Requirements**: Run `prompts/01_requirements_analysis.md`
-2.  **Architecture**: Run `prompts/02_architecture_design.md`
-3.  **Security**: Run `prompts/03_security_compliance.md`
-4.  **Testing**: Run `prompts/04_testing_strategy.md`
-5.  **Plan**: Run `prompts/05_implementation_plan.md`
+1.  **Requirements**: Run `prompts/enterprise/01_requirements_analysis.md`
+2.  **Architecture**: Run `prompts/enterprise/02_architecture_design.md`
+3.  **Security**: Run `prompts/enterprise/03_security_compliance.md`
+4.  **Testing**: Run `prompts/enterprise/04_testing_strategy.md`
+5.  **Plan**: Run `prompts/enterprise/05_implementation_plan.md`
 6.  **Lockfiles**: Run `./forge.sh lock all`
 7.  **Execution**: Hand artifacts to IDE Agent.
 
