@@ -1,0 +1,2963 @@
+
+================================================================================
+QUANTUM DIAMOND FORGE - PROTOCOL v2.0 RED TEAM SNAPSHOT
+Timestamp: 2025-11-22T21:41:49.315Z
+Purpose: Independent analysis and review by external LLMs
+================================================================================
+Total Files: 23
+--------------------------------------------------------------------------------
+
+## Project Structure
+```
+GUIDE.md
+INBOX/README.md
+README.md
+TASKS/done/001_harden-protocol-with-industry-benchmarks.md
+diagrams/conceptual_overview.mermaid
+diagrams/dependency_graph.mermaid
+diagrams/sequence_diagram.mermaid
+diagrams/workflow_map.mermaid
+guides/cicd/git_workflow.md
+guides/cicd/github_setup.md
+guides/cicd/how_to_commit.md
+guides/cicd/overview.md
+guides/cicd/security_scanning.md
+prompts/00_MASTER_PROTOCOL.md
+prompts/01_requirements_analysis.md
+prompts/02_architecture_design.md
+prompts/03_security_compliance.md
+prompts/04_testing_strategy.md
+prompts/05_implementation_plan.md
+prompts/REDTEAM/REDTEAM_USAGE.md
+prompts/REDTEAM/gpt5-response.md
+prompts/REDTEAM/grok4-response.md
+prompts/REDTEAM/redteam_v2_analysis.md
+```
+
+## File: GUIDE.md
+```md
+# The Quantum Diamond Forge Guide
+
+**Status:** v20 (The "Universal Base" Edition)
+**Philosophy:** "Don't prompt the ocean; build the aqueduct."
+
+---
+
+## 1. Introduction: Beyond "Vibe Coding"
+
+We live in the age of **"Vibe Coding"**—where a single prompt can generate a stunning, functional app in seconds. It's magical. It captures the *idea*.
+
+**But what happens next?**
+
+Most AI-generated apps are "Prototype Plus"—functional but fragile. They look great but often lack the rigor required for the real world:
+*   **Security Gaps:** Missing rate limiting, weak input validation, permissive CORS.
+*   **Operational Fragility:** No structured logging, basic health checks, no observability.
+*   **Maintenance Nightmares:** Ad-hoc patterns, no testing strategy, no architectural documentation.
+
+### The Antigravity Solution
+The **Quantum Diamond Forge** is the answer to this fragility. Built upon the principles of the [Quantum Diamond Framework](https://medium.com/@rfremmer_30873/beyond-the-double-diamond-design-process-a-new-framework-for-the-ai-age-the-quantum-diamond-980fe3f89319), this protocol operationalizes "Rigour at Speed."
+
+It is not just a set of prompts; it is a **Universal Base** for orchestrating multiple AI agents to build software that is **Secure by Design**, **Operationally Mature**, and **Production Ready** from Day 1.
+
+It addresses the common critiques of AI code (like those found in an [Antigravity Audit](#)) by enforcing:
+*   **Strict Contracts:** Zod schemas for every input.
+*   **Defense in Depth:** Helmet, Rate Limiting, and RBAC baked in.
+*   **Observability:** Structured logging with Correlation IDs.
+*   **Testing Pyramids:** Unit, Integration, and E2E tests as first-class citizens.
+
+---
+
+## 2. The Mental Model
+
+1.  **The General (You + Local Agent):** You operate *locally*, inside this repository.
+2.  **The Specialists (Web AIs):** ChatGPT (o1/4o) and Gemini (1.5 Pro) are your high-IQ consultants for "Precision Strikes".
+3.  **The Expert Council:** A library of specialized personas (Architect, DevOps, Security) you can summon for deep-dive tasks.
+4.  **The Shared Brain (The Repo):** This repository is the source of truth. It comes pre-loaded with **Governance** (ADRs), **Task Management**, and **Validation Scripts**.
+
+---
+
+## 3. The Workflow
+
+### Conceptual Overview
+This is how the entire system works from a developer's perspective.
+
+```mermaid
+flowchart TB
+    Start([Developer with Idea]) --> Clone[Clone Quantum Diamond Forge]
+    Clone --> IDE[Open in Antigravity IDE]
+    
+    subgraph Orchestration ["🎯 Antigravity IDE (The Orchestrator)"]
+        IDE --> Guide[Read GUIDE.md]
+        Guide --> Loop{Walk Through Steps}
+    end
+    
+    subgraph WebTools ["🌐 External AI Tools (Precision Strikes)"]
+        WebAI[ChatGPT/Claude<br/>Product & Architecture]
+        Gemini[Google AI Studio<br/>Design & Scaffolding]
+        Specialized[App Builder Tools<br/>Specialized Outputs]
+    end
+    
+    subgraph LocalExecution ["💻 Local Project (Growing Rigor)"]
+        Artifacts[Artifacts Folder<br/>PRODUCT_SPEC.md<br/>TECHNICAL_BLUEPRINT.md<br/>context.design.json]
+        Scripts[Scripts & Validation<br/>validate_drift.ts<br/>Security Baseline]
+        Code[Production Code<br/>With Tests & Docs]
+    end
+    
+    subgraph ExpertCouncil ["👥 Expert Council (Role-Based Context)"]
+        Architect[System Architect<br/>ADRs & Structure]
+        Backend[Backend Developer<br/>APIs & Services]
+        DevOps[DevOps Engineer<br/>CI/CD & Infra]
+        QA[QA Engineer<br/>Test Strategy]
+        Security[Security Auditor<br/>Threat Modeling]
+    end
+    
+    %% Main Flow
+    Loop -->|Step 1-2| WebAI
+    Loop -->|Step 3-4| Gemini
+    Loop -->|Optional| Specialized
+    
+    WebAI --> Artifacts
+    Gemini --> Artifacts
+    Specialized --> Artifacts
+    
+    Artifacts --> Scripts
+    Scripts --> Code
+    
+    %% Expert Invocations (Dotted = Optional)
+    Loop -.->|Deep Dive| ExpertCouncil
+    ExpertCouncil -.-> Code
+    
+    %% IDE Orchestration
+    IDE -->|Infinite Context| Code
+    IDE -->|Quality Gates| Scripts
+    IDE -->|Drift Prevention| Artifacts
+    
+    %% Final Output
+    Code --> Done([Production-Ready Application])
+    
+    style IDE fill:#dcfce7,stroke:#166534,stroke-width:3px
+    style Done fill:#fef3c7,stroke:#d97706,stroke-width:3px
+    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+```
+
+### High-Level Flow
+This diagram shows the artifact generation pipeline and how the Expert Council integrates.
+
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart LR
+    User([👤 You]) -->|1. Clone & Open| IDE[🎯 Antigravity IDE]
+    
+    IDE -->|2. Kickoff Prompt| Kickoff[🚀 Phase 0: Kickoff<br/>Gemini 1.5 Pro]
+    
+    Kickoff -->|Guides User| WebAI[🌐 Web AI<br/>ChatGPT/Claude/Grok/Gemini]
+    
+    WebAI -->|Generates| Artifacts[📦 Artifacts<br/>Specs, Blueprints,<br/>Design, Scripts]
+    
+    WebAI -.->|Deep Dive Prompts| Experts[👥 Expert Council<br/>Architect, DevOps,<br/>QA, Security]
+    
+    Artifacts -.->|Optional Deep Dive| Experts
+    
+    Artifacts --> IDE
+    Experts -.-> IDE
+    
+    IDE -->|3. Build & Validate| Code[💻 Production Code]
+    
+    Code -->|Drift Check| Validate{✓ Quality Gates}
+    
+    Validate -->|Pass| Done([✅ Production Ready])
+    Validate -->|Fail| IDE
+    
+    Done --> User
+    
+    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
+    style IDE fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Kickoff fill:#e0e7ff,stroke:#3730a3,stroke-width:2px
+```
+
+### Detailed Sequence
+This diagram shows the exact step-by-step interaction between you, the CLI, and the AIs.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant CLI as Forge CLI
+    participant WebAI as Web AI (ChatGPT/Gemini)
+    participant Repo as Local Repo (Artifacts)
+    participant Agent as Local IDE Agent
+
+    Note over User, Repo: Phase 0: Initialization
+    User->>CLI: ./forge.sh init
+    CLI-->>Repo: Creates Project Structure
+    User->>CLI: ./forge.sh prompt 0
+    User->>WebAI: Paste Kickoff Prompt
+    WebAI-->>User: Strategic Roadmap
+
+    Note over User, WebAI: Phase 1: Product Spec
+    User->>CLI: ./forge.sh prompt 1
+    User->>WebAI: Paste Prompt 1 + Idea
+    WebAI-->>User: Generates PRODUCT_SPEC.md
+    User->>Repo: Save PRODUCT_SPEC.md
+
+    Note over User, WebAI: Phase 2: Tech Blueprint
+    User->>CLI: ./forge.sh prompt 2
+    User->>WebAI: Paste Prompt 2 + PRODUCT_SPEC
+    WebAI-->>User: Generates TECHNICAL_BLUEPRINT.md
+    User->>Repo: Save TECHNICAL_BLUEPRINT.md
+
+    Note over User, WebAI: Phase 3: Design System
+    User->>CLI: ./forge.sh prompt 3
+    User->>WebAI: Paste Prompt 3 + Artifacts
+    WebAI-->>User: Generates context.design.json
+    User->>Repo: Save context.design.json
+
+    Note over User, WebAI: Phase 4: Scaffolding
+    User->>CLI: ./forge.sh prompt 4
+    User->>WebAI: Paste Prompt 4 + Artifacts
+    WebAI-->>User: Generates setup.sh
+    User->>Repo: Run setup.sh (Generates Security/Drift)
+
+    Note over User, Agent: Phase 5: Execution (Antigravity)
+    User->>CLI: ./forge.sh prompt 5
+    User->>Agent: Paste System Prompt
+    loop Antigravity Loop
+        User->>Agent: Assign Task (from Backlog)
+        Agent->>Repo: Read Artifacts (Blueprint/Design)
+        Agent->>Repo: Write Code
+        Agent->>Repo: Run validate:drift
+        Repo-->>Agent: Pass/Fail
+    end
+```
+
+---
+
+## 4. The Protocol Steps
+
+### Step 0: Kickoff (The "Strategy")
+**[👉 View Guide](guides/00_kickoff.md)**
+*   **Goal:** Initialize strategy and get a personalized roadmap.
+*   **Action:** Run `./forge.sh start` -> Paste to Gemini 1.5 Pro.
+    *   *Note:* This launches the **Interactive Antigravity Guide**, which will interview you about your idea and create a tailored plan.
+
+### Step 1: Product Specification (The "What")
+**[👉 View Guide](guides/01_product_spec.md)**
+*   **Goal:** Define the Narrative, Audience, and Core Features.
+*   **Action:** Run `./forge.sh prompt 1` -> Paste to ChatGPT -> Save `PRODUCT_SPEC.md`.
+
+### Step 2: Technical Blueprint (The "How")
+**[👉 View Guide](guides/02_tech_blueprint.md)**
+*   **Goal:** Define the Architecture, Stack, and Security.
+*   **Action:** Run `./forge.sh prompt 2` -> Paste to ChatGPT (with Spec) -> Save `TECHNICAL_BLUEPRINT.md`.
+
+### Step 3: Design System (The "Look")
+*   **Goal:** Define the Visual Language.
+*   **Action:** Run `./forge.sh prompt 3` -> Paste to Gemini (with Spec) -> Save `context.design.json`.
+
+### Step 4: Scaffolding (The "Build")
+*   **Goal:** Create the secure habitat.
+*   **Action:** Run `./forge.sh prompt 4` -> Paste to Gemini (with Blueprint + Design) -> Save & Run `setup.sh`.
+
+### Step 5: Execution (The "Loop")
+*   **Goal:** Build features.
+*   **Action:** Run `./forge.sh prompt 5` -> Paste to IDE Agent -> Drag in Tasks.
+
+---
+
+## 5. Project Management Tools (Built-in)
+
+The Forge comes with local tools to manage your project's governance.
+
+### Tasks
+Manage your backlog with structured markdown files.
+```bash
+./forge.sh task "Implement User Auth"
+# Creates TASKS/backlog/001_implement_user_auth.md
+```
+
+### ADRs (Architectural Decision Records)
+Document your technical decisions.
+```bash
+./forge.sh adr "Use Supabase for Auth"
+# Creates docs/adr/0001-use-supabase-for-auth.md
+```
+
+### Code Snapshots
+Capture your codebase context for the Expert Council.
+```bash
+# Capture everything (default)
+./forge.sh snap output.txt
+
+# Capture only code files (great for LLM context)
+./forge.sh snap code_only.txt --mode code
+
+# Capture specific folders (e.g., for a specific feature)
+./forge.sh snap feature_context.txt --folders src/components,src/hooks
+```
+
+### Git Hooks (Automated Guardrails)
+The Forge installs pre-configured Git hooks to keep your repo clean.
+*   **Pre-commit:**
+    *   Prevents commits to `main` branch.
+    *   Blocks large files (>50MB).
+    *   Runs `validate_drift.ts` (if present) to ensure code matches blueprint.
+*   **Commit-msg:**
+    *   Enforces [Conventional Commits](https://www.conventionalcommits.org/) (e.g., `feat: add login`).
+
+### CI/CD & Workflow Guides
+Detailed guides for setting up your pipeline and mastering the git workflow.
+*   **[CI/CD Overview](guides/cicd/overview.md):** The big picture of how code moves from laptop to production.
+*   **[GitHub Setup](guides/cicd/github_setup.md):** How to configure your repo for security and automation.
+*   **[Git Workflow](guides/cicd/git_workflow.md):** Quick reference for branches, aliases, and commands.
+*   **[How to Commit](guides/cicd/how_to_commit.md):** Step-by-step guide to passing the pre-commit hooks.
+*   **[Security Scanning](guides/cicd/security_scanning.md):** Understanding and fixing vulnerability alerts.
+
+### The Inbox Workflow
+The `INBOX/` folder is your "Drop Zone" for AI collaboration.
+1.  **Drop:** Drag messy notes, drafts, or external docs into `INBOX/`.
+2.  **Prompt:** Tell the Agent "Check the Inbox."
+3.  **Process:** The Agent will refactor, format, and move the files to their correct location (e.g., `docs/`, `TASKS/`).
+
+---
+
+## 6. The Expert Council (Specialized Roles)
+
+Use these roles when you need deep expertise in a specific domain.
+
+### How to Use
+Run `./forge.sh role <role_name>` to copy the prompt.
+
+*   **System Architect** (`architect`): Use for defining directory structures, ADRs, and technical constraints.
+*   **Backend Developer** (`backend`): Use for implementing complex API logic, database schemas, and microservices.
+*   **DevOps Engineer** (`devops`): Use for setting up CI/CD pipelines, Dockerfiles, and Infrastructure as Code.
+*   **QA Engineer** (`qa`): Use for defining test strategies and writing E2E test suites.
+*   **Security Auditor** (`security`): Use for threat modeling and security reviews.
+
+---
+
+## 7. Repository Deep Dive
+
+*   `forge.sh`: The CLI tool.
+*   `prompts/`: Core protocol prompts.
+    *   `roles/`: The Expert Council prompts.
+*   `guides/`: Detailed sub-guides.
+*   `scripts/`: Automation tools (`new_task.sh`, `new_adr.sh`, `capture_snapshot.js`).
+*   `templates/`: Source templates for artifacts.
+*   `TASKS/`: Your project backlog.
+*   `docs/adr/`: Your decision log.
+
+```
+
+## File: INBOX/README.md
+```md
+# Inbox
+
+**Drop Zone for AI Processing**
+
+Place any drafts, notes, or external documents here that you want the Antigravity Agent to review, refactor, or integrate into the project.
+
+**Workflow:**
+1. Drag files here.
+2. Tell the Agent: "Check the Inbox."
+3. The Agent will process them and move them to their permanent home (e.g., `docs/`, `TASKS/`).
+
+```
+
+## File: README.md
+```md
+# Quantum Diamond Forge 💎
+
+**The Universal Base for AI-Native Development.**
+
+[![CI](https://github.com/richfrem/quantum-diamond-forge/actions/workflows/ci.yml/badge.svg)](https://github.com/richfrem/quantum-diamond-forge/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> "Don't prompt the ocean; build the aqueduct."
+
+The **Quantum Diamond Forge** is a protocol and scaffolding engine designed to operationalize "Rigour at Speed." It orchestrates AI agents (ChatGPT, Gemini, Claude) to build software that is **Secure by Design**, **Operationally Mature**, and **Production Ready** from Day 1.
+
+## 🚀 Why?
+
+Most AI-generated code is "Prototype Plus"—functional but fragile. It lacks:
+*   **Security:** Rate limiting, input validation, headers.
+*   **Ops:** Logging, health checks, Dockerfiles.
+*   **Structure:** Consistent architecture and testing patterns.
+
+The Forge solves this by providing a **Universal Base** of prompts, templates, and validation scripts that enforce quality gates at every step.
+
+## 🛠️ Features
+
+*   **Protocol-Driven Workflow:** A 5-step granular process (Spec → Blueprint → Design → Scaffold → Code).
+*   **Expert Council:** Specialized AI personas (Architect, DevOps, Security) for deep-dive tasks.
+*   **Automated Governance:** Built-in ADRs, Task Management, and Git Hooks.
+*   **Defense in Depth:** Pre-configured security headers, Zod validation, and drift detection.
+
+## ⚡ Quick Start: Protocol v2.0
+
+The Forge uses a **"Human-in-the-Loop"** workflow. You orchestrate the process using high-end Web LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet) to generate rigorous specs, which then guide the Antigravity Agent.
+
+### The Workflow
+```mermaid
+graph TD
+    User["👤 You (Orchestrator)"] -->|1. Idea| WebLLM["🧠 Web LLM (Gemini/Claude)"]
+    WebLLM -->|2. Generates| Specs["📄 Rigorous Specs (docs/)"]
+    Specs -->|3. Guides| Agent["🤖 Antigravity Agent (IDE)"]
+    Agent -->|4. Builds| Code["💻 Production Code"]
+    
+    subgraph "Phase 1: Specification Loop"
+    WebLLM
+    Specs
+    end
+    
+    subgraph "Phase 2: Build Loop"
+    Agent
+    Code
+    end
+```
+
+### Step-by-Step
+
+1.  **Clone the Forge:**
+    ```bash
+    git clone https://github.com/richfrem/quantum-diamond-forge.git
+    cd quantum-diamond-forge
+    ```
+
+2.  **Start the Master Protocol:**
+    Open `prompts/00_MASTER_PROTOCOL.md`. This is your command center.
+
+3.  **Phase 1: The Specification Loop**
+    Follow the guide to generate your "Gold Standard" documentation suite:
+    *   `01_REQUIREMENTS.md` (Feature Catalog)
+    *   `02_ARCHITECTURE.md` (C4 Diagrams)
+    *   `03_SECURITY.md` (Threat Models)
+    *   `04_TESTING.md` (Test Strategy)
+    *   `05_IMPLEMENTATION.md` (Task Plan)
+
+4.  **Phase 2: The Build Loop**
+    Point your IDE Agent to the generated `task.md` and watch it build!
+
+## 📚 Documentation
+
+*   **[The Guide (Start Here)](GUIDE.md)**: The complete manual for the protocol.
+*   **[CI/CD & Workflow](guides/cicd/overview.md)**: How to ship code securely.
+*   **[Expert Roles](prompts/roles/)**: Browse the specialized personas.
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+```
+
+## File: TASKS/done/001_harden-protocol-with-industry-benchmarks.md
+```md
+# Task: Harden Protocol with Industry Benchmarks
+
+**Status**: Done
+**Created**: 2025-11-22
+**Owner**: Antigravity
+
+### Phase 2: Prompt Engineering
+- [x] Create `prompts/01_requirements_analysis.md`
+- [x] Create `prompts/02_architecture_design.md`
+- [x] Create `prompts/03_security_compliance.md`
+- [x] Create `prompts/04_testing_strategy.md`
+- [x] Create `prompts/05_implementation_plan.md`
+- [x] Remove legacy prompts (`01_product_spec.md`, etc.)
+- [x] Create `prompts/00_MASTER_PROTOCOL.md` (The Guide)
+- [x] Remove legacy kickoff files (`00_kickoff.md`, `00_interactive_kickoff.md`)
+- [x] Update `README.md` with Protocol v2.0 workflow & Mermaid diagram
+- [x] Update `README.md` with Protocol v2.0 workflow & Mermaid diagram
+- [x] Refine `prompts/00_MASTER_PROTOCOL.md` to clarify Orchestrator role
+- [x] Update `diagrams/workflow_map.mermaid`
+- [x] Update `diagrams/conceptual_overview.mermaid`
+- [x] Update `diagrams/sequence_diagram.mermaid`
+- [x] Update `diagrams/dependency_graph.mermaid`
+
+## Context
+We analyzed enterprise-grade technical specifications (e.g., the "Helix" spec) to benchmark the Quantum Diamond Forge (QDF) protocol. The goal is to elevate QDF from generating "MVP-style" outputs to "Enterprise-Grade" specifications.
+
+## Benchmark Analysis & Gap Report
+The industry benchmark specs demonstrated superior rigor in several areas where QDF v1 was lacking:
+
+| Area | Industry Benchmark (Helix Spec) | QDF v1 (Old Prompts) | Gap |
+|------|---------------------------------|----------------------|-----|
+| **Requirements** | Detailed Feature Catalog, MoSCoW, Functional/Non-Functional Requirements, Traceability Matrix. | Simple "Narrative" and "Core Feature Scope". | **High**: QDF lacked structured requirement definitions and traceability. |
+| **Architecture** | C4 Diagrams, Event Flows, Detailed Component interactions. | High-level stack list and basic "Domain Architecture". | **Medium**: QDF needed standard diagramming (C4) and deeper API design. |
+| **Security** | Explicit Threat Modeling, Compliance Controls (DSCSA, GDPR), AuthZ matrix. | "Shift Left" bullet points, generic security headers. | **Critical**: QDF lacked specific threat modeling and compliance mapping. |
+| **Testing** | Test Pyramid, Performance criteria, Security testing (SAST/DAST). | Basic "CI/CD Pipeline" steps. | **High**: QDF missed a dedicated testing strategy. |
+
+## Objective
+Upgrade QDF to **Protocol v2.0** by implementing a rigorous 5-step prompting strategy that mimics enterprise depth.
+
+## Implementation Checklist
+
+### Phase 1: Protocol Design (v2.0)
+- [x] **Analyze Benchmarks**: Extract patterns for Requirements, Architecture, and Security.
+- [x] **Design New Prompt Architecture**:
+    - `01_requirements_analysis.md`: Feature Catalog, User Stories.
+    - `02_architecture_design.md`: C4, API, Data Models.
+    - `03_security_compliance.md`: Threat Modeling, Compliance.
+    - `04_testing_strategy.md`: Test Pyramid, Performance.
+    - `05_implementation_plan.md`: Task Breakdown.
+
+```
+
+## File: diagrams/conceptual_overview.mermaid
+```mermaid
+flowchart TB
+    Start([Developer with Idea]) --> Clone[Clone Quantum Diamond Forge]
+    Clone --> IDE[Open in Antigravity IDE]
+    
+    subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
+        IDE --> Master[Read 00_MASTER_PROTOCOL.md]
+        Master --> Loop{Specification Loop}
+    end
+    
+    subgraph WebTools ["🧠 Web LLM (The Heavy Lifter)"]
+        Gemini[Gemini 1.5 Pro / Claude 3.5<br/>Generates Enterprise Specs]
+    end
+    
+    subgraph LocalExecution ["💻 Local Project (The Build)"]
+        Artifacts[docs/ Folder<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Implementation]
+        Agent[Antigravity Agent<br/>(The Builder)]
+        Code[Production Code]
+    end
+    
+    %% Main Flow
+    Loop -->|1. Copy Prompts| Gemini
+    Gemini -->|2. Generate Docs| Artifacts
+    
+    Artifacts -->|3. Guide| Agent
+    Agent -->|4. Write| Code
+    
+    %% Feedback Loops
+    Code -.->|Verify| Agent
+    Agent -.->|Refine| Artifacts
+    
+    %% Final Output
+    Code --> Done([Production-Ready Application])
+    
+    style IDE fill:#dcfce7,stroke:#166534,stroke-width:3px
+    style Done fill:#fef3c7,stroke:#d97706,stroke-width:3px
+    style Artifacts fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+
+```
+
+## File: diagrams/dependency_graph.mermaid
+```mermaid
+graph TD
+    Req[01_REQUIREMENTS.md<br/>(Feature Catalog)] --> Arch[02_ARCHITECTURE.md<br/>(C4 & Data Models)]
+    
+    Req --> Sec[03_SECURITY.md<br/>(Threat Models)]
+    Arch --> Sec
+    
+    Req --> Test[04_TESTING.md<br/>(Test Strategy)]
+    Arch --> Test
+    
+    Req --> Plan[05_IMPLEMENTATION.md<br/>(Task Breakdown)]
+    Arch --> Plan
+    Sec --> Plan
+    Test --> Plan
+    
+    style Req fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Plan fill:#dcfce7,stroke:#166534,stroke-width:2px
+
+```
+
+## File: diagrams/sequence_diagram.mermaid
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as 👤 You (Orchestrator)
+    participant Master as 📜 Master Protocol
+    participant WebAI as 🧠 Web LLM (Gemini/Claude)
+    participant Repo as 📂 Local Repo (docs/)
+    participant Agent as 🤖 Antigravity Agent
+
+    Note over User, Repo: Phase 1: The Specification Loop
+    
+    User->>Master: Read Step 1 (Requirements)
+    User->>WebAI: Paste Prompt 01 + Idea
+    WebAI-->>User: Generates Feature Catalog
+    User->>Repo: Save docs/01_REQUIREMENTS.md
+    
+    User->>Master: Read Step 2 (Architecture)
+    User->>WebAI: Paste Prompt 02 + Requirements
+    WebAI-->>User: Generates C4 Diagrams
+    User->>Repo: Save docs/02_ARCHITECTURE.md
+    
+    User->>Master: Read Step 3 (Security)
+    User->>WebAI: Paste Prompt 03 + Context
+    WebAI-->>User: Generates Threat Model
+    User->>Repo: Save docs/03_SECURITY.md
+    
+    User->>Master: Read Step 4 (Testing)
+    User->>WebAI: Paste Prompt 04 + Context
+    WebAI-->>User: Generates Test Strategy
+    User->>Repo: Save docs/04_TESTING.md
+    
+    User->>Master: Read Step 5 (Plan)
+    User->>WebAI: Paste Prompt 05 + Context
+    WebAI-->>User: Generates Implementation Plan
+    User->>Repo: Save docs/05_IMPLEMENTATION.md
+    
+    Note over User, Agent: Phase 2: The Build Loop
+    
+    User->>Agent: Point to docs/05_IMPLEMENTATION.md
+    loop Antigravity Build Cycle
+        Agent->>Repo: Read Specs
+        Agent->>Repo: Write Code
+        Agent->>Repo: Run Tests
+        Repo-->>Agent: Pass/Fail
+    end
+
+```
+
+## File: diagrams/workflow_map.mermaid
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart LR
+    User([👤 You (Orchestrator)]) -->|1. Open| Master[📜 Master Protocol]
+    
+    Master -->|2. Copy Prompts| WebAI[🧠 Web LLM<br/>Gemini 1.5 Pro / Claude 3.5]
+    
+    WebAI -->|3. Generates| Docs[📂 docs/<br/>1. Requirements<br/>2. Architecture<br/>3. Security<br/>4. Testing<br/>5. Plan]
+    
+    Docs -->|4. Guides| Agent[🤖 Antigravity Agent<br/>(IDE)]
+    
+    Agent -->|5. Builds| Code[💻 Production Code]
+    
+    Code -->|Verify| Validate{✓ Quality Gates}
+    
+    Validate -->|Pass| Done([✅ Production Ready])
+    Validate -->|Fail| Agent
+    
+    style Docs fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+    style Done fill:#dcfce7,stroke:#166534,stroke-width:2px
+    style Agent fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Master fill:#e0e7ff,stroke:#3730a3,stroke-width:2px
+
+```
+
+## File: guides/cicd/git_workflow.md
+```md
+# Git Workflow Quick Reference
+
+This guide provides recommended git workflows and shortcuts for the PlumbingPOC project.
+
+## TL;DR - Recommended Setup
+
+```bash
+# 1. Add these aliases to your ~/.gitconfig
+git config --global alias.st "status -sb"
+git config --global alias.aa "add --all"
+git config --global alias.cm "commit -m"
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# 2. Use conventional commits (see examples below)
+
+# 3. Let pre-commit hooks validate your changes
+```
+
+## Conventional Commit Format
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+### Commit Types
+
+| Type | When to Use | Example |
+|------|-------------|---------|
+| `feat` | New feature | `feat(auth): add OAuth2 login` |
+| `fix` | Bug fix | `fix(api): handle null user response` |
+| `docs` | Documentation only | `docs(readme): update setup instructions` |
+| `style` | Code formatting (no logic change) | `style(components): fix indentation` |
+| `refactor` | Code restructuring | `refactor(utils): extract validation logic` |
+| `test` | Adding/updating tests | `test(api): add integration tests` |
+| `chore` | Maintenance tasks | `chore(deps): update dependencies` |
+| `ci` | CI/CD changes | `ci(github): add CodeQL workflow` |
+| `perf` | Performance improvements | `perf(db): optimize query performance` |
+| `revert` | Revert previous commit | `revert: revert feat(auth) commit` |
+
+## Common Workflows
+
+### 1. Feature Development (Standard)
+
+```bash
+# Create feature branch
+git checkout -b feature/add-security-scanning
+
+# Make changes, then stage specific files
+git add .github/dependabot.yml
+git add .github/workflows/codeql.yml
+git add docs/ci-cd/README.md
+
+# Review what you're about to commit
+git diff --cached
+
+# Commit with conventional format
+git commit -m "feat(security): configure GitHub Advanced Security
+
+- Add Dependabot for dependency scanning
+- Add CodeQL for security analysis
+- Update CI/CD docs with security guide
+
+Refs: TASK-0067, ADR-040"
+
+# Push to remote
+git push origin feature/add-security-scanning
+
+# Create PR on GitHub
+# After PR approval, merge via GitHub UI
+```
+
+### 2. Quick Fix (Using Aliases)
+
+```bash
+# Fix a typo in documentation
+git aa  # Stage all changes
+git cm "docs(readme): fix typo in installation steps"
+git push
+```
+
+### 3. Multi-file Changes (Interactive Staging)
+
+```bash
+# Stage specific lines from files
+git add -p
+
+# Review staged changes
+git diff --cached
+
+# Commit
+git commit -m "refactor(api): extract error handling logic"
+
+# Push
+git push
+```
+
+### 4. Amend Last Commit
+
+```bash
+# Forgot to add a file to last commit
+git add forgotten-file.js
+git commit --amend --no-edit
+
+# Or change the commit message
+git commit --amend -m "feat(auth): add OAuth2 login (updated message)"
+
+# Force push (only if not yet merged!)
+git push --force-with-lease
+```
+
+## Useful Git Aliases
+
+Add these to your `~/.gitconfig`:
+
+```gitconfig
+[alias]
+    # Quick status
+    st = status -sb
+
+    # Stage all changes
+    aa = add --all
+
+    # Commit with message
+    cm = commit -m
+
+    # Amend last commit
+    amend = commit --amend --no-edit
+
+    # Pretty log
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+    # Show staged changes
+    staged = diff --cached
+
+    # Undo last commit (keep changes)
+    undo = reset HEAD~1
+
+    # List branches sorted by last modified
+    branches = branch --sort=-committerdate
+
+    # Show files in last commit
+    last = show --name-only
+```
+
+## Pre-commit Hook Usage
+
+Our pre-commit hook (`.githooks/pre-commit`) automatically validates:
+- ✅ No `.env` files (except `.env.example`)
+- ✅ No hardcoded secrets (API keys, tokens, passwords)
+- ✅ Blocks commit if violations found
+
+**If the hook blocks your commit:**
+
+```bash
+# Review the violation
+# Fix the issue (remove secret, use environment variable)
+# Try committing again
+
+# ONLY bypass if you're absolutely sure it's safe
+git commit --no-verify -m "your message"
+```
+
+**⚠️ WARNING:** Never use `--no-verify` to bypass secret detection!
+
+## Branch Naming Conventions
+
+```
+feature/short-description    # New features
+fix/bug-description          # Bug fixes
+docs/documentation-update    # Documentation
+refactor/code-improvement    # Code refactoring
+test/add-tests              # Test additions
+chore/maintenance-task      # Maintenance
+```
+
+**Examples:**
+- `feature/github-security-scanning`
+- `fix/null-pointer-in-auth`
+- `docs/update-ci-cd-guide`
+- `refactor/extract-validation-logic`
+
+## Commit Message Examples
+
+### Good Commit Messages ✅
+
+```bash
+# Feature with detailed body
+git commit -m "feat(security): add Dependabot and CodeQL workflows
+
+- Configure Dependabot for npm and GitHub Actions
+- Add CodeQL workflow for JavaScript/TypeScript analysis
+- Update CI/CD documentation with security scanning guide
+
+This implements the security scanning layer documented in ADR-040.
+
+Refs: TASK-0067, ADR-040"
+
+# Bug fix with issue reference
+git commit -m "fix(auth): handle null user response from Supabase
+
+Fixes #123"
+
+# Documentation update
+git commit -m "docs(ci-cd): add security scanning interpretation guide"
+
+# Dependency update
+git commit -m "chore(deps): bump axios from 0.21.1 to 1.6.0
+
+Fixes CVE-2023-45857 (High severity)"
+```
+
+### Bad Commit Messages ❌
+
+```bash
+# Too vague
+git commit -m "fix stuff"
+git commit -m "update files"
+git commit -m "changes"
+
+# No type prefix
+git commit -m "added security scanning"
+
+# Too long subject line (>72 chars)
+git commit -m "feat(security): add Dependabot and CodeQL workflows for automated dependency scanning and security analysis"
+```
+
+## IDE Git Integration
+
+### Visual Studio Code
+
+1. **Stage files:** Click `+` next to file in Source Control panel
+2. **Review changes:** Click file to see diff
+3. **Commit:** Type message in input box, press `Ctrl+Enter`
+4. **Push:** Click `...` → Push
+
+**Recommended extensions:**
+- GitLens - Enhanced git capabilities
+- Git Graph - Visualize branch history
+
+### JetBrains IDEs (WebStorm, IntelliJ)
+
+1. **Commit:** `Ctrl+K` (Windows/Linux) or `Cmd+K` (Mac)
+2. **Review changes:** Check boxes for files to stage
+3. **Commit message:** Type in message box
+4. **Commit and Push:** Click dropdown → Commit and Push
+
+## Troubleshooting
+
+### Pre-commit hook not running
+
+```bash
+# Make hook executable
+chmod +x .githooks/pre-commit
+
+# Verify git hooks path
+git config core.hooksPath .githooks
+```
+
+### Accidentally committed secret
+
+```bash
+# 1. IMMEDIATELY revoke the secret in the service provider
+# 2. Remove from git history
+git filter-branch --force --index-filter \
+  "git rm --cached --ignore-unmatch path/to/file" \
+  --prune-empty --tag-name-filter cat -- --all
+
+# 3. Force push (⚠️ coordinate with team!)
+git push origin --force --all
+
+# 4. Update environment variables with new secret
+```
+
+### Merge conflict
+
+```bash
+# 1. Pull latest changes
+git pull origin main
+
+# 2. Resolve conflicts in your editor
+# Look for <<<<<<< HEAD markers
+
+# 3. Stage resolved files
+git add resolved-file.js
+
+# 4. Complete merge
+git commit -m "merge: resolve conflicts with main"
+
+# 5. Push
+git push
+```
+
+## Best Practices
+
+1. **Commit often** - Small, focused commits are easier to review and revert
+2. **Write clear messages** - Future you will thank present you
+3. **Review before committing** - Always run `git diff --cached`
+4. **Test before pushing** - Run `npm run lint` and `npm run test:unit`
+5. **Pull before pushing** - Avoid merge conflicts
+6. **Use branches** - Never commit directly to `main`
+7. **Keep commits atomic** - One logical change per commit
+
+## References
+
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [Git Documentation](https://git-scm.com/doc)
+- [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow)
+- ADR-041: Git Workflow Automation Strategy
+
+```
+
+## File: guides/cicd/github_setup.md
+```md
+# GitHub Repository Configuration Guide
+
+This guide documents how to configure the **Quantum Diamond Forge** GitHub repository to enable CI/CD pipelines, security scanning, and automated workflows.
+
+## Prerequisites
+
+- Admin access to the GitHub repository
+- Repository: `https://github.com/richfrem/quantum-diamond-forge`
+
+## Best Practices for AI-Assisted Development
+
+**⚠️ Important for Antigravity IDE Agents:**
+
+When working with CI/CD pipelines that include security scans (CodeQL, Dependabot), follow these practices to minimize overhead:
+
+1. **Batch commits locally** - Make multiple commits on your feature branch before pushing
+2. **Push once when ready** - Only push when the feature is complete and tested locally
+3. **Use draft PRs** - Mark PRs as "Draft" while still working, convert to "Ready for review" when done
+4. **Avoid rapid push cycles** - CI scans (especially CodeQL) can take 1-2 minutes per run
+
+**Why:** Security scans are resource-intensive. Pushing every small change creates unnecessary CI runs and slows down the development workflow.
+
+**Recommended workflow:**
+```bash
+# Make multiple commits locally
+git commit -m "feat: add feature part 1"
+git commit -m "feat: add feature part 2"
+git commit -m "fix: address edge case"
+
+# Push once when ready
+git push origin feature/my-feature
+
+# Create PR (mark as draft if still WIP)
+gh pr create --draft --title "WIP: My Feature"
+```
+
+## Step 1: Enable GitHub Actions (done)
+
+GitHub Actions should be enabled by default, but verify:
+
+1. Go to **Settings** → **Actions** → **General**
+2. Under "Actions permissions", select:
+   - ✅ **Allow all actions and reusable workflows**
+3. Under "Workflow permissions", select:
+   - ✅ **Read and write permissions**
+   - ✅ **Allow GitHub Actions to create and approve pull requests**
+4. Click **Save**
+
+## Step 2: Enable Security Features
+
+1. Go to **Settings** → **Code security and analysis** (Sidebar under "Security").
+2. Under the **Advanced Security** section, **Enable** the following:
+   - **Dependency graph** (Should be enabled by default)
+   - **Dependabot alerts**
+   - **Dependabot security updates**
+     - *Optional:* Enable **Grouped security updates** to reduce noise.
+   - **Secret Protection** -> **Push protection** (Block commits that contain supported secrets).
+   - **Private vulnerability reporting** (Optional).
+
+## Step 3: Configure CodeQL Analysis
+
+**Eligibility:**
+- **Public repositories:** Free for everyone.
+- **Private repositories:** Requires GitHub Advanced Security (GHAS) license.
+
+**Setup Instructions:**
+1. Still in **Code security and analysis**, scroll down to **Code scanning** / **CodeQL analysis**.
+2. Click **Set up** (or "Configure").
+3. Choose **Default** setup (Recommended).
+   - GitHub will automatically detect languages (JavaScript/TypeScript, Python, etc.).
+   - It will create a dynamic workflow without you needing to commit a YAML file.
+   - Click **Enable CodeQL**.
+
+*(If "Default" is not available, choose "Advanced" and it will generate a `codeql.yml` file for you to commit).*
+
+## Step 4: Create Development Branch
+
+Before setting up branch protection, create a `dev` branch for integration testing:
+
+```bash
+# Make sure you're on main and up to date
+git checkout main
+git pull origin main
+
+# Create dev branch from main
+git checkout -b dev
+git push -u origin dev
+
+# Return to your working branch
+git checkout -
+```
+
+## Step 5: Configure Branch Protection Rules
+
+### 5.1 Protect the `main` Branch
+
+1. Go to **Settings** → **Branches**
+2. Click **Add branch protection rule**
+3. **Branch name pattern:** `main`
+4. Enable:
+   - ✅ **Require a pull request before merging**
+   - ❌ **Require approvals** - UNCHECK (not needed for solo dev, check for teams)
+   - ✅ **Require status checks to pass before merging**
+     - ✅ **Require branches to be up to date before merging**
+     - **Add required status checks:**
+       - `Test CLI Init` (from CI Pipeline)
+       - `Shellcheck` (from CI Pipeline)
+   - ✅ **Require conversation resolution before merging** (optional but good practice)
+   - ✅ **Do not allow bypassing the above settings**
+5. Click **Create**
+
+**Result:** All changes to `main` must:
+- Come from `dev` via PR
+- Pass CI pipeline (linting, tests)
+
+### 5.2 Protect the `dev` Branch
+
+1. Click **Add branch protection rule** again
+2. **Branch name pattern:** `dev`
+3. Enable:
+   - ✅ **Require a pull request before merging** (forces PR from feature branches)
+   - ❌ **Require approvals** - UNCHECK (allows you to merge your own PRs)
+   - ✅ **Require status checks to pass before merging**
+     - ✅ **Require branches to be up to date before merging**
+     - **Add required status checks:**
+       - `Test CLI Init`
+       - `Shellcheck`
+   - ❌ **Do not allow bypassing** - UNCHECK (gives you flexibility on dev)
+4. Click **Create**
+
+**Result:** Feature branches must:
+- Create PR to `dev` (not directly to `main`)
+- Pass CI checks before merging
+
+## Step 6: Configure Notifications
+
+Set up notifications for security alerts:
+
+1. Click on your **profile icon** (top right) → **Settings**
+2. In the left sidebar, click **Notifications**
+3. Scroll down to the **System** section
+4. Enable the following:
+   - ✅ **Dependabot alerts: New vulnerabilities** - "When you're given access to Dependabot alerts automatically receive notifications when a new vulnerability is found in one of your dependencies."
+   - ✅ **Dependabot alerts: Email digest** - "Email a regular summary of Dependabot alerts for up to 10 of your repositories."
+   - ✅ **Security campaign emails** - "Receive email notifications about security campaigns in repositories where you have access to security alerts."
+
+**Result:** You'll now receive email notifications whenever security issues are detected in your repositories.
+
+## Step 7: Verify Everything Works
+
+### 7.1 Test CI Pipeline
+
+```bash
+# Create a test branch
+git checkout -b test/ci-pipeline
+
+# Make a small change
+echo "# Test" >> README.md
+
+# Commit and push
+git add README.md
+git commit -m "test: verify CI pipeline"
+git push origin test/ci-pipeline
+
+# Create a PR on GitHub: test/ci-pipeline -> main
+# Verify CI pipeline runs and passes
+```
+
+### 7.2 Test Dependabot
+
+Dependabot runs weekly, but you can trigger it manually:
+
+1. Go to **Insights** → **Dependency graph** → **Dependabot**
+2. Click **Check for updates**
+
+### 7.3 Test Secret Scanning
+
+If enabled, try pushing a test secret:
+
+```bash
+# This should be blocked by local pre-commit hook
+echo "API_KEY=test123" > secret.txt
+git add secret.txt
+git commit -m "test: secret scanning"
+# Blocked locally!
+
+# If you bypass local hook with --no-verify, GitHub will block the push
+```
+
+## Workflow Files Reference
+
+### `.github/workflows/ci.yml`
+
+**Purpose:** Continuous Integration pipeline
+
+**Triggers:**
+- Push to `main` branch
+- Pull requests to `main` branch
+
+**Jobs:**
+1. **Shellcheck** - Lints shell scripts
+2. **Test CLI Init** - Verifies the Forge CLI works
+
+### `.github/dependabot.yml`
+
+**Purpose:** Automated dependency updates
+
+**Configuration:**
+- **GitHub Actions ecosystem:** Scans workflow files
+  - Schedule: Weekly
+  - Groups updates
+
+## Troubleshooting
+
+### Workflows Not Appearing in Actions Tab
+
+**Symptoms:** Actions tab shows "Get started with GitHub Actions" instead of workflows
+
+**Causes:**
+1. Workflow files not committed/pushed
+2. Workflow files in wrong directory
+3. YAML syntax errors
+4. GitHub Actions disabled in repo settings
+
+**Solutions:**
+```bash
+# 1. Verify files are committed
+git ls-files .github/workflows/
+
+# 2. Verify files are pushed
+git log --oneline --name-only | grep workflows
+
+# 3. Validate YAML syntax
+npx js-yaml .github/workflows/ci.yml
+
+# 4. Check repo settings
+# Go to Settings → Actions → General → Verify "Allow all actions" is selected
+```
+
+## Security Best Practices
+
+1. **Enable all security features:**
+   - ✅ Dependabot alerts
+   - ✅ Secret scanning
+   - ✅ Push protection
+
+2. **Protect main branch:**
+   - Require PR reviews
+   - Require status checks to pass
+   - Prevent force pushes
+
+3. **Use local pre-commit hooks:**
+   - Catch secrets before pushing
+   - Enforce code quality locally
+   - Faster feedback loop
+
+## Related Documentation
+
+- [CI/CD Pipeline Documentation](./overview.md)
+- [Git Workflow Guide](./git_workflow.md)
+- [How to Commit Guide](./how_to_commit.md)
+- [ADR-039: CI/CD Pipeline Strategy](../../docs/adr/039_ci_cd_pipeline.md)
+- [ADR-040: Security Scanning Strategy](../../docs/adr/040_security_scanning_strategy.md)
+- [Manual Setup Guide](../../TASKS/active/0067_MANUAL_SETUP_GUIDE.md)
+
+## External Resources
+
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Dependabot Documentation](https://docs.github.com/en/code-security/dependabot)
+- [Secret Scanning Documentation](https://docs.github.com/en/code-security/secret-scanning)
+
+```
+
+## File: guides/cicd/how_to_commit.md
+```md
+# How to Commit Changes - Step-by-Step Guide
+
+This guide walks you through committing changes to the PlumbingPOC project, including pre-commit hook validation and conventional commit format.
+
+## Prerequisites
+
+- Git configured with hooks path: `git config core.hooksPath .githooks`
+- Pre-commit hook is executable: `chmod +x .githooks/pre-commit`
+
+## Standard Commit Workflow
+
+### Step 1: Check Current Status
+
+```bash
+# See what files have changed
+git status
+
+# See detailed changes
+git diff
+```
+
+### Step 2: Stage Files
+
+**Option A: Stage specific files (recommended)**
+```bash
+git add path/to/file1.js
+git add path/to/file2.md
+git add path/to/file3.yml
+```
+
+**Option B: Stage all changes**
+```bash
+git add .
+# or
+git add --all
+```
+
+**Option C: Interactive staging (stage specific lines)**
+```bash
+git add -p
+# Git will show each change and ask: Stage this hunk [y,n,q,a,d,e,?]?
+# y = yes, n = no, q = quit, a = all, d = don't stage, e = edit
+```
+
+### Step 3: Review Staged Changes
+
+**Quick summary (recommended):**
+```bash
+# See list of staged files
+git status
+
+# Even shorter
+git status -s
+```
+
+**Detailed diff (optional):**
+```bash
+# See detailed changes (can be verbose)
+git diff --cached
+
+# Press 'q' to exit the diff view
+```
+
+**⚠️ IMPORTANT:** Always review your staged changes before committing!
+
+### Step 4: Commit with Conventional Format
+
+```bash
+git commit -m "<type>(<scope>): <subject>
+
+<body>
+
+<footer>"
+```
+
+**Commit Types:**
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `docs:` - Documentation changes
+- `style:` - Code formatting (no logic change)
+- `refactor:` - Code restructuring
+- `test:` - Adding/updating tests
+- `chore:` - Maintenance tasks (dependencies, build)
+- `ci:` - CI/CD changes
+- `perf:` - Performance improvements
+
+**Example:**
+```bash
+git commit -m "feat(security): configure GitHub Advanced Security
+
+- Add Dependabot for dependency scanning
+- Add CodeQL workflow for security analysis
+- Update CI/CD documentation with security guide
+
+Refs: TASK-0067, ADR-040"
+```
+
+### Step 5: Pre-commit Hook Validation
+
+**What happens automatically:**
+1. ✅ Hook runs: `.githooks/pre-commit`
+2. ✅ Validates no `.env` files (except `.env.example`)
+3. ✅ Scans for hardcoded secrets (API keys, tokens, passwords)
+4. ✅ If validation passes → commit succeeds
+5. ❌ If violations found → commit blocked
+
+**If commit is blocked:**
+```bash
+# Example error:
+COMMIT BLOCKED: Violations found.
+VIOLATION: packages/backend/config.js:12 -> OPENAI_API_KEY=<REDACTED>
+Fix by removing secrets or using '<REDACTED>'.
+
+# Fix the issue:
+# 1. Remove the hardcoded secret
+# 2. Use environment variable instead: process.env.OPENAI_API_KEY
+# 3. Try committing again
+```
+
+**Bypass hook (ONLY if absolutely necessary):**
+```bash
+git commit --no-verify -m "your message"
+# ⚠️ WARNING: Only use --no-verify if you're certain there are no secrets!
+```
+
+### Step 6: Push to Remote
+
+```bash
+# Push to current branch
+git push
+
+# Push to specific branch
+git push origin feature/branch-name
+
+# Push to main
+git push origin main
+```
+
+## Example: Committing TASK-0067 Security Configuration
+
+```bash
+# 1. Check status
+git status
+
+# 2. Stage security configuration files
+git add .github/dependabot.yml
+git add .github/workflows/codeql.yml
+git add docs/ci-cd/README.md
+git add docs/ci-cd/GIT_WORKFLOW.md
+git add docs/ci-cd/HOW_TO_COMMIT.md
+git add adrs/040_security_scanning_strategy.md
+git add adrs/041_git_workflow_automation.md
+git add TASKS/in-progress/008_configure_github_security.md
+git add TASKS/backlog/009_enhance_precommit_hooks.md
+git add capture_code_snapshot.js
+
+# Note: Deleted file (.githooks/pre-commit.sh) will be automatically staged
+# when you run 'git add .' or will show in 'git status' as deleted
+
+# 3. Review staged changes (quick summary)
+git status
+
+# Or see detailed diff (verbose, press 'q' to exit)
+# git diff --cached
+
+# 4. Commit with conventional format
+git commit -m "feat(security): configure GitHub Advanced Security
+
+- Add Dependabot for npm and GitHub Actions dependency scanning
+- Add CodeQL workflow for JavaScript/TypeScript security analysis
+- Update CI/CD documentation with comprehensive security scanning guide
+- Create ADR-041 for git workflow automation strategy
+- Create git workflow quick reference guide
+- Enhance snapshot script to exclude agents/feedback directory
+- Remove deprecated pre-commit.sh shell script
+
+Deliverables:
+- .github/dependabot.yml (weekly scans, grouped PRs)
+- .github/workflows/codeql.yml (security-extended queries)
+- docs/ci-cd/README.md (175-line security guide, pre-commit hook docs)
+- docs/ci-cd/GIT_WORKFLOW.md (conventional commits, aliases, best practices)
+- adrs/041_git_workflow_automation.md (no automated git scripts)
+- TASKS/backlog/009_enhance_precommit_hooks.md (future ESLint/Prettier integration)
+
+Refs: TASK-0067, ADR-040, ADR-041"
+
+# 5. Pre-commit hook runs automatically (validates no secrets)
+
+# 6. Push to GitHub
+git push origin main
+```
+
+## Testing Pre-commit Hook
+
+### Test 1: Verify Hook Blocks Secrets
+
+```bash
+# Create a test file with a hardcoded secret
+echo "OPENAI_API_KEY=<REDACTED>" > test-secret.txt
+
+# Try to commit (should be BLOCKED)
+git add test-secret.txt
+git commit -m "test: verify pre-commit hook blocks secrets"
+
+# Expected output:
+# COMMIT BLOCKED: Violations found.
+# VIOLATION: test-secret.txt:1 -> OPENAI_API_KEY=<REDACTED>
+# Fix by removing secrets or using '<REDACTED>'.
+
+# Clean up
+git reset HEAD test-secret.txt
+rm test-secret.txt
+```
+
+### Test 2: Verify Hook Blocks .env Files
+
+```bash
+# Create a .env file
+echo "DATABASE_URL=postgres://localhost" > .env
+
+# Try to commit (should be BLOCKED)
+git add .env
+git commit -m "test: verify pre-commit hook blocks .env files"
+
+# Expected output:
+# COMMIT BLOCKED: Violations found.
+# BLOCKED .env file: .env
+# Fix by removing secrets or using '<REDACTED>'.
+
+# Clean up
+git reset HEAD .env
+rm .env
+```
+
+### Test 3: Verify Hook Allows Safe Code
+
+```bash
+# Create a safe file with environment variable reference
+echo "const apiKey = process.env.OPENAI_API_KEY;" > test-safe.js
+
+# Commit (should SUCCEED)
+git add test-safe.js
+git commit -m "test: verify pre-commit hook allows safe code"
+
+# Expected: Commit succeeds (no violations)
+
+# Clean up
+git reset HEAD~1  # Undo last commit
+rm test-safe.js
+```
+
+## Common Issues and Solutions
+
+### Issue 1: Pre-commit Hook Not Running
+
+**Symptoms:** Commits succeed without validation
+
+**Solution:**
+```bash
+# Verify hooks path is configured
+git config core.hooksPath
+# Should output: .githooks
+
+# If not set, configure it
+git config core.hooksPath .githooks
+
+# Make hook executable
+chmod +x .githooks/pre-commit
+
+# Verify hook exists
+ls -la .githooks/pre-commit
+```
+
+### Issue 2: Hook Blocks Legitimate Code
+
+**Symptoms:** Hook blocks code that uses environment variables
+
+**Example:**
+```javascript
+// This might be flagged if not properly formatted
+const key = API_KEY;  // ❌ Flagged (looks like hardcoded value)
+
+// Use these patterns instead:
+const key = process.env.API_KEY;  // ✅ Safe
+const key = import.meta.env.VITE_API_KEY;  // ✅ Safe
+const key = config.apiKey;  // ✅ Safe
+```
+
+**Solution:** Use whitelisted patterns (see `.githooks/pre-commit` for full list)
+
+### Issue 3: Accidentally Committed Secret
+
+**⚠️ CRITICAL - Act Immediately:**
+
+```bash
+# 1. IMMEDIATELY revoke the secret in the service provider
+# (e.g., regenerate API key in OpenAI dashboard)
+
+# 2. Remove from git history (if not yet pushed)
+git reset HEAD~1  # Undo last commit
+# Fix the file, then commit again
+
+# 3. If already pushed, use git filter-branch
+git filter-branch --force --index-filter \
+  "git rm --cached --ignore-unmatch path/to/file" \
+  --prune-empty --tag-name-filter cat -- --all
+
+# 4. Force push (⚠️ coordinate with team!)
+git push origin --force --all
+
+# 5. Update environment variables with new secret
+```
+
+## Git Aliases (Optional Shortcuts)
+
+Add these to `~/.gitconfig` for faster workflows:
+
+```gitconfig
+[alias]
+    # Quick status
+    st = status -sb
+
+    # Stage all changes
+    aa = add --all
+
+    # Commit with message
+    cm = commit -m
+
+    # Show staged changes
+    staged = diff --cached
+
+    # Amend last commit
+    amend = commit --amend --no-edit
+
+    # Pretty log
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+```
+
+**Usage:**
+```bash
+git st              # Instead of: git status -sb
+git aa              # Instead of: git add --all
+git staged          # Instead of: git diff --cached
+git cm "fix: typo"  # Instead of: git commit -m "fix: typo"
+```
+
+## Best Practices
+
+1. **Commit often** - Small, focused commits are easier to review and revert
+2. **Write clear messages** - Use conventional commit format
+3. **Review before committing** - Always run `git diff --cached`
+4. **Test locally** - Run `npm run lint` and `npm run test:unit` before committing
+5. **Never bypass hooks** - Only use `--no-verify` in emergencies
+6. **Keep commits atomic** - One logical change per commit
+7. **Reference tasks/issues** - Include `Refs: TASK-XXX` in commit body
+
+## After Pushing to GitHub
+
+Once you push, the following automated checks will run:
+
+1. **CI Pipeline** (`.github/workflows/ci.yml`)
+   - Linting
+   - Unit tests
+   - Frontend build
+
+2. **CodeQL Analysis** (`.github/workflows/codeql.yml`)
+   - Security vulnerability scanning
+   - Results in Security tab
+
+3. **Dependabot** (`.github/dependabot.yml`)
+   - Dependency vulnerability scanning
+   - Automatic PRs for updates
+
+4. **Secret Scanning** (if enabled)
+   - Detects committed secrets
+   - Alerts in Security tab
+
+Check the **Actions** tab and **Security** tab on GitHub to verify all checks pass.
+
+## References
+
+- [Git Workflow Quick Reference](./git_workflow.md)
+- [CI/CD Pipeline Documentation](./overview.md)
+- [ADR-041: Git Workflow Automation](../../docs/adr/041_git_workflow_automation.md)
+- [Conventional Commits Specification](https://www.conventionalcommits.org/)
+
+```
+
+## File: guides/cicd/overview.md
+```md
+# CI/CD Pipeline & Development Workflow
+
+## Overview
+
+This document outlines the Continuous Integration (CI) pipeline and the standard development workflow for projects built with the **Quantum Diamond Forge** protocol. It details the lifecycle of a code change from a developer's workstation to the main branch on GitHub.
+
+## Table of Contents
+
+1. [Workflow Diagram](#workflow-diagram)
+2. [Development Workflow Phases](#development-workflow-phases)
+3. [Security Scanning Results Guide](#security-scanning-results-guide)
+4. [How to Commit Changes](./how_to_commit.md) - Step-by-step commit guide with pre-commit hook testing
+5. [Git Workflow Quick Reference](./git_workflow.md) - Conventional commits, aliases, and best practices
+6. [Related Documentation](#related-documentation)
+
+## Related Documentation
+
+- **[GitHub Repository Setup Guide](./github_setup.md)** - Configure GitHub Actions, security scanning, and branch protection
+- **[How to Commit Changes](./how_to_commit.md)** - Step-by-step commit guide with pre-commit hook testing
+- **[Git Workflow Guide](./git_workflow.md)** - Detailed guide on git commands, conventional commits, and pre-commit hooks
+- **[ADR-039: CI/CD Pipeline Strategy](../../docs/adr/039_ci_cd_pipeline.md)** - Architectural decision for CI/CD approach
+- **[ADR-040: Security Scanning Strategy](../../docs/adr/040_security_scanning_strategy.md)** - Security scanning tools and philosophy
+- **[ADR-041: Git Workflow Automation](../../docs/adr/041_git_workflow_automation.md)** - Git workflow best practices
+
+## Branching Strategy
+
+This protocol supports **flexible branching strategies** based on team size:
+
+### Solo Developer (Simplified)
+```
+feature/* → main (via Pull Request)
+```
+
+### Team / Staged Releases (Recommended)
+```
+feature/* → dev → main
+```
+
+### Enterprise / Multi-Environment
+```
+feature/* → dev → test → main
+```
+
+### Branch Purposes
+
+| Branch | Purpose | CI Runs | Deployment |
+|--------|---------|---------|------------|
+| `feature/*` | Active development | ✅ On PR | None |
+| `dev` | Integration testing, batch features | ✅ On push/PR | Dev environment (optional) |
+| `test` | QA/staging (optional) | ✅ On push/PR | Test environment (optional) |
+| `main` | Production-ready | ✅ On push/PR | Production |
+
+### Workflow (Team / Staged Releases)
+
+1. **Feature Development:**
+   ```bash
+   git checkout -b feature/add-new-feature
+   # Make changes, commit, push
+   git push origin feature/add-new-feature
+   # Create PR: feature/add-new-feature → dev
+   ```
+
+2. **Integration Testing (dev):**
+   - Merge feature PRs into `dev`
+   - CI pipeline runs automatically
+   - Test integration with other features
+   - Batch multiple features for the next release
+
+3. **Production Release (main):**
+   ```bash
+   # Create PR: dev → main
+   # After approval and CI passes, merge
+   # Tag release: git tag v1.0.0 && git push --tags
+   ```
+
+### Branch Protection
+
+Recommended protection for `dev` and `main`:
+- ✅ CI pipeline checks (linting, tests, build)
+- ✅ CodeQL security analysis (if enabled)
+- ✅ PR review required (for `main`, optional for `dev`)
+- ✅ Status checks must pass before merge
+
+See [GitHub Repository Setup Guide](./github_setup.md) for configuration details.
+
+## Workflow Diagram
+
+The following sequence diagram illustrates the interaction between the Developer, their Local Workstation, and the specific entities within GitHub (Branches, PRs, CI).
+
+```mermaid
+---
+config:
+  theme: base
+---
+sequenceDiagram
+    autonumber
+    participant Dev as Developer
+    participant Local as Local Workstation
+    participant FeatBranch as Remote Feature Branch
+    participant PR as Pull Request
+    participant CI as GitHub Actions (CI)
+    participant MainBranch as Remote Main Branch
+
+    Note over Dev, Local: 1. Feature Start
+    Dev->>Local: git checkout -b feature/new-feature
+
+    Note over Dev, Local: 2. Development Loop
+    loop Coding & Local Testing
+        Dev->>Local: Write Code
+        Dev->>Local: npm run lint (Check Style)
+        Dev->>Local: npm run test:unit (Verify Logic)
+        Dev->>Local: (Optional) Manual Security Scan
+    end
+
+    Note over Dev, Local: 3. Commit & Push (Defense in Depth)
+    Dev->>Local: git add .
+    Local->>Local: Pre-commit Hook (Secret Detection)
+    Note right of Local: 🛑 Blocking Gate:<br/>- No .env files<br/>- No hardcoded secrets<br/>- Blocks commit if violations found
+
+    Dev->>Local: git commit -m "feat: add new feature"
+
+    rect rgb(255, 255, 240)
+        Note right of Local: ⚠️ Post-Commit Hook (Informational):<br/>- Auto-runs 'npm audit' (High Severity)<br/>- Checks local Dependabot status<br/>- Warns Dev immediately (does not block)
+        Local-->>Dev: Display "Security Health Report"
+    end
+
+    Dev->>Local: git push -u origin feature/new-feature
+    Local->>FeatBranch: Create/Update Branch
+
+    Note over Dev, PR: 4. Pull Request
+    Dev->>PR: Create PR (Feature -> Main)
+
+    Note over PR, CI: 5. Automated Checks
+    PR->>CI: Trigger "CI Pipeline" Workflow
+
+    par CI Pipeline
+        rect rgb(240, 248, 255)
+            Note right of CI: CI Execution
+            CI->>CI: Checkout Code
+            CI->>CI: Install Dependencies
+            CI->>CI: Linting & Tests
+            CI->>CI: Build Frontend
+        end
+        CI-->>PR: Report Status (✅/❌)
+    and Security Checks
+        rect rgb(255, 240, 245)
+            Note right of PR: GitHub Security
+            PR->>PR: Dependabot Scan
+            PR->>PR: CodeQL Analysis
+            PR->>PR: Secret Scanning
+        end
+        PR-->>Dev: Report Vulnerabilities (in PR Interface)
+    end
+
+    alt Checks Fail
+        PR-->>Dev: Notify Failure
+        Dev->>Local: Fix Code & Push Again
+        Local->>FeatBranch: Update Branch
+        FeatBranch->>PR: Update PR
+        PR->>CI: Re-trigger CI
+    else Checks Pass
+        Note over Dev, MainBranch: 6. Review & Merge
+        Dev->>PR: Request Review
+        PR->>MainBranch: Merge PR to 'main'
+
+        Note over MainBranch, FeatBranch: 7. Cleanup
+        MainBranch->>FeatBranch: Delete Remote Branch
+    end
+
+    Note over Dev, Local: 8. Local Cleanup
+    Dev->>Local: git checkout main
+    Dev->>Local: git pull origin main
+    Local->>MainBranch: Fetch Latest
+    Dev->>Local: git branch -d feature/new-feature
+```
+
+## Detailed Workflow Steps
+
+### Phase 1: Developer Workstation (Local)
+
+1.  **Create Feature Branch**
+    *   **Command:** `git checkout -b feature/<name>`
+    *   **Purpose:** Isolate changes from the stable `main` codebase.
+
+2.  **Development & Verification**
+    *   **Process:** Write code, update tests.
+    *   **Verification:**
+    *   Run `npm run lint` and `npm run test:unit`.
+    *   **Post-Commit Hook:** After commit, an informational `npm audit --audit-level=high --production` runs and displays a Security Health Report (does not block).
+
+3.  **Commit & Push**
+    *   **Command:** `git commit` and `git push`.
+    *   **Pre-commit Hook:** Automatically runs `.githooks/pre-commit` to validate:
+        *   No `.env` files committed (except `.env.example`)
+        *   No hardcoded secrets (API keys, tokens, passwords)
+        *   Blocks commit if violations found
+    *   **Entity:** Updates the **Remote Feature Branch** (`origin/feature/<name>`).
+    *   **Best Practice:** Use [conventional commits](./GIT_WORKFLOW.md#conventional-commit-format) (e.g., `feat:`, `fix:`, `docs:`)
+
+### Phase 2: GitHub (Remote)
+
+4.  **Create Pull Request (PR)**
+    *   **Action:** Create a PR merging **Remote Feature Branch** into **Remote Main Branch**.
+    *   **Purpose:** This is the central hub for review and automated checks.
+
+5.  **Automated Checks**
+    *   **CI Pipeline:** GitHub Actions runs linting, testing, and building. Reports success/failure back to the PR.
+    *   **Security Scans:**
+        *   **Dependabot:** Scans dependencies for vulnerabilities. If found, it alerts in the PR or creates a new PR.
+        *   **Secret Scanning:** Checks for committed secrets (API keys, tokens).
+        *   **CodeQL:** (If enabled) Performs static analysis for security flaws.
+    *   **Reporting:** All results are displayed in the "Checks" section of the PR interface.
+
+
+6.  **Code Review & Merge**
+    *   **Action:** If all checks pass (Green ✅), the PR is merged.
+    *   **Result:** Code moves from **Remote Feature Branch** to **Remote Main Branch**.
+
+7.  **Remote Cleanup**
+    *   **Action:** The **Remote Feature Branch** is deleted to keep the repository clean.
+
+### Phase 3: Developer Workstation (Local Cleanup)
+
+8.  **Sync & Cleanup**
+    *   **Action:** Pull the latest `main` from **Remote Main Branch** and delete the local feature branch.
+
+---
+
+## Security Scanning Results Guide
+
+This section explains how to interpret and respond to security scanning results from our automated tools.
+
+### Dependabot Alerts
+
+**What it does:** Scans `package.json` and `package-lock.json` for known vulnerabilities in dependencies.
+
+**Where to find results:**
+- **Security tab** → Dependabot alerts
+- **Pull Requests** → Dependabot automatically opens PRs for updates
+
+**How to interpret:**
+- **Critical/High:** Address immediately (within 48 hours)
+- **Medium:** Address within 1 week
+- **Low:** Address during regular maintenance
+
+**Response actions:**
+1. Review the Dependabot PR description for vulnerability details
+2. Check if the update includes breaking changes (review CHANGELOG)
+3. Verify tests pass in the Dependabot PR
+4. Merge the PR or manually update the dependency
+5. If update causes issues, document in PR and investigate alternatives
+
+**Example Dependabot PR:**
+```
+Title: Bump axios from 0.21.1 to 1.6.0
+Labels: dependencies, security
+
+Description:
+- Fixes CVE-2023-45857 (High severity)
+- Changelog: https://github.com/axios/axios/releases
+```
+
+### CodeQL Analysis
+
+**What it does:** Static code analysis to detect security vulnerabilities (SQL injection, XSS, path traversal, etc.)
+
+**Where to find results:**
+- **Security tab** → Code scanning alerts
+- **Pull Request checks** → CodeQL analysis status
+
+**How to interpret:**
+- **Error:** Security vulnerability detected, must fix before merge
+- **Warning:** Potential issue, review and address if applicable
+- **Note:** Informational, no action required
+
+**Common alerts:**
+- **Unvalidated user input:** Always validate/sanitize user input
+- **SQL injection:** Use parameterized queries (we use Supabase client, which handles this)
+- **XSS vulnerabilities:** Sanitize output, use React's built-in XSS protection
+- **Path traversal:** Validate file paths before file operations
+- **Hardcoded credentials:** Never commit secrets (use environment variables)
+
+**Response actions:**
+1. Click on the alert in the Security tab to see details
+2. Review the code path highlighted by CodeQL
+3. Determine if it's a true positive or false positive
+4. If true positive: Fix the vulnerability and push a new commit
+5. If false positive: Document why it's safe and dismiss the alert with justification
+
+**Example CodeQL alert:**
+```
+Alert: Unvalidated user input in file path
+Severity: High
+File: packages/backend/api/controllers/fileController.js:45
+Recommendation: Validate and sanitize the file path before use
+```
+
+### Secret Scanning
+
+**What it does:** Detects accidentally committed secrets (API keys, tokens, passwords)
+
+**Where to find results:**
+- **Security tab** → Secret scanning alerts
+- **Push protection:** Blocks commits containing secrets (if enabled)
+
+**How to interpret:**
+- **Active:** Secret is currently in the repository
+- **Resolved:** Secret has been removed or revoked
+
+**Response actions (CRITICAL - Act immediately):**
+1. **Revoke the exposed secret** in the service provider (e.g., regenerate API key)
+2. **Remove the secret from git history** (use `git filter-branch` or BFG Repo-Cleaner)
+3. **Update environment variables** with the new secret
+4. **Verify the secret is not in any commits** (check git log)
+5. **Document the incident** and review how it happened
+
+**Prevention:**
+- Use `.env` files (already in `.gitignore`)
+- Store secrets in user profile (`~/.zshrc` or `~/.bashrc`)
+- Use `npm audit` locally before committing
+- Enable push protection in GitHub settings
+
+**Example secret scanning alert:**
+```
+Alert: GitHub Personal Access Token detected
+File: packages/backend/.env
+Commit: abc123def456
+Status: Active
+Action Required: Revoke token immediately
+```
+
+### Local Security Checks
+
+**Before every commit, run:**
+```bash
+# Check for vulnerable dependencies
+npm audit
+
+# Fix automatically fixable vulnerabilities
+npm audit fix
+
+# Review high-severity vulnerabilities
+npm audit --audit-level=high
+```
+
+**Interpreting `npm audit` output:**
+```
+found 3 vulnerabilities (1 moderate, 2 high)
+
+Moderate: Prototype Pollution in lodash
+  Package: lodash
+  Patched in: >=4.17.21
+  Fix available: npm audit fix
+
+High: Regular Expression Denial of Service in semver
+  Package: semver
+  Patched in: >=7.5.2
+  Fix available: npm audit fix
+```
+
+**Response:**
+- Run `npm audit fix` to auto-fix
+- If auto-fix not available, manually update the package
+- If no fix available, assess risk and consider alternatives
+
+### Security Check Status in PRs
+
+All PRs must pass these checks before merge:
+
+| Check | Status | Action if Failed |
+|-------|--------|------------------|
+| **CI Pipeline** | ✅ Must pass | Fix linting/test errors |
+| **CodeQL** | ✅ Must pass | Fix security vulnerabilities |
+| **Dependabot** | ⚠️ Advisory | Review and merge dependency updates |
+| **Secret Scanning** | 🚨 Must pass | Revoke and remove secrets immediately |
+
+**Green ✅ = Safe to merge**
+**Yellow ⚠️ = Review required**
+**Red 🚨 = Blocking issue, must fix**
+
+### Escalation Path
+
+If you encounter a security issue you're unsure how to handle:
+
+1. **Do not merge the PR**
+2. **Tag the issue** with `security` label
+3. **Document the issue** in the PR comments
+4. **Consult ADR-040** for security scanning strategy
+5. **Reach out** to the team lead or security contact
+
+### Additional Resources
+
+- [GitHub Security Best Practices](https://docs.github.com/en/code-security)
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [npm audit documentation](https://docs.npmjs.com/cli/v8/commands/npm-audit)
+- ADR-040: Security Scanning Strategy
+
+```
+
+## File: guides/cicd/security_scanning.md
+```md
+# Security Vulnerability Scanning Guide
+
+## Overview
+
+This guide covers how to scan for security vulnerabilities in your dependencies using GitHub CLI and integrate security scanning into your shift-left development process.
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Scanning with GitHub CLI](#scanning-with-github-cli)
+- [Understanding Dependabot Alerts](#understanding-dependabot-alerts)
+- [Shift-Left Security Integration](#shift-left-security-integration)
+- [Local Security Scanning](#local-security-scanning)
+- [Automated Workflows](#automated-workflows)
+- [Best Practices](#best-practices)
+
+## Prerequisites
+
+### Install GitHub CLI
+
+```bash
+# macOS
+brew install gh
+
+# Authenticate with GitHub
+gh auth login
+```
+
+### Required Permissions
+
+Ensure your GitHub token has the following scopes:
+- `repo` - Full control of private repositories
+- `read:org` - Read org and team membership
+- `workflow` - Update GitHub Action workflows
+
+## Scanning with GitHub CLI
+
+### Check Authentication Status
+
+```bash
+gh auth status
+```
+
+### View All Dependabot Alerts
+
+```bash
+# List all alerts
+gh api repos/OWNER/REPO/dependabot/alerts
+
+# Pretty formatted output
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+  --jq '.[] | {
+    number: .number,
+    severity: .security_advisory.severity,
+    package: .dependency.package.name,
+    summary: .security_advisory.summary,
+    patched_version: .security_advisory.vulnerabilities[0].first_patched_version.identifier
+  }'
+```
+
+### Filter by Severity
+
+```bash
+# High severity only
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+  --jq '.[] | select(.security_advisory.severity == "high") | {
+    package: .dependency.package.name,
+    summary: .security_advisory.summary
+  }'
+
+# Critical and High severity
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+  --jq '.[] | select(.security_advisory.severity == "critical" or .security_advisory.severity == "high")'
+```
+
+### Count Open Alerts
+
+```bash
+# Total open alerts
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+  --jq '[.[] | select(.state == "open")] | length'
+
+# By severity
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+  --jq 'group_by(.security_advisory.severity) | map({severity: .[0].security_advisory.severity, count: length})'
+```
+
+### Get Detailed Alert Information
+
+```bash
+# Get specific alert details
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts/ALERT_NUMBER
+
+# Get fix recommendations
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+  --jq '.[] | {
+    package: .dependency.package.name,
+    current_version: .dependency.package.version,
+    patched_version: .security_advisory.vulnerabilities[0].first_patched_version.identifier,
+    cvss_score: .security_advisory.cvss.score
+  }'
+```
+
+## Understanding Dependabot Alerts
+
+### Alert Severity Levels
+
+- **Critical**: Immediate action required (CVSS 9.0-10.0)
+- **High**: Should be addressed quickly (CVSS 7.0-8.9)
+- **Medium**: Address in normal development cycle (CVSS 4.0-6.9)
+- **Low**: Address when convenient (CVSS 0.1-3.9)
+
+### Alert States
+
+- **open**: Vulnerability is present and unresolved
+- **dismissed**: Manually dismissed by a user
+- **fixed**: Dependency has been updated to a non-vulnerable version
+
+## Shift-Left Security Integration
+
+### Why Shift-Left Security?
+
+Shift-left security means integrating security checks **earlier** in the development process:
+
+✅ **Benefits:**
+- Catch vulnerabilities before they reach production
+- Reduce cost of fixes (cheaper to fix in development)
+- Faster feedback loop for developers
+- Prevent vulnerable code from being committed
+
+❌ **Without Shift-Left:**
+- Vulnerabilities discovered in production
+- Emergency patches and hotfixes
+- Potential security incidents
+- Higher remediation costs
+
+### Pre-Commit Security Checks
+
+Yes, you **should** integrate security scanning into your pre-commit process! Here's how:
+
+## Local Security Scanning
+
+### 1. NPM Audit (Built-in)
+
+```bash
+# Run npm audit
+npm audit
+
+# Get JSON output
+npm audit --json
+
+# Fix automatically (use with caution)
+npm audit fix
+
+# Fix only production dependencies
+npm audit fix --production-only
+
+# Dry run to see what would be fixed
+npm audit fix --dry-run
+```
+
+### 2. Create a Pre-Commit Security Check
+
+Add to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "security:check": "npm audit --audit-level=high",
+    "security:fix": "npm audit fix",
+    "precommit:security": "npm audit --audit-level=critical --production"
+  }
+}
+```
+
+### 3. Integrate with Husky/lint-staged
+
+Update your `.husky/pre-commit` or create one:
+
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run security audit before commit
+echo "🔒 Running security audit..."
+npm audit --audit-level=high --production
+
+if [ $? -ne 0 ]; then
+  echo "❌ Security vulnerabilities found! Please fix before committing."
+  echo "Run 'npm audit' for details or 'npm audit fix' to attempt automatic fixes."
+  exit 1
+fi
+
+# Continue with other pre-commit checks
+npx lint-staged
+```
+
+### 4. Alternative: Use Snyk CLI
+
+Snyk provides more comprehensive scanning:
+
+```bash
+# Install Snyk
+npm install -g snyk
+
+# Authenticate
+snyk auth
+
+# Test for vulnerabilities
+snyk test
+
+# Monitor project (sends results to Snyk dashboard)
+snyk monitor
+
+# Test and fail on high severity
+snyk test --severity-threshold=high
+```
+
+### 5. GitHub CLI Pre-Push Check
+
+Create a script to check before pushing:
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-push or scripts/pre-push-security.sh
+
+echo "🔍 Checking for Dependabot alerts..."
+
+OPEN_ALERTS=$(gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+  --jq '[.[] | select(.state == "open" and (.security_advisory.severity == "critical" or .security_advisory.severity == "high"))] | length')
+
+if [ "$OPEN_ALERTS" -gt 0 ]; then
+  echo "⚠️  Warning: $OPEN_ALERTS critical/high severity alerts found in GitHub!"
+  echo "Run: gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq '.[] | select(.state == \"open\")' for details"
+
+  read -p "Continue with push? (y/n) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 1
+  fi
+fi
+```
+
+## Automated Workflows
+
+### Recommended Shift-Left Security Strategy
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Development Workflow                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  1. Local Development                                        │
+│     └─> npm audit (manual check)                            │
+│                                                               │
+│  2. Pre-Commit Hook                                          │
+│     └─> npm audit --audit-level=high                        │
+│     └─> Fail on critical/high vulnerabilities               │
+│                                                               │
+│  3. Pre-Push Hook (Optional)                                 │
+│     └─> Check GitHub Dependabot alerts via CLI              │
+│     └─> Warn on open critical/high alerts                   │
+│                                                               │
+│  4. CI/CD Pipeline                                           │
+│     └─> npm audit in GitHub Actions                         │
+│     └─> Dependabot auto-updates                             │
+│     └─> SAST/DAST scanning                                  │
+│                                                               │
+│  5. Production Monitoring                                    │
+│     └─> Continuous Dependabot monitoring                    │
+│     └─> Security alerts via GitHub                          │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Add to package.json Scripts
+
+```json
+{
+  "scripts": {
+    "security:audit": "npm audit",
+    "security:audit:ci": "npm audit --audit-level=moderate --production",
+    "security:fix": "npm audit fix",
+    "security:check:github": "gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq '.[] | select(.state == \"open\")'",
+    "precommit": "npm run security:audit && lint-staged"
+  }
+}
+```
+
+### GitHub Actions Workflow
+
+Create `.github/workflows/security-scan.yml`:
+
+```yaml
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Check Dependabot alerts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/${{ github.repository }}/dependabot/alerts \
+            --jq '.[] | select(.state == "open") | {severity: .security_advisory.severity, package: .dependency.package.name}'
+```
+
+## Best Practices
+
+### 1. **Regular Scanning**
+- Run `npm audit` before every commit
+- Check Dependabot alerts weekly
+- Review security advisories for your dependencies
+
+### 2. **Prioritize Fixes**
+- **Critical/High**: Fix immediately
+- **Medium**: Fix within sprint
+- **Low**: Fix during maintenance windows
+
+### 3. **Keep Dependencies Updated**
+```bash
+# Check for outdated packages
+npm outdated
+
+# Update to latest within semver range
+npm update
+
+# Update to latest (breaking changes possible)
+npm install package@latest
+```
+
+### 4. **Use Dependabot Auto-Updates**
+
+Enable in `.github/dependabot.yml`:
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "your-team"
+    labels:
+      - "dependencies"
+      - "security"
+```
+
+### 5. **Monitor Production**
+- Enable GitHub security alerts
+- Set up Slack/email notifications for new vulnerabilities
+- Use GitHub Security Advisory Database
+
+### 6. **Document Exceptions**
+If you must dismiss an alert:
+```bash
+# Dismiss with reason
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts/ALERT_NUMBER \
+  -X PATCH \
+  -f state=dismissed \
+  -f dismissed_reason=no_bandwidth \
+  -f dismissed_comment="Will address in Q2 security sprint"
+```
+
+## Quick Reference Commands
+
+```bash
+# Check auth
+gh auth status
+
+# List all open alerts
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq '.[] | select(.state == "open")'
+
+# Count by severity
+gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq 'group_by(.security_advisory.severity) | map({severity: .[0].security_advisory.severity, count: length})'
+
+# Local audit
+npm audit
+
+# Fix vulnerabilities
+npm audit fix
+
+# Production-only audit
+npm audit --production
+
+# Fail on high severity
+npm audit --audit-level=high
+```
+
+## Recommended Pre-Commit Setup
+
+**Balanced Approach** (Recommended for this project):
+
+```bash
+# Add to package.json
+"scripts": {
+  "precommit:security": "npm audit --audit-level=high --production"
+}
+```
+
+**Why this approach?**
+- ✅ Catches critical and high severity issues
+- ✅ Only checks production dependencies (dev deps less critical)
+- ✅ Fast enough for pre-commit hook
+- ✅ Prevents vulnerable code from being committed
+- ❌ Won't block on medium/low severity issues
+
+## Conclusion
+
+**Should you scan before pushing?**
+
+**Yes!** Implement a **layered security approach**:
+
+1. **Pre-commit**: Fast `npm audit` for critical/high severity
+2. **Pre-push**: Optional GitHub Dependabot check (can be slow)
+3. **CI/CD**: Comprehensive scanning in GitHub Actions
+4. **Continuous**: Dependabot monitoring and auto-PRs
+
+This shift-left approach catches vulnerabilities early, reduces security debt, and maintains a secure codebase without significantly slowing down development.
+
+---
+
+**Last Updated**: 2025-11-21
+**Maintained By**: Development Team
+
+```
+
+## File: prompts/00_MASTER_PROTOCOL.md
+```md
+# Quantum Diamond Forge: Master Protocol (v2.0)
+
+**Objective:**
+Generate "Enterprise Benchmark" quality software specifications and code by orchestrating a "Human-in-the-Loop" workflow with high-end LLMs (Gemini 1.5 Pro, Claude 3.5 Sonnet, or Grok).
+
+**The Concept:**
+Instead of relying on a swarm of autonomous agents, **YOU + ANTIGRAVITY** are the orchestrator.
+*   **You (The User):** Provide the vision and strategic decisions.
+*   **Web LLM (Gemini/Claude):** The "Heavy Lifter" that generates rigorous specs from our prompts.
+*   **Antigravity (IDE Agent):** The "Builder" that implements the code based on those specs.
+
+This "Human-in-the-Loop" workflow ensures enterprise-grade quality without losing control.
+
+---
+
+## Phase 1: The Specification Loop
+
+**Goal:** Create a "Gold Standard" documentation suite (`docs/`) that leaves no ambiguity for implementation.
+
+### Step 1: Requirements Analysis
+1.  Open `prompts/01_requirements_analysis.md`.
+2.  Fill in your "Rough Idea" at the top.
+3.  Paste the entire file into your Web LLM.
+4.  **Review the Output:** Ensure it has a Feature Catalog (MoSCoW), Functional Requirements, and User Stories.
+5.  **Save:** Create `docs/01_REQUIREMENTS.md` and paste the output there.
+
+### Step 2: Architecture Design
+1.  Open `prompts/02_architecture_design.md`.
+2.  Paste it into the Web LLM (attach `docs/01_REQUIREMENTS.md` as context).
+3.  **Review the Output:** Ensure it has C4 Diagrams (Mermaid), API Definitions, and Data Models.
+4.  **Save:** Create `docs/02_ARCHITECTURE.md` and paste the output there.
+
+### Step 3: Security & Compliance
+1.  Open `prompts/03_security_compliance.md`.
+2.  Paste it into the Web LLM (attach `docs/01_REQUIREMENTS.md` and `docs/02_ARCHITECTURE.md`).
+3.  **Review the Output:** Ensure it has Threat Models (STRIDE) and AuthZ matrices.
+4.  **Save:** Create `docs/03_SECURITY.md` and paste the output there.
+
+### Step 4: Testing Strategy
+1.  Open `prompts/04_testing_strategy.md`.
+2.  Paste it into the Web LLM (attach previous docs).
+3.  **Save:** Create `docs/04_TESTING.md`.
+
+### Step 5: Implementation Plan
+1.  Open `prompts/05_implementation_plan.md`.
+2.  Paste it into the Web LLM (attach all 4 docs).
+3.  **Save:** Create `docs/05_IMPLEMENTATION.md`.
+4.  **Action:** This file will contain a `task.md` section. Copy that into your IDE's `task.md` to start coding!
+
+---
+
+## Phase 2: The Build Loop
+
+**Goal:** Implement the spec using the Antigravity Agent (in your IDE).
+
+1.  **Initialize:**
+    *   Ensure `task.md` is populated from Step 5.
+    *   Ensure `docs/` folder contains all 5 artifacts.
+
+2.  **Execute:**
+    *   Point your IDE Agent to the `task.md`.
+    *   The Agent will read the `docs/` to understand *exactly* what to build.
+    *   Iterate through the tasks until completion.
+
+---
+
+## Pro Tips
+*   **Iterate:** If the LLM output isn't detailed enough, ask it to "Critique and Refine" before saving.
+*   **Diagrams:** Use the Mermaid diagrams in `02_ARCHITECTURE.md` to visualize the system. You can render them in GitHub or your IDE.
+*   **Context:** Always provide the previous documents as context for the next step. This ensures consistency.
+
+```
+
+## File: prompts/01_requirements_analysis.md
+```md
+Act as a Principal Product Manager operating under the "Antigravity" framework.
+
+**Input:**
+I have a rough idea for an application:
+[INSERT YOUR IDEA HERE]
+
+**Task:**
+Analyze this idea and output a structured **Requirements Analysis** in Markdown.
+Your goal is to produce a "Gold Standard" specification that could be handed to an enterprise engineering team.
+
+**Output Format (01_REQUIREMENTS.md):**
+
+# Requirements Analysis: [App Name]
+
+## 1. Executive Summary
+*   **Elevator Pitch**: One sentence value proposition.
+*   **The Problem**: The specific friction or pain point being solved.
+*   **The Solution**: The functional and emotional resolution.
+*   **Target Audience**: Primary and secondary personas.
+
+## 2. Feature Catalog (MoSCoW)
+Group features by "Must Have", "Should Have", "Could Have", and "Won't Have".
+
+### Must Have (MVP)
+*   **[F-001] Feature Name**:
+    *   **Description**: Detailed description of functionality.
+    *   **User Benefit**: Why this matters to the user.
+    *   **Acceptance Criteria**: Bullet points of what "done" looks like.
+
+### Should Have (v1.1)
+*   ...
+
+## 3. Functional Requirements
+For each "Must Have" feature, define the technical requirements:
+
+| ID | Requirement | Input | Output | Validation Rule |
+|----|-------------|-------|--------|-----------------|
+| F-001-RQ-01 | System shall... | User clicks... | System displays... | Email must be unique |
+
+## 4. Non-Functional Requirements
+*   **Performance**: (e.g., <100ms API response, support 10k concurrent users).
+*   **Security**: (e.g., MFA required, Data encrypted at rest).
+*   **Compliance**: (e.g., GDPR, SOC2, HIPAA).
+*   **Reliability**: (e.g., 99.9% uptime SLA).
+
+## 5. User Stories
+*   **US-001**: As a [Persona], I want to [Action], so that [Benefit].
+    *   **Acceptance Criteria**: ...
+
+```
+
+## File: prompts/02_architecture_design.md
+```md
+Act as a Principal Software Architect.
+
+**Input:**
+I have provided the `01_REQUIREMENTS.md` for a new application.
+
+**Task:**
+Design the Technical Architecture for this product. Output a **Technical Blueprint** in Markdown.
+Focus on scalability, security, and maintainability.
+
+**Output Format (02_ARCHITECTURE.md):**
+
+# Architecture Design
+
+## 1. System Context (C4 Level 1)
+*   **Diagram**: Mermaid diagram showing the system and its external dependencies (Users, External APIs, Legacy Systems).
+*   **Description**: Narrative of the high-level interactions.
+
+## 2. Container Architecture (C4 Level 2)
+*   **Diagram**: Mermaid diagram showing the internal containers (Web App, API, Database, Worker, Cache).
+*   **Technology Choices**:
+    *   **Frontend**: (e.g., Next.js, React, Tailwind).
+    *   **Backend**: (e.g., Node.js/NestJS, Python/FastAPI).
+    *   **Database**: (e.g., PostgreSQL, MongoDB).
+    *   **Infrastructure**: (e.g., AWS, Vercel, Docker).
+
+## 3. Data Model
+*   **ER Diagram**: Mermaid `erDiagram` showing entities and relationships.
+*   **Schema Definition**: Brief description of key tables/collections and their purpose.
+
+## 4. API Design
+*   **Interface Definition**: High-level description of key API endpoints (REST or GraphQL).
+    *   `GET /api/v1/resource`: Description.
+    *   `POST /api/v1/resource`: Description.
+*   **Integration Patterns**: How do services communicate? (Sync HTTP, Async Events/Kafka).
+
+## 5. Cross-Cutting Concerns
+*   **Observability**: Logging, Metrics, Tracing strategy.
+*   **Error Handling**: Standardized error response format.
+*   **Caching**: Strategy for read-heavy data (Redis, CDN).
+
+```
+
+## File: prompts/03_security_compliance.md
+```md
+Act as a Chief Information Security Officer (CISO).
+
+**Input:**
+I have provided the `01_REQUIREMENTS.md` and `02_ARCHITECTURE.md`.
+
+**Task:**
+Develop a comprehensive **Security & Compliance Strategy**.
+Do not be generic. Be specific to the architecture and requirements defined.
+
+**Output Format (03_SECURITY.md):**
+
+# Security & Compliance Strategy
+
+## 1. Threat Modeling (STRIDE)
+Analyze the architecture for threats:
+*   **Spoofing**: How do we prevent impersonation? (AuthN strategy).
+*   **Tampering**: How do we ensure data integrity? (Signatures, Checksums).
+*   **Repudiation**: How do we prove actions happened? (Audit Logs).
+*   **Information Disclosure**: How do we prevent leaks? (Encryption, PII handling).
+*   **Denial of Service**: How do we ensure availability? (Rate limiting, WAF).
+*   **Elevation of Privilege**: How do we enforce permissions? (RBAC/ABAC).
+
+## 2. Authentication & Authorization
+*   **AuthN**: Identity Provider (Auth0, Cognito, Supabase Auth), MFA policy.
+*   **AuthZ**: Role definitions, Permission matrix, Policy enforcement points.
+
+## 3. Data Protection
+*   **Data Classification**: Public, Internal, Confidential, Restricted.
+*   **Encryption**:
+    *   **At Rest**: Database encryption, Key management (KMS).
+    *   **In Transit**: TLS 1.3, mTLS for internal services.
+
+## 4. Compliance Controls
+Map requirements to relevant standards (if applicable):
+*   **SOC2**: Access controls, Change management.
+*   **GDPR/CCPA**: Right to be forgotten, Data portability.
+*   **HIPAA**: PHI handling (if healthcare related).
+
+## 5. Secure Development Lifecycle (SDLC)
+*   **Pre-commit**: Secret scanning, SAST (Static Analysis).
+*   **CI/CD**: DAST (Dynamic Analysis), Dependency scanning (SCA).
+
+```
+
+## File: prompts/04_testing_strategy.md
+```md
+Act as a QA Lead / Test Architect.
+
+**Input:**
+I have provided the `01_REQUIREMENTS.md` and `02_ARCHITECTURE.md`.
+
+**Task:**
+Design a **Master Test Strategy** to ensure the system meets all functional and non-functional requirements.
+
+**Output Format (04_TESTING.md):**
+
+# Master Test Strategy
+
+## 1. Test Pyramid Strategy
+Define the scope and tools for each level:
+*   **Unit Tests**: (Jest/Vitest) - Coverage target (e.g., 80%), mocking strategy.
+*   **Integration Tests**: (Supertest/Testcontainers) - API contract verification, database interaction.
+*   **E2E Tests**: (Playwright/Cypress) - Critical user journeys to automate.
+
+## 2. Performance Testing
+*   **Load Testing**: (k6/Gatling) - Scenarios to simulate (e.g., Black Friday traffic).
+*   **Benchmarks**: Latency targets for key endpoints.
+
+## 3. Security Testing
+*   **SAST**: Tools to run in CI (e.g., SonarQube, CodeQL).
+*   **DAST**: Automated vulnerability scanning (e.g., OWASP ZAP).
+
+## 4. User Acceptance Testing (UAT)
+*   **Plan**: How will stakeholders verify features?
+*   **Beta Testing**: Strategy for phased rollout.
+
+## 5. CI/CD Quality Gates
+*   Define the conditions that must be met to merge code or deploy to production.
+    *   e.g., "All tests pass", "Coverage > 80%", "No critical vulnerabilities".
+
+```
+
+## File: prompts/05_implementation_plan.md
+```md
+Act as a Technical Project Manager and Lead Engineer.
+
+**Input:**
+I have provided the full documentation suite:
+1.  `01_REQUIREMENTS.md`
+2.  `02_ARCHITECTURE.md`
+3.  `03_SECURITY.md`
+4.  `04_TESTING.md`
+
+**Task:**
+Synthesize these documents into a concrete **Implementation Plan** for an AI Agent (like Antigravity).
+Break down the work into sequential, verifiable tasks.
+
+**Output Format (05_IMPLEMENTATION.md):**
+
+# Implementation Plan
+
+## 1. Project Setup
+*   [ ] Initialize repository with standard tooling (Linter, Formatter, Husky).
+*   [ ] Configure CI/CD pipelines (GitHub Actions).
+*   [ ] Set up infrastructure (Terraform/Docker).
+
+## 2. Core Foundation
+*   [ ] Implement Database Schema & Migrations.
+*   [ ] Implement Authentication & Authorization module.
+*   [ ] Implement Base API Structure (Health checks, Logging).
+
+## 3. Feature Implementation (Iterative)
+Group by Feature ID from Requirements:
+*   **Feature [F-001]**:
+    *   [ ] Backend: API endpoints.
+    *   [ ] Frontend: UI Components.
+    *   [ ] Tests: Unit & Integration.
+
+## 4. Verification & Launch
+*   [ ] Run full regression suite.
+*   [ ] Perform security audit.
+*   [ ] Deploy to Staging.
+*   [ ] Smoke test Staging.
+*   [ ] Promote to Production.
+
+## 5. Agent Instructions (`task.md`)
+Generate the initial `task.md` file content that the AI Agent will use to track progress.
+
+```
+
+## File: prompts/REDTEAM/REDTEAM_USAGE.md
+```md
+# Red Team Analysis Package - Usage Instructions
+
+## What You Have
+
+1. **`prompts/REDTEAM/redteam_snapshot_v2.txt`** - Complete Protocol v2.0 snapshot (20 files)
+2. **`prompts/REDTEAM/redteam_v2_analysis.md`** - Red team analysis prompt
+
+## How to Use
+
+### Step 1: Prepare the Package
+The snapshot and prompt are already generated. You can find them at:
+- Snapshot: `prompts/REDTEAM/redteam_snapshot_v2.txt`
+- Prompt: `prompts/REDTEAM/redteam_v2_analysis.md`
+
+### Step 2: Submit to External LLM
+
+**Option A: Copy-Paste Method**
+1. Open `prompts/redteam_v2_analysis.md`
+2. Copy the entire prompt
+3. Open your LLM of choice (Grok, GPT-4, Claude)
+4. Paste the prompt
+5. Attach or paste the contents of `redteam_snapshot_v2.txt`
+6. Submit
+
+**Option B: Combined File Method**
+Create a single file with both:
+```bash
+cat prompts/redteam_v2_analysis.md redteam_snapshot_v2.txt > redteam_package.txt
+```
+Then paste `redteam_package.txt` into the LLM.
+
+### Step 3: Recommended LLMs
+
+**Best for Protocol Analysis:**
+- **Claude 3.5 Sonnet** - Excellent at structured analysis
+- **GPT-4** - Strong at identifying edge cases
+- **Grok** - Good for unconventional perspectives
+
+**Tip:** Submit to multiple LLMs to get diverse perspectives.
+
+### Step 4: Process Feedback
+
+**Save LLM Responses:**
+1. Save each LLM's response to the `INBOX/` folder
+   - Example: `INBOX/grok_redteam_feedback.md`
+   - Example: `INBOX/claude_redteam_feedback.md`
+
+2. Tell Antigravity: "Check the INBOX for red team feedback"
+
+3. Antigravity will:
+   - Review the feedback
+   - Identify actionable improvements
+   - Create follow-up tasks if needed
+   - Request clarification if needed
+
+4. After addressing feedback, the INBOX file will be deleted or archived
+
+## Regenerating the Snapshot
+
+If you make changes to Protocol v2.0 and want a fresh snapshot:
+
+```bash
+node scripts/capture_redteam_snapshot.js redteam_snapshot_v2.txt
+```
+
+This will regenerate the snapshot with the latest files.
+
+```
+
+## File: prompts/REDTEAM/gpt5-response.md
+```md
+
+```
+
+## File: prompts/REDTEAM/grok4-response.md
+```md
+
+```
+
+## File: prompts/REDTEAM/redteam_v2_analysis.md
+```md
+# Red Team Analysis: Quantum Diamond Forge Protocol v2.0
+
+## Your Role
+You are an **Independent Protocol Auditor** with expertise in:
+- Software development methodologies
+- AI-assisted development workflows
+- Enterprise software architecture
+- Developer experience (DX) design
+
+## Context
+The Quantum Diamond Forge (QDF) is a protocol for building production-ready software using AI agents. It recently underwent a major upgrade from v1 to v2.
+
+**What Changed:**
+- **v1**: Lightweight prompts focused on MVP-style outputs
+- **v2**: Enterprise-grade 5-step workflow inspired by industry benchmarks
+
+**The v2 Workflow:**
+1. **Requirements Analysis** → Feature Catalog, User Stories
+2. **Architecture Design** → C4 Diagrams, API Design, Data Models  
+3. **Security & Compliance** → Threat Modeling, AuthZ
+4. **Testing Strategy** → Test Pyramid, Performance
+5. **Implementation Plan** → Task Breakdown
+
+**The Orchestration Model:**
+- **Human** provides vision and decisions
+- **Web LLM** (Gemini/Claude) generates rigorous specs from prompts
+- **IDE Agent** (Antigravity) implements code based on specs
+
+## Your Task
+Analyze the attached Protocol v2.0 snapshot and provide a **critical, constructive review**.
+
+### Analysis Framework
+
+#### 1. Completeness
+- Are there gaps in the workflow?
+- What's missing from the prompts?
+- Are there edge cases not covered?
+
+#### 2. Usability
+- Is this too complex for solo developers?
+- Will the "Human-in-the-Loop" model create friction?
+- Are the prompts clear and actionable?
+
+#### 3. Rigor vs. Pragmatism
+- Does it match enterprise standards?
+- Is it over-engineered for typical projects?
+- What's the right balance?
+
+#### 4. Practicality
+- Will developers actually use this workflow?
+- Are the artifacts too heavy to maintain?
+- What are the adoption barriers?
+
+#### 5. Blind Spots
+- What assumptions are we making?
+- What could go wrong?
+- What are we optimizing for at the expense of what?
+
+## Output Format
+
+Please structure your response as:
+
+### Executive Summary
+[2-3 sentences: Overall assessment]
+
+### Strengths
+[What v2 does well]
+
+### Weaknesses
+[Critical gaps and concerns]
+
+### Recommendations
+[Specific, actionable improvements]
+
+### Risk Assessment
+[What could fail? What's the biggest threat to adoption?]
+
+---
+
+**Be brutally honest.** We want to find flaws before users do.
+
+```
+
