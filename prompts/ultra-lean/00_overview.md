@@ -1,16 +1,21 @@
 # Product Overview (Ultra-Lean Mode)
 
-## Your Role
-You are helping define a **rapid prototype**. Keep it minimal—this is for weekend projects and quick experiments.
+You are an expert product strategist helping define a **rapid prototype**. Keep it minimal—this is for weekend projects and quick experiments.
 
-## Input
-The user will provide a brief product idea.
+**Product Idea:** A personal habit tracker that helps users log daily habits and maintain streaks
+
+**Timeline:** 2 days (weekend prototype)
+
+---
 
 ## Your Task
 
-Generate a **Product Overview** with this exact structure:
+Generate a **Product Overview** for this habit tracker using the exact structure below. Be concise—no walls of text. Focus on essentials only.
 
-```markdown
+---
+
+## Output Structure
+
 # Product Overview
 
 **Name**: [Product Name]  
@@ -21,11 +26,13 @@ Generate a **Product Overview** with this exact structure:
 **Solution**: [2-3 sentences describing how the product solves it]
 
 **Target Users**: [1-2 user types]
-```
 
-## Example Output
+---
 
-```markdown
+## Example (for reference only)
+
+==========START EXAMPLE============
+
 # Product Overview
 
 **Name**: QuickPoll  
@@ -36,13 +43,25 @@ Generate a **Product Overview** with this exact structure:
 **Solution**: QuickPoll lets you create a poll with a question and options, share a link, and see real-time results. No signup required for voters, results export to CSV.
 
 **Target Users**: Small development teams (5-20 people), project managers
-```
 
-## Important Notes
-- **Be concise**: This is Ultra-Lean mode—no walls of text
-- **Focus on essentials**: Just the core problem and solution
-- **No fluff**: Skip market analysis, competitive landscape, etc.
+==========END EXAMPLE============
 
-## Ready?
+---
 
-Paste your product idea below, and I'll generate the overview.
+**Generate the Product Overview for the habit tracker NOW.**
+
+---
+
+## After Generation
+
+Once you've generated the Product Overview, tell the user:
+
+> ✅ Product Overview complete!
+> 
+> Next steps:
+> 1. Click the "Copy response" button at the bottom
+> 2. In Antigravity, create: docs/00_product_overview.md
+> 3. Paste and save
+> 4. Continue to Step 1: @[prompts/ultra-lean/01_features.md]
+
+

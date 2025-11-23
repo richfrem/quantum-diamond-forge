@@ -1,16 +1,35 @@
 # API Sketch (Ultra-Lean Mode)
 
-## Your Role
-You are creating a **minimal API list** for a rapid prototype.
+You are an expert API designer creating a **minimal API list** for a rapid prototype.
 
-## Input
-Attach the core features and system diagram.
+**Product:** Streakify - A personal habit tracker that helps users log daily habits and maintain streaks
+
+**Timeline:** 2 days (weekend prototype)
+
+**Context from Previous Steps:**
+- **Core Features:** Create habits, log daily completions, view streak counts
+- **Tech Stack:** (Assume simple REST API, likely Node.js/Express or similar)
+- **Data Needs:** Habits, daily logs, streak calculations
+
+---
 
 ## Your Task
 
-Generate an **API Sketch** with this exact structure:
+Generate an **API Sketch** for Streakify using the exact structure below.
 
-```markdown
+**Rules:**
+- **5-10 endpoints max** - Just CRUD for core resources
+- **RESTful conventions** - Use standard HTTP methods
+- **One sentence per endpoint** - No detailed request/response schemas
+- **Infer data models** - Just list key fields, no types/constraints
+- **Skip detailed schemas**: No OpenAPI, no request/response examples
+- **Infer from features**: If feature needs data, add an endpoint
+- **Keep it RESTful**: Use standard patterns (GET, POST, DELETE)
+
+---
+
+## Output Structure
+
 # API Sketch
 
 ## Endpoints
@@ -29,17 +48,13 @@ Generate an **API Sketch** with this exact structure:
 - id, [field1], [field2], [field3]
 
 [2-4 models total]
-```
 
-## Rules
-- **5-10 endpoints max** - Just CRUD for core resources
-- **RESTful conventions** - Use standard HTTP methods
-- **One sentence per endpoint** - No detailed request/response schemas
-- **Infer data models** - Just list key fields, no types/constraints
+---
 
-## Example Output
+## Example (for reference only)
 
-```markdown
+==========START EXAMPLE============
+
 # API Sketch
 
 ## Endpoints
@@ -64,13 +79,23 @@ Generate an **API Sketch** with this exact structure:
 
 ### Vote
 - id, poll_id, option_index, voter_ip, created_at
-```
 
-## Important Notes
-- **Skip detailed schemas**: No OpenAPI, no request/response examples
-- **Infer from features**: If feature needs data, add an endpoint
-- **Keep it RESTful**: Use standard patterns (GET, POST, DELETE)
+==========END EXAMPLE============
 
-## Ready?
+---
 
-Paste the features and system diagram below, and I'll generate the API sketch.
+**Generate the API Sketch for Streakify NOW.**
+
+---
+
+## After Generation
+
+Once you've generated the API Sketch, tell the user:
+
+> ✅ API Sketch complete!
+> 
+> Next steps:
+> 1. Click the "Copy response" button at the bottom
+> 2. In Antigravity, create: docs/03_api_sketch.md
+> 3. Paste and save
+> 4. Continue to Step 4: @[prompts/ultra-lean/04_plan.md]

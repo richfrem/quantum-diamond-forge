@@ -1,150 +1,123 @@
 # Architecture Design (Lean Mode)
 
-## Your Role
-You are a **Software Architect** helping design an MVP. Focus on **essential architecture** without over-engineering.
+You are an expert Software Architect. Your goal is to generate a **Lean Architecture Document** for the user's project.
 
-## Context
-The user has defined their requirements. Your job is to design:
-1. **System Context** (C4 Level 1 only)
-2. **API Endpoints** (simple list, not full OpenAPI)
-3. **Data Models** (tables + key relationships)
+**Context:**
+You have the requirements from the previous step. Now you must design a pragmatic, buildable architecture.
 
-Keep it **lean and buildable**—this is an MVP, not a microservices architecture.
-
-## Input
-Attach the `docs/01_REQUIREMENTS.md` file from the previous step.
+---
 
 ## Your Task
 
-Generate an **Architecture Document** with the following structure:
+Generate an **Architecture Document** using the exact structure below.
+**DO NOT** ask clarifying questions.
+**GENERATE THE DOCUMENT IMMEDIATELY.**
 
 ---
 
-### 1. System Context (C4 Level 1)
-**Format**:
-```
-## System Context Diagram
+## Output Structure
 
-\`\`\`mermaid
+# Architecture Document
+
+## 1. System Context (C4 Level 1)
+
+```mermaid
 C4Context
     title System Context - [Product Name]
     
-    Person(user, "User", "End user of the system")
-    System(app, "[Product Name]", "Core application")
-    System_Ext(external, "[External System]", "Description")
+    Person(user, "User", "End user")
+    System(app, "[Product Name]", "The application")
+    System_Ext(db, "Database", "Stores data")
     
     Rel(user, app, "Uses")
-    Rel(app, external, "Integrates with")
-\`\`\`
-
-**Key Components**:
-- **[Product Name]**: [1-sentence description]
-- **[External System]**: [1-sentence description]
+    Rel(app, db, "Reads/Writes")
 ```
 
-**Rules**:
-- Show **only** the main system and key external dependencies
-- **Skip**: Container diagrams (C4 Level 2), Component diagrams (C4 Level 3)
-
----
-
-### 2. Technology Stack
-**Format**:
-```
-## Technology Stack
+## 2. Technology Stack
 
 ### Frontend
-- **Framework**: [e.g., React, Vue, vanilla JS]
-- **Styling**: [e.g., Tailwind, CSS]
+- **Framework**: [e.g. React/Next.js]
+- **Styling**: [e.g. Tailwind]
 
 ### Backend
-- **Runtime**: [e.g., Node.js, Python]
-- **Framework**: [e.g., Express, FastAPI]
-- **Database**: [e.g., PostgreSQL, SQLite]
+- **Runtime**: [e.g. Node.js]
+- **Database**: [e.g. Supabase/Postgres]
 
-### Deployment
-- **Hosting**: [e.g., Vercel, Railway, local]
-```
+## 3. API Design
 
-**Rules**:
-- Choose **simple, proven** technologies
-- Prefer **managed services** over self-hosted (e.g., Supabase over self-hosted Postgres)
-- **Skip**: Detailed infrastructure diagrams, Kubernetes, microservices
+### [Resource Name]
+- `GET /api/...` - [Description]
+- `POST /api/...` - [Description]
 
----
+## 4. Data Models
 
-### 3. API Design (Endpoint List)
-**Format**:
-```
-## API Endpoints
-
-### Tasks
-- `GET /api/tasks` - List all tasks
-- `POST /api/tasks` - Create a new task
-- `PATCH /api/tasks/:id` - Update a task
-- `DELETE /api/tasks/:id` - Delete a task
-
-### Users
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-```
-
-**Rules**:
-- List **only** the core endpoints needed for MVP
-- Use **RESTful** conventions
-- **Skip**: Full OpenAPI spec, detailed request/response schemas
-
----
-
-### 4. Data Models
-**Format**:
-```
-## Data Models
-
-### Table: users
+### Table: [table_name]
 | Column | Type | Constraints |
 |--------|------|-------------|
-| id | UUID | PRIMARY KEY |
-| email | VARCHAR(255) | UNIQUE, NOT NULL |
-| password_hash | VARCHAR(255) | NOT NULL |
-| created_at | TIMESTAMP | DEFAULT NOW() |
+| id | UUID | PK |
+| ... | ... | ... |
+
+---
+
+## Example (for reference only)
+
+==========START EXAMPLE============
+
+# Architecture Document
+
+## 1. System Context (C4 Level 1)
+
+```mermaid
+C4Context
+    title System Context - TaskFlow
+    
+    Person(user, "Developer", "Uses the task board")
+    System(app, "TaskFlow", "Task management app")
+    System_Ext(github, "GitHub API", "Imports issues")
+    
+    Rel(user, app, "Manages tasks")
+    Rel(app, github, "Fetches issues")
+```
+
+## 2. Technology Stack
+
+### Frontend
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS
+
+### Backend
+- **Runtime**: Node.js (Next.js API Routes)
+- **Database**: LocalStorage (MVP) / Supabase (v1.1)
+
+## 3. API Design
+
+### Tasks
+- `GET /api/tasks` - List tasks
+- `POST /api/tasks` - Create task
+- `PATCH /api/tasks/:id` - Update status
+
+## 4. Data Models
 
 ### Table: tasks
 | Column | Type | Constraints |
 |--------|------|-------------|
-| id | UUID | PRIMARY KEY |
-| user_id | UUID | FOREIGN KEY (users.id) |
-| title | VARCHAR(255) | NOT NULL |
-| description | TEXT | |
-| status | ENUM | 'todo', 'in_progress', 'done' |
+| id | UUID | PK |
+| title | TEXT | NOT NULL |
+| status | ENUM | 'todo', 'done' |
 | created_at | TIMESTAMP | DEFAULT NOW() |
 
-**Relationships**:
-- `tasks.user_id` → `users.id` (many-to-one)
-```
-
-**Rules**:
-- Show **only** the core tables needed for MVP
-- Include **primary keys, foreign keys, and essential constraints**
-- **Skip**: Detailed indexes, triggers, stored procedures
+==========END EXAMPLE============
 
 ---
 
-## Output Format
+## After Generation
 
-Provide the complete document in **Markdown** format, ready to save as `docs/02_ARCHITECTURE.md`.
+Once you have generated the document, tell the user:
 
----
-
-## Important Notes
-
-- **Be pragmatic**: Choose boring, proven tech over cutting-edge
-- **Avoid over-engineering**: No microservices, no Kubernetes, no event sourcing
-- **Focus on MVP**: Design for 100 users, not 1 million
-- **Keep it simple**: If you can do it with a single database table, do it
-
----
-
-## Ready?
-
-Paste the requirements document below, and I'll generate the lean architecture.
+> ✅ **Architecture Document complete!**
+>
+> **Next steps:**
+> 1. Click the "Copy response" button at the bottom
+> 2. In Antigravity, create: `docs/02_architecture.md`
+> 3. Paste and save
+> 4. Run Step 3: `prompts/lean/04_testing_strategy.md`

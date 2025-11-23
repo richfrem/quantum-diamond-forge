@@ -45,11 +45,11 @@ function show_help {
 function copy_prompt {
     case $1 in
         0) FILE="00_kickoff.md" ;;
-        1) FILE="01_requirements_analysis.md" ;;
-        2) FILE="02_architecture_design.md" ;;
-        3) FILE="03_security_compliance.md" ;;
-        4) FILE="04_testing_strategy.md" ;;
-        5) FILE="05_implementation_plan.md" ;;
+        1) FILE="enterprise/01_requirements_analysis.md" ;;
+        2) FILE="enterprise/02_architecture_design.md" ;;
+        3) FILE="enterprise/03_security_compliance.md" ;;
+        4) FILE="enterprise/04_testing_strategy.md" ;;
+        5) FILE="enterprise/05_implementation_plan.md" ;;
         *) echo "Invalid step number. Use 1-5."; exit 1 ;;
     esac
 
@@ -66,7 +66,7 @@ function copy_start {
     if [ -f "$PROMPTS_DIR/$FILE" ]; then
         cat "$PROMPTS_DIR/$FILE" | pbcopy
         echo "🚀 Interactive Kickoff Prompt copied to clipboard!"
-        echo "👉 Paste this into Gemini 1.5 Pro to begin."
+        echo "👉 Paste this into Gemini (gemini.google.com) to begin."
     else
         echo "❌ Error: Prompt file '$FILE' not found."
     fi

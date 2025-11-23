@@ -1,11 +1,12 @@
 /**
  * Quantum Diamond Forge - Code Snapshot Tool
- * Version: 2.0 (Antigravity Edition)
+ * Version: 2.1 (Antigravity Edition)
  * 
  * Purpose: Captures a context-aware snapshot of the codebase for AI ingestion.
  * Features:
  * - Smart filtering (ignores node_modules, .git, lockfiles)
  * - Mode selection (code, docs, all)
+ * - --code-only flag for quick code snapshots
  * - Folder targeting (e.g., only src/components)
  * - Markdown formatting for optimal LLM readability
  */
@@ -15,7 +16,7 @@ const path = require('path');
 
 // --- Configuration ---
 
-const VERSION = "2.0";
+const VERSION = "2.1";
 const HEADER = `
 ================================================================================
 QUANTUM DIAMOND FORGE SNAPSHOT (v${VERSION})
@@ -34,7 +35,7 @@ const IGNORE_PATTERNS = [
 // Default extensions for "code" mode
 const CODE_EXTENSIONS = [
     '.ts', '.tsx', '.js', '.jsx', '.py', '.go', '.rs', '.java', '.c', '.cpp', '.h', '.hpp',
-    '.css', '.scss', '.html', '.sql', '.sh', '.prisma', '.graphql'
+    '.css', '.scss', '.html', '.sql', '.sh', '.prisma', '.graphql', '.json'
 ];
 
 // Default extensions for "docs" mode
@@ -131,6 +132,9 @@ function generateSnapshot(outputFile, mode = 'all', folders = []) {
     console.log(`✅ Snapshot created: ${outputFile}`);
     console.log(`   - Files included: ${files.length}`);
     console.log(`   - Mode: ${mode}`);
+    if (folders.length > 0) {
+        console.log(`   - Folders: ${folders.join(', ')}`);
+    }
 }
 
 // --- CLI Execution ---
@@ -139,9 +143,12 @@ const args = process.argv.slice(2);
 const outputFile = args[0] || 'snapshot.txt';
 const modeIndex = args.indexOf('--mode');
 const folderIndex = args.indexOf('--folders');
+const codeOnlyFlag = args.includes('--code-only');
 
 let mode = 'all';
-if (modeIndex !== -1 && args[modeIndex + 1]) {
+if (codeOnlyFlag) {
+    mode = 'code';
+} else if (modeIndex !== -1 && args[modeIndex + 1]) {
     mode = args[modeIndex + 1]; // 'code', 'docs', 'all'
 }
 
@@ -151,4 +158,6 @@ if (folderIndex !== -1 && args[folderIndex + 1]) {
 }
 
 console.log(`📸 Quantum Diamond Forge Snapshot Tool v${VERSION}`);
+console.log(`   Usage: node capture_snapshot.js [output.txt] [--mode code|docs|all] [--code-only] [--folders src,lib]`);
+console.log('');
 generateSnapshot(outputFile, mode, folders);

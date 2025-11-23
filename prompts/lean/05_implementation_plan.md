@@ -1,158 +1,132 @@
 # Implementation Plan (Lean Mode)
 
-## Your Role
-You are a **Technical Lead** helping break down an MVP into actionable tasks. Focus on **getting to a working v1.0 quickly**.
+You are an expert Technical Lead. Your goal is to generate a **Lean Implementation Plan** for the user's project.
 
-## Context
-The user has defined requirements, architecture, and testing strategy. Your job is to create a **task breakdown** that an AI agent (or developer) can follow to build the MVP.
+**Context:**
+You have the full specification (Requirements, Architecture, Testing). Now you must create a step-by-step plan for the AI Agent to build it.
 
-Keep it **lean and actionable**—this is an MVP, not a 6-month project.
-
-## Input
-Attach all previous documents:
-- `docs/01_REQUIREMENTS.md`
-- `docs/02_ARCHITECTURE.md`
-- `docs/04_TESTING.md`
+---
 
 ## Your Task
 
-Generate an **Implementation Plan** with the following structure:
+Generate an **Implementation Plan** using the exact structure below.
+**DO NOT** ask clarifying questions.
+**GENERATE THE DOCUMENT IMMEDIATELY.**
 
 ---
 
-### 1. Implementation Phases
-**Format**:
+## Output Structure
+
+# Implementation Plan
+
+## 1. Phases
+### Phase 1: Foundation
+- [Goal]
+
+### Phase 2: Core Features
+- [Goal]
+
+## 2. Task Breakdown
+
+### Phase 1: Foundation
+
+#### Task 1.1: [Name]
+**Description**: [What to do]
+**Deliverables**:
+- [ ] [Item 1]
+- [ ] [Item 2]
+
+...
+
+## 3. Dependency Graph
+
+```mermaid
+graph TD
+    T1[Task 1.1] --> T2[Task 1.2]
+    ...
 ```
-## Implementation Phases
 
-### Phase 1: Foundation (Week 1)
-- Set up project structure
-- Configure database
-- Implement authentication
-
-### Phase 2: Core Features (Week 2)
-- Build task CRUD API
-- Implement task board UI
-- Add drag-and-drop
-
-### Phase 3: Polish (Week 3)
-- Add tests
-- Fix bugs
-- Deploy to production
-```
-
-**Rules**:
-- Break into **3-4 phases** max
-- Each phase should be **1-2 weeks** of work
-- Focus on **Must-Have** features only
+## 4. MVP Checklist
+- [ ] [Critical Feature 1]
+- [ ] [Critical Feature 2]
 
 ---
 
-### 2. Task Breakdown
-**Format**:
-```
-## Task Breakdown
+## Example (for reference only)
+
+==========START EXAMPLE============
+
+# Implementation Plan
+
+## 1. Phases
+### Phase 1: Foundation
+- Set up project, database, and auth.
+
+### Phase 2: Core Features
+- Build task CRUD and board UI.
+
+## 2. Task Breakdown
 
 ### Phase 1: Foundation
 
 #### Task 1.1: Project Setup
-**Description**: Initialize project with chosen tech stack
+**Description**: Initialize Next.js app with Tailwind and Supabase.
 **Deliverables**:
 - [ ] Create Next.js app
-- [ ] Set up Tailwind CSS
-- [ ] Configure ESLint and Prettier
+- [ ] Configure Tailwind
+- [ ] Set up Supabase client
 
-**Estimated Time**: 2 hours
-
----
-
-#### Task 1.2: Database Setup
-**Description**: Set up PostgreSQL database and ORM
+#### Task 1.2: Database Schema
+**Description**: Create tables in Supabase.
 **Deliverables**:
-- [ ] Create Supabase project
-- [ ] Define `users` and `tasks` tables
-- [ ] Test database connection
-
-**Estimated Time**: 3 hours
-
----
+- [ ] Create `users` table
+- [ ] Create `tasks` table
 
 ### Phase 2: Core Features
 
-#### Task 2.1: Task CRUD API
-**Description**: Implement API endpoints for task management
+#### Task 2.1: Task API
+**Description**: Build CRUD endpoints.
 **Deliverables**:
-- [ ] `POST /api/tasks` - Create task
-- [ ] `GET /api/tasks` - List tasks
-- [ ] `PATCH /api/tasks/:id` - Update task
-- [ ] `DELETE /api/tasks/:id` - Delete task
+- [ ] `POST /api/tasks`
+- [ ] `GET /api/tasks`
 
-**Estimated Time**: 6 hours
-```
+## 3. Dependency Graph
 
-**Rules**:
-- Each task should be **2-8 hours** of work
-- Include **clear deliverables** (checkboxes)
-- Provide **time estimates**
-- Order tasks by **dependency** (foundation first)
-
----
-
-### 3. Dependency Graph
-**Format**:
-```
-## Dependency Graph
-
-\`\`\`mermaid
+```mermaid
 graph TD
-    T1[Task 1.1: Project Setup] --> T2[Task 1.2: Database Setup]
-    T2 --> T3[Task 2.1: Task CRUD API]
-    T3 --> T4[Task 2.2: Task Board UI]
-    T4 --> T5[Task 2.3: Drag & Drop]
-\`\`\`
+    T1[Task 1.1: Setup] --> T2[Task 1.2: DB]
+    T2 --> T3[Task 2.1: API]
 ```
 
-**Rules**:
-- Show **critical path** dependencies
-- **Skip**: Complex dependency matrices
+## 4. MVP Checklist
+- [ ] User can log in
+- [ ] User can create task
+- [ ] User can see task list
+
+==========END EXAMPLE============
 
 ---
 
-### 4. MVP Checklist
-**Format**:
-```
-## MVP Checklist
+## After Generation
 
-### Must-Have Before Launch
-- [ ] User can sign up and log in
-- [ ] User can create, edit, delete tasks
-- [ ] User can drag tasks between columns
-- [ ] Basic tests pass
-- [ ] Deployed to production
+Once you have generated the document, tell the user:
 
-### Nice-to-Have (Post-Launch)
-- [ ] Tags and filters
-- [ ] Due dates
-- [ ] Cloud sync
-```
-
----
-
-## Output Format
-
-Provide the complete document in **Markdown** format, ready to save as `docs/05_IMPLEMENTATION.md`.
-
----
-
-## Important Notes
-
-- **Be realistic**: Don't underestimate time
-- **Focus on MVP**: Only include Must-Have features
-- **Make it actionable**: Each task should be clear enough to start immediately
-- **Order matters**: Dependencies should be obvious
-
----
-
-## Ready?
-
-Paste all previous documents below, and I'll generate the lean implementation plan.
+> ✅ **Implementation Plan complete!**
+>
+> **Next steps:**
+> 1. Click the "Copy response" button at the bottom
+> 2. In Antigravity, create: `docs/05_plan.md`
+> 3. Paste and save
+> 4. **BUILD THE APP:**
+>    Copy the prompt below and paste it into the IDE Agent (Antigravity) to start building:
+>
+> ```
+> I have 4 specification documents for a Lean MVP:
+> - docs/01_requirements.md
+> - docs/02_architecture.md
+> - docs/04_testing.md
+> - docs/05_plan.md
+>
+> Please read all 4 files and build the application according to the implementation plan.
+> Start with Task 1.1 and work through each task in order.
+> ```

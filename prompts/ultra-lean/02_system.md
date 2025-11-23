@@ -1,19 +1,38 @@
 # System Diagram (Ultra-Lean Mode)
 
-## Your Role
-You are creating a **minimal system context diagram** for a rapid prototype.
+You are an expert system architect creating a **minimal system context diagram** for a rapid prototype.
 
-## Input
-Attach the product overview and core features.
+**Product:** Streakify - A personal habit tracker that helps users log daily habits and maintain streaks
+
+**Timeline:** 2 days (weekend prototype)
+
+**Context from Previous Steps:**
+- **Problem:** Users struggle to maintain consistency with new habits
+- **Solution:** Minimalist interface for logging daily habit completions with visible streak counts
+- **Core Features:** Define Habit, Log Completion, View Dashboard, Calculate Streak, User Authentication
+
+---
 
 ## Your Task
 
-Generate a **System Diagram** with this exact structure:
+Generate a **System Diagram** for Streakify using the exact structure below.
 
-```markdown
+**Rules:**
+- **C4 Level 1 only** - Just system context, no containers or components
+- **Show only essentials** - Main system + 1-2 external dependencies
+- **One sentence per component** - No detailed descriptions
+- **Suggest simple tech** - Proven, easy-to-deploy stack
+- **Keep it simple**: No microservices, no Kubernetes
+- **Boring tech wins**: Use proven, well-documented tools
+- **Optimize for speed**: Choose tech you can deploy in minutes
+
+---
+
+## Output Structure
+
 # System Diagram
 
-\`\`\`mermaid
+```mermaid
 C4Context
     title System Context - [Product Name]
     
@@ -23,10 +42,9 @@ C4Context
     
     Rel(user, app, "Uses")
     Rel(app, external, "Integrates with")
-\`\`\`
-
+```
 **Key Components**:
-- **[Product Name]**: [One-sentence description]
+<!-- - **[Product Name]**: [One-sentence description] -->
 - **[External Service]**: [One-sentence description]
 
 **Tech Stack** (suggested):
@@ -34,20 +52,16 @@ C4Context
 - Backend: [Framework]
 - Database: [Database]
 - Hosting: [Platform]
-```
 
-## Rules
-- **C4 Level 1 only** - Just system context, no containers or components
-- **Show only essentials** - Main system + 1-2 external dependencies
-- **One sentence per component** - No detailed descriptions
-- **Suggest simple tech** - Proven, easy-to-deploy stack
+---
 
-## Example Output
+## Example (for reference only)
 
-```markdown
+==========START EXAMPLE============
+
 # System Diagram
 
-\`\`\`mermaid
+```mermaid
 C4Context
     title System Context - QuickPoll
     
@@ -57,7 +71,7 @@ C4Context
     
     Rel(user, quickpoll, "Creates polls, votes")
     Rel(quickpoll, browser, "Renders UI")
-\`\`\`
+```
 
 **Key Components**:
 - **QuickPoll**: Web app that manages polls and votes
@@ -68,13 +82,23 @@ C4Context
 - Backend: Node.js (Express)
 - Database: SQLite (local file)
 - Hosting: Vercel (frontend) + Railway (backend)
-```
 
-## Important Notes
-- **Keep it simple**: No microservices, no Kubernetes
-- **Boring tech wins**: Use proven, well-documented tools
-- **Optimize for speed**: Choose tech you can deploy in minutes
+==========END EXAMPLE============
 
-## Ready?
+---
 
-Paste the product overview and features below, and I'll generate the system diagram.
+**Generate the System Diagram for Streakify NOW.**
+
+---
+
+## After Generation
+
+Once you've generated the System Diagram, tell the user:
+
+> ✅ System Diagram complete!
+> 
+> Next steps:
+> 1. Click the "Copy response" button at the bottom
+> 2. In Antigravity, create: docs/02_system_diagram.md
+> 3. Paste and save
+> 4. Continue to Step 3: @[prompts/ultra-lean/03_api.md]
