@@ -4,8 +4,8 @@ flowchart TB
     
     %% --- Orchestration ---
     subgraph Orchestration ["🎯 Orchestration (Human-in-the-Loop)"]
-        IDE --> Master[Read 00_MASTER_PROTOCOL.md]
-        Master --> Loop{Specification Loop}
+        IDE --> Kickoff[Run ./forge.sh start]
+        Kickoff --> Loop{Specification Loop}
     end
     
     %% --- Web LLM ---
