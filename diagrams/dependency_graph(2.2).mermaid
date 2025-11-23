@@ -3,7 +3,7 @@ config:
   layout: elk
 ---
 flowchart TB
-    Req["01_REQUIREMENTS.md<br>(Feature Catalog)"] --> Arch["02_ARCHITECTURE.md<br>(C4 &amp; Data Models)"] & Sec["03_SECURITY.md<br>(Threat Models)"] & Test["04_TESTING.md<br>(Test Strategy)"] & Plan["05_IMPLEMENTATION.md<br>(Task Breakdown)"]
+    Req["01_requirements_analysis.md<br>(Feature Catalog)"] --> Arch["02_architecture_design.md<br>(C4 &amp; Data Models)"] & Sec["03_security_compliance.md<br>(Threat Models)"] & Test["04_testing_strategy.md<br>(Test Strategy)"] & Plan["05_implementation_plan.md<br>(Task Breakdown)"]
     Arch --> Sec & Test & Plan
     Sec --> Plan
     Test --> Plan

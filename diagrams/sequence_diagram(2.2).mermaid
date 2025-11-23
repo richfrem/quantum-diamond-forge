@@ -14,7 +14,7 @@ sequenceDiagram
     Agent-->>User: "Let's start. Run ./forge.sh start"
     
     User->>CLI: ./forge.sh start (Kickoff)
-    CLI-->>User: Interactive Interview -> Mode Selection
+    CLI-->>User: Interactive Interview -> Mode Selection<br/>(Ultra-Lean / Lean / Enterprise)
     
     Note over User, Repo: Step 1: Requirements
     User->>CLI: ./forge.sh prompt 1 (Requirements)

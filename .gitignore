@@ -30,6 +30,7 @@ INBOX/*
 !INBOX/README.md
 snapshot.txt
 output.txt
+archive/prompt iteration/
 
 # Benchmarks
 prompts/BLITZY/

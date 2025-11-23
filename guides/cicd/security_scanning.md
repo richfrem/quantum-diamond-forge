@@ -48,7 +48,7 @@ gh auth status
 gh api repos/OWNER/REPO/dependabot/alerts
 
 # Pretty formatted output
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+gh api repos/richfrem/ingPoC/dependabot/alerts \
   --jq '.[] | {
     number: .number,
     severity: .security_advisory.severity,
@@ -62,14 +62,14 @@ gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
 
 ```bash
 # High severity only
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts \
   --jq '.[] | select(.security_advisory.severity == "high") | {
     package: .dependency.package.name,
     summary: .security_advisory.summary
   }'
 
 # Critical and High severity
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts \
   --jq '.[] | select(.security_advisory.severity == "critical" or .security_advisory.severity == "high")'
 ```
 
@@ -77,11 +77,11 @@ gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
 
 ```bash
 # Total open alerts
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts \
   --jq '[.[] | select(.state == "open")] | length'
 
 # By severity
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts \
   --jq 'group_by(.security_advisory.severity) | map({severity: .[0].security_advisory.severity, count: length})'
 ```
 
@@ -89,10 +89,10 @@ gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
 
 ```bash
 # Get specific alert details
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts/ALERT_NUMBER
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts/ALERT_NUMBER
 
 # Get fix recommendations
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts \
   --jq '.[] | {
     package: .dependency.package.name,
     current_version: .dependency.package.version,
@@ -226,12 +226,12 @@ Create a script to check before pushing:
 
 echo "🔍 Checking for Dependabot alerts..."
 
-OPEN_ALERTS=$(gh api repos/richfrem/PlumbingPoC/dependabot/alerts \
+OPEN_ALERTS=$(gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts \
   --jq '[.[] | select(.state == "open" and (.security_advisory.severity == "critical" or .security_advisory.severity == "high"))] | length')
 
 if [ "$OPEN_ALERTS" -gt 0 ]; then
   echo "⚠️  Warning: $OPEN_ALERTS critical/high severity alerts found in GitHub!"
-  echo "Run: gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq '.[] | select(.state == \"open\")' for details"
+  echo "Run: gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts --jq '.[] | select(.state == \"open\")' for details"
 
   read -p "Continue with push? (y/n) " -n 1 -r
   echo
@@ -281,7 +281,7 @@ fi
     "security:audit": "npm audit",
     "security:audit:ci": "npm audit --audit-level=moderate --production",
     "security:fix": "npm audit fix",
-    "security:check:github": "gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq '.[] | select(.state == \"open\")'",
+    "security:check:github": "gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts --jq '.[] | select(.state == \"open\")'",
     "precommit": "npm run security:audit && lint-staged"
   }
 }
@@ -383,7 +383,7 @@ updates:
 If you must dismiss an alert:
 ```bash
 # Dismiss with reason
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts/ALERT_NUMBER \
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts/ALERT_NUMBER \
   -X PATCH \
   -f state=dismissed \
   -f dismissed_reason=no_bandwidth \
@@ -397,10 +397,10 @@ gh api repos/richfrem/PlumbingPoC/dependabot/alerts/ALERT_NUMBER \
 gh auth status
 
 # List all open alerts
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq '.[] | select(.state == "open")'
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts --jq '.[] | select(.state == "open")'
 
 # Count by severity
-gh api repos/richfrem/PlumbingPoC/dependabot/alerts --jq 'group_by(.security_advisory.severity) | map({severity: .[0].security_advisory.severity, count: length})'
+gh api repos/richfrem/quantum-diamond-forge/dependabot/alerts --jq 'group_by(.security_advisory.severity) | map({severity: .[0].security_advisory.severity, count: length})'
 
 # Local audit
 npm audit

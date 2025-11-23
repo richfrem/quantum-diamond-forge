@@ -1,6 +1,6 @@
 # Git Workflow Quick Reference
 
-This guide provides recommended git workflows and shortcuts for the PlumbingPOC project.
+This guide provides recommended git workflows and shortcuts for the quantum-diamond-forge project.
 
 ## TL;DR - Recommended Setup
 
