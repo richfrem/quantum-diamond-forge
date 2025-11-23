@@ -119,7 +119,7 @@ function generateSnapshot(outputFile) {
 // --- CLI Execution ---
 
 const args = process.argv.slice(2);
-const outputFile = args[0] || 'prompts/REDTEAM/redteam_snapshot_v2.txt';
+const outputFile = args[0] || 'prompts/REDTEAM/redteam_snapshot.txt';
 
 console.log(`📸 Quantum Diamond Forge Red Team Snapshot Tool v${VERSION}`);
 generateSnapshot(outputFile);
