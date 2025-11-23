@@ -19,27 +19,27 @@ const LOCKS_DIR = path.join(process.cwd(), 'docs/locks');
 // Artifact mappings
 const ARTIFACTS = {
     requirements: {
-        source: 'docs/01_REQUIREMENTS.md',
+        source: 'docs/01_requirements_analysis.md',
         lock: 'docs/locks/requirements.lock.json',
         dependencies: []
     },
     architecture: {
-        source: 'docs/02_ARCHITECTURE.md',
+        source: 'docs/02_architecture_design.md',
         lock: 'docs/locks/architecture.lock.json',
         dependencies: ['requirements']
     },
     security: {
-        source: 'docs/03_SECURITY.md',
+        source: 'docs/03_security_compliance.md',
         lock: 'docs/locks/security.lock.json',
         dependencies: ['requirements', 'architecture']
     },
     testing: {
-        source: 'docs/04_TESTING.md',
+        source: 'docs/04_testing_strategy.md',
         lock: 'docs/locks/testing.lock.json',
         dependencies: ['requirements', 'architecture']
     },
     implementation: {
-        source: 'docs/05_IMPLEMENTATION.md',
+        source: 'docs/05_implementation_plan.md',
         lock: 'docs/locks/implementation.lock.json',
         dependencies: ['requirements', 'architecture', 'security', 'testing']
     }
