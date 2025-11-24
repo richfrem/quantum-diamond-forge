@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Agent Mode Configuration",
+    "type": "object",
+    "properties": {
+        "provider": {
+            "type": "string",
+            "enum": [
+                "gemini",
+                "openai",
+                "anthropic"
+            ],
+            "default": "gemini"
+        },
+        "maxCost": {
+            "type": "number",
+            "description": "Maximum cost in USD for the run",
+            "default": 0.50
+        },
+        "tier": {
+            "type": "string",
+            "enum": [
+                "quick",
+                "full"
+            ],
+            "default": "quick"
+        },
+        "dryRun": {
+            "type": "boolean",
+            "default": false
+        },
+        "askEveryCall": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "required": [
+        "provider",
+        "maxCost"
+    ]
+}
