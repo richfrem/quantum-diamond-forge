@@ -1,0 +1,39 @@
+---
+config:
+  theme: base
+---
+C4Context
+    title Autonomous Agent Architecture (Docker + MCP)
+
+    Person(developer, "Developer/Operator", "Manages configuration<BR>and observes agent")
+    
+    System_Ext(gemini, "Gemini 3 API", "LLM Provider")
+
+    Boundary(docker, "Docker Container (Autonomous Daemon)") {
+        
+        Container(mcp_server, "MCP Server (Front Door)", "Node.js/Express (Port Listener)", "Network communication, taking commands<BR>from the developer and passing <BR>them to the brain.")
+        
+        Container(mcp_host_client, "MCP Host/Client (The Brain)", "JS/Python Orchestrator", "The Daemon Loop: Decides when to consult <BR>Gemini (client role) and which internal tool to run<BR>(host/orchestration role).")
+        
+        Container(llm_adapter, "LLM Adapter", "Module", "Token tracking, Prompt optimization,<BR>Tool-calling interface")
+        Container(tool_io, "Tool Execution (File I/O)", "Module", "AST Patching, Git Safety,<BR>File Write/Read")
+    }
+
+    System_Ext(repo, "Project Repo Volume", "Mounted Volume", "The permanent local files the agent reads/writes to")
+    
+    Rel(developer, mcp_server, "1. Sends Command (e.g., CLI)")
+    
+    Rel(mcp_server, mcp_host_client, "2. Triggers Workflow")
+    
+    Rel(mcp_host_client, repo, "3. Reads Config & Context Data")
+    Rel(mcp_host_client, llm_adapter, "4. Sends Context (The Brain Loop)")
+    
+    Rel(llm_adapter, gemini, "5. API Call (Optimized Prompt)")
+    Rel(gemini, llm_adapter, "6. Returns Code/Spec")
+    
+    Rel(mcp_host_client, tool_io, "7. Instructions to Apply/Execute Tool")
+    Rel(tool_io, repo, "8. Writes Files / Creates Branch")
+    
+    UpdateRelStyle(developer, mcp_server, $textColor="blue", $lineColor="blue")
+    UpdateRelStyle(llm_adapter, gemini, $textColor="red", $lineColor="red")
+    UpdateRelStyle(tool_io, repo, $textColor="green", $lineColor="green")

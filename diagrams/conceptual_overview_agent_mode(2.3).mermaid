@@ -1,0 +1,42 @@
+flowchart TB
+    Start([Developer with Idea]) -->|Get Source| Clone[Clone Quantum Diamond Forge]
+    Clone -->|Launch| IDE[Open in Antigravity IDE]
+
+    %% --- Orchestration ---
+    subgraph Orchestration [Orchestration - Choice]
+        IDE -->|execute script| Kickoff[Run ./forge.sh start]
+        Kickoff --> ModeSelection{"Choose Execution Mode"}
+        
+        ModeSelection -->|Manual Mode| Manual[Human Copy-Paste Loop]
+        ModeSelection -->|Agent Mode| AgentDaemon[Start Docker Daemon]
+    end
+
+    %% --- Agent Mode Flow ---
+    subgraph AgentRuntime [Agent Mode - Autonomous]
+        AgentDaemon -->|Listen| MCPServer[MCP Server 'Front Door']
+        MCPServer -->|Command| Brain[Orchestrator 'The Brain']
+        
+        Brain -->|Read Context| LocalFiles[(Local Repo)]
+        Brain -->|API Call| LLMAdapter[LLM Adapter]
+        
+        LLMAdapter <-->|JSON| GeminiAPI[Gemini 3 API]
+        
+        Brain -->|Write| ToolIO[Tool Execution]
+        ToolIO -->|Patch/Create| LocalFiles
+    end
+
+    %% --- Manual Flow (Reference) ---
+    subgraph ManualRuntime [Manual Mode - Web Chat]
+        Manual -.->|Copy Prompt| WebLLM[Web LLM Interface]
+        WebLLM -.->|Paste Artifact| LocalFiles
+    end
+
+    %% --- Outcome ---
+    LocalFiles -->|Contains| Artifacts["docs/ & Code/"]
+    Artifacts -->|Deploy| Done([Production-Ready Application])
+
+    %% Styles
+    style AgentDaemon fill:#e0e7ff,stroke:#4338ca,stroke-width:3px
+    style Brain fill:#f3e8ff,stroke:#7e22ce,stroke-width:2px
+    style GeminiAPI fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
+    style LocalFiles fill:#dcfce7,stroke:#166534,stroke-width:2px
