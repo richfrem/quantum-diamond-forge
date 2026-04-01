@@ -1,3 +1,6 @@
+**NOTE:** Deprecated replaced by https://github.com/richfrem/agent-plugins-skills/tree/main/plugins/exploration-cycle-plugin
+
+
 # Quantum Diamond Forge 💎
 
 **The Universal Base for AI-Native Development.**
